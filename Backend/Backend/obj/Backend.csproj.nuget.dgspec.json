@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\amrad\\source\\repos\\Backend\\Backend\\Backend.csproj": {}
+    "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\amrad\\source\\repos\\Backend\\Backend\\Backend.csproj": {
+    "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\amrad\\source\\repos\\Backend\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\amrad\\source\\repos\\Backend\\Backend\\Backend.csproj",
-        "packagesPath": "C:\\Users\\amrad\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\amrad\\source\\repos\\Backend\\Backend\\obj\\",
+        "projectPath": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Backend.csproj",
+        "packagesPath": "C:\\Users\\vedra\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\amrad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vedra\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,9 +46,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.21.0, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.5, )"
             }
           },
           "imports": [

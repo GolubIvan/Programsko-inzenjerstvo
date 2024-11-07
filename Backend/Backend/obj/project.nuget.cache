@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "2TGuO8Exhos=",
+  "dgSpecHash": "VionKXwC7fU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\amrad\\source\\repos\\Backend\\Backend\\Backend.csproj",
+  "projectFilePath": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Backend.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\amrad\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
+    "C:\\Users\\vedra\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\vedra\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\vedra\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\vedra\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512",
+    "C:\\Users\\vedra\\.nuget\\packages\\npgsql\\8.0.5\\npgsql.8.0.5.nupkg.sha512"
   ],
   "logs": []
 }
