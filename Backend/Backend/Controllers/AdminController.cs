@@ -23,6 +23,8 @@ namespace Backend.Controllers
             Request.Headers.TryGetValue("role", out var role);
             Request.Headers.TryGetValue("zgrada", out var zgrada);
 
+            if(!Backend.Models.Administrator.addUser(email, username, password, role, zgrada)) return BadRequest(new { error = "Error", message = "Can't create that user." });
+
             return Ok();
         }
 

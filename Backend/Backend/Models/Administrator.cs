@@ -15,7 +15,7 @@ namespace Backend.Models
             this.password = password;
         }
 
-        public Boolean addUser(string username, string name, string password, string role, string address)
+        public static Boolean addUser(string email, string name, string password, string role, string address)
         {
             var conn = Database.GetConnection();
 
