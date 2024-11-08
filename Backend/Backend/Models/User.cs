@@ -19,15 +19,13 @@ namespace Backend.Models
 
             var conn = Database.GetConnection();
             string storedHash = "";
-            using (var cmd = new NpgsqlCommand("SELECT lozinka FROM korisnik WHERE userid = @id", conn))
-            {
-                cmd.Parameters.AddWithValue("id", userId);
-                var reader = cmd.ExecuteReader();
-                if (reader.Read())
-                    storedHash = reader.GetString(0);
-                else
-                    Console.WriteLine("User not found.");
-            }
+            var cmd = new NpgsqlCommand("SELECT lozinka FROM korisnik WHERE userid = @id", conn);
+            cmd.Parameters.AddWithValue("id", userId);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+                storedHash = reader.GetString(0);
+            else
+                Console.WriteLine("User not found.");
 
             if (BCrypt.Net.BCrypt.Verify(inputPassword, storedHash))
                 return true;
@@ -59,12 +57,10 @@ namespace Backend.Models
             if (checkPassword(userId, oldPassword))
             {
                 var conn = Database.GetConnection();
-                using (var cmd = new NpgsqlCommand("UPDATE korisnik SET lozinka = @newPassword WHERE userId = @id", conn))
-                {
-                    cmd.Parameters.AddWithValue("newPassword", BCrypt.Net.BCrypt.HashPassword(newPassword));
-                    cmd.Parameters.AddWithValue("id", userId);
-                    cmd.ExecuteNonQuery();
-                }
+                var cmd = new NpgsqlCommand("UPDATE korisnik SET lozinka = @newPassword WHERE userId = @id", conn);
+                cmd.Parameters.AddWithValue("newPassword", BCrypt.Net.BCrypt.HashPassword(newPassword));
+                cmd.Parameters.AddWithValue("id", userId);
+                cmd.ExecuteNonQuery();
                 return true;
             }
             else
