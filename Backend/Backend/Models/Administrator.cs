@@ -39,11 +39,6 @@ namespace Backend.Models
             cmd.Parameters.AddWithValue("role", role);
             cmd.Parameters.AddWithValue("address", address);
             cmd.ExecuteNonQuery();
-            if (cmd.ExecuteNonQuery() != 2)
-            {
-                Console.WriteLine("Greska u dodavanju");
-                return false;
-            }
 
             return true;
         }

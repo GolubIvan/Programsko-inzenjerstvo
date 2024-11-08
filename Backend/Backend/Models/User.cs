@@ -26,28 +26,29 @@ namespace Backend.Models
                 storedHash = reader.GetString(0);
             else
                 Console.WriteLine("User not found.");
-
+            reader.Close();
             if (BCrypt.Net.BCrypt.Verify(inputPassword, storedHash))
                 return true;
             else
                 return false;
         }
 
-        public static string getUserData(string email){
+        public static int getUserData(string email){
             if(email is null) {
                 Console.WriteLine("User not found.");
-                return "";
+                return -1;
             }
             var conn = Database.GetConnection();
-            string userId = "";
+            int userId = -1;
             using (var cmd = new NpgsqlCommand("SELECT userId FROM korisnik WHERE email = @email", conn))
             {
                 cmd.Parameters.AddWithValue("email", email);
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
-                    userId = reader.GetString(0);
+                    userId = reader.GetInt32(0); 
                 else
                     Console.WriteLine("User not found.");
+                reader.Close();
             }
             return userId;
         }

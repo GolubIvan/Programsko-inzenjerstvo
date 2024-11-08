@@ -21,11 +21,11 @@ namespace Backend.Controllers
             Request.Headers.TryGetValue("password", out var password);
             Request.Headers.TryGetValue("email", out var email);
             
-            string userID = Backend.Models.User.getUserData(email);
-            if(!int.TryParse(userID, out int numUserID)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
-            if(!Backend.Models.User.checkPassword(numUserID, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
+            int userID = Backend.Models.User.getUserData(email);
+            if(userID == -1) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
+            if(!Backend.Models.User.checkPassword(userID, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
             
-            string token = JWTGenerator.GenerateJwt(numUserID);
+            string token = JWTGenerator.GenerateJwt(userID);
 
             return Ok(token);
 
