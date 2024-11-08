@@ -1,0 +1,41 @@
+# Ignore bin, obj, and .vs directories
+**/bin/
+**/obj/
+.vs/
+
+# Ignore NuGet assets and cache files
+*.nuget.cache
+*.nuget.dgspec.json
+project.assets.json
+
+# Ignore generated MSBuild files
+*.g.props
+*.g.targets
+*.csproj.FileListAbsolute.txt
+*.CoreCompileInputs.cache
+*.AssemblyReference.cache
+*.genruntimeconfig.cache
+
+# Ignore assembly and debug symbols
+*.dll
+*.pdb
+*.exe
+
+# Ignore scoped CSS files (Razor components)
+**/scopedcss/
+*.rz.scp.css
+*.bundle.scp.css
+
+# Ignore static web assets and configuration files
+**/staticwebassets*
+*.sourcelink.json
+
+# Ignore .NET-specific generated files
+*.AssemblyAttributes.cs
+*.GlobalUsings.g.cs
+*.RazorAssemblyInfo.cache
+*.RazorAssemblyInfo.cs
+
+# Ignore other cache and temporary files
+*.editorconfig
+*.cache
