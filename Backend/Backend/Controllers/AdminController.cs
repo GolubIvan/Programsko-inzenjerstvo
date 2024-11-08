@@ -15,15 +15,19 @@ namespace Backend.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult crateUser()
+        public async Task<IActionResult> crateUser()
         {
-            Request.Headers.TryGetValue("username", out var username);
-            Request.Headers.TryGetValue("password", out var password);
-            Request.Headers.TryGetValue("email", out var email);
-            Request.Headers.TryGetValue("role", out var role);
-            Request.Headers.TryGetValue("zgrada", out var zgrada);
+            var form = await Request.ReadFormAsync();
+            var username = form["username"].ToString();
+            var password = form["password"].ToString();
+            var email = form["email"].ToString();
+            var role = form["role"].ToString();
+            var zgrada = form["zgrada"].ToString();
 
-            if (!Backend.Models.Administrator.addUser(email, username, password, role, zgrada)) return BadRequest(new { error = "Error", message = "Can't create that user." });
+            if (!Backend.Models.Administrator.addUser(email, username, password, role, zgrada))
+            {
+                return BadRequest(new { error = "Error", message = "Can't create that user." });
+            }
 
             return Ok();
         }

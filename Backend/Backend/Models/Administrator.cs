@@ -34,7 +34,7 @@ namespace Backend.Models
 
             cmd = new NpgsqlCommand("" +
                 "INSERT INTO korisnik (email, lozinka, imeKorisnika) VALUES (@email, @password, @name);" +
-                "INSERT INTO account (role, zgradaId, userId) VALUES (@role, (SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address), (SELECT userId FROM korisnik where email = @email));", conn);
+                "INSERT INTO account (role, zgradaId, userId) VALUES (@role, COALESCE((SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address), 0), (SELECT userId FROM korisnik where email = @email));", conn);
             cmd.Parameters.AddWithValue("email", email);
             cmd.Parameters.AddWithValue("password", password);
             cmd.Parameters.AddWithValue("name", name);

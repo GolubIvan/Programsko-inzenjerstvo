@@ -14,12 +14,13 @@ namespace Backend.Controllers
         }
 
         [HttpPost("normal")]
-        public IActionResult LogIn()
+        public async Task<IActionResult> LogIn()
         {
-            Request.Headers.TryGetValue("username", out var username);
-            Request.Headers.TryGetValue("password", out var password);
-            Request.Headers.TryGetValue("email", out var email);
-            
+          var form = await Request.ReadFormAsync();
+            var username = form["username"].ToString();
+            var password = form["password"].ToString();
+            var email = form["email"].ToString();
+
             List<int> zgrade = Backend.Models.Racun.getUserData(email);
             if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
             if(!Backend.Models.Racun.checkPassword(email, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
@@ -32,9 +33,10 @@ namespace Backend.Controllers
         }
 
         [HttpPost("google")]
-        public IActionResult LogInGoogle()
+        public async Task<IActionResult> LogInGoogle()
         {
-            Request.Headers.TryGetValue("token", out var token);
+            var form = await Request.ReadFormAsync();
+            var token = form["token"].ToString();
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             List<int> zgrade = Backend.Models.Racun.getUserData(email);
