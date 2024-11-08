@@ -14,6 +14,17 @@ namespace Backend.Controllers
             _logger = logger;
         }
 
+        [HttpPost("create")]
+        public IActionResult crateUser()
+        {
+            Request.Headers.TryGetValue("username", out var username);
+            Request.Headers.TryGetValue("password", out var password);
+            Request.Headers.TryGetValue("email", out var email);
+            Request.Headers.TryGetValue("role", out var role);
+            Request.Headers.TryGetValue("zgrada", out var zgrada);
+
+            return Ok();
+        }
 
     }
 }
