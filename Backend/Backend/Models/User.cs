@@ -12,7 +12,7 @@ namespace Backend.Models
             this.zgrada = zgrada;
         }
 
-        public Boolean checkPassword(int userId, string inputPassword)
+        public static Boolean checkPassword(int userId, string inputPassword)
         {
             //inputPassword = "lozinka123";
             //userId = 1; // Example user ID
@@ -33,6 +33,25 @@ namespace Backend.Models
                 return true;
             else
                 return false;
+        }
+
+        public static string getUserData(string email){
+            if(email is null) {
+                Console.WriteLine("User not found.");
+                return "";
+            }
+            var conn = Database.GetConnection();
+            string userId = "";
+            using (var cmd = new NpgsqlCommand("SELECT userId FROM korisnik WHERE email = @email", conn))
+            {
+                cmd.Parameters.AddWithValue("email", email);
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                    userId = reader.GetString(0);
+                else
+                    Console.WriteLine("User not found.");
+            }
+            return userId;
         }
     }
 }

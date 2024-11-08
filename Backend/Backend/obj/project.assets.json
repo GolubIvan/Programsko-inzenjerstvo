@@ -324,19 +324,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vedra\\.nuget\\packages\\": {}
+    "C:\\Users\\amrad\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Backend.csproj",
+      "projectUniqueName": "C:\\Users\\amrad\\OneDrive\\Desktop\\fer\\3_1\\progi\\backend\\eZgrada\\Backend\\Backend\\Backend.csproj",
       "projectName": "Backend",
-      "projectPath": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Backend.csproj",
-      "packagesPath": "C:\\Users\\vedra\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\obj\\",
+      "projectPath": "C:\\Users\\amrad\\OneDrive\\Desktop\\fer\\3_1\\progi\\backend\\eZgrada\\Backend\\Backend\\Backend.csproj",
+      "packagesPath": "C:\\Users\\amrad\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\amrad\\OneDrive\\Desktop\\fer\\3_1\\progi\\backend\\eZgrada\\Backend\\Backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\vedra\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\amrad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
