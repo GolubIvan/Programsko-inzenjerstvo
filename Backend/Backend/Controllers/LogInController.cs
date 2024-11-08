@@ -25,7 +25,9 @@ namespace Backend.Controllers
             if(!int.TryParse(userID, out int numUserID)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
             if(!Backend.Models.User.checkPassword(numUserID, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
             
-            return Ok();
+            string token = JWTGenerator.GenerateJwt(numUserID);
+
+            return Ok(token);
 
         }
     }

@@ -9,7 +9,7 @@ public class JWTGenerator
 {
     private const string SecretKey = "V7e!$@r2jLe#fQrD1!lU8mNpG^zHsT8@";
 
-    public string GenerateJwt(int userId)
+    public static string GenerateJwt(int userId)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -34,7 +34,7 @@ public class JWTGenerator
         return tokenHandler.WriteToken(jwtToken);
     }
 
-    public int DecodeJwt(string token)
+    public static int DecodeJwt(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
