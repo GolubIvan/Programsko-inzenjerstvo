@@ -23,7 +23,7 @@ namespace Backend.Controllers
             
             string userID = Backend.Models.User.getUserData(email);
             if(!int.TryParse(userID, out int numUserID)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
-            if(!Backend.Models.User.checkPassword(numUserID, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
+            if(!Backend.Models.User.checkPassword(numUserID, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
             
             return Ok();
 

@@ -1,41 +1,43 @@
-# Ignore bin, obj, and .vs directories
-**/bin/
-**/obj/
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# Visual Studio
 .vs/
 
-# Ignore NuGet assets and cache files
-*.nuget.cache
-*.nuget.dgspec.json
-project.assets.json
+# Fleet
+.fleet/
 
-# Ignore generated MSBuild files
-*.g.props
-*.g.targets
-*.csproj.FileListAbsolute.txt
-*.CoreCompileInputs.cache
-*.AssemblyReference.cache
-*.genruntimeconfig.cache
+# Code Rush
+.cr/
 
-# Ignore assembly and debug symbols
-*.dll
-*.pdb
-*.exe
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Ignore scoped CSS files (Razor components)
-**/scopedcss/
-*.rz.scp.css
-*.bundle.scp.css
-
-# Ignore static web assets and configuration files
-**/staticwebassets*
-*.sourcelink.json
-
-# Ignore .NET-specific generated files
-*.AssemblyAttributes.cs
-*.GlobalUsings.g.cs
-*.RazorAssemblyInfo.cache
-*.RazorAssemblyInfo.cs
-
-# Ignore other cache and temporary files
-*.editorconfig
-*.cache
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn

@@ -1,9 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\",
+  "WorkspaceRootPath": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\vedra\\source\\repos\\ezgrada\\backend\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\progiback\\ezgrada\\backend\\backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\progiback\\ezgrada\\backend\\backend\\models\\jwtgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\jwtgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\progiback\\ezgrada\\backend\\backend\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\progiback\\ezgrada\\backend\\backend\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\progiback\\ezgrada\\backend\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -19,10 +35,62 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "LogInController.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Controllers\\LogInController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\LogInController.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Controllers\\LogInController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\LogInController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBQAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T12:50:08.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T12:48:25.745Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T12:48:21.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "JWTGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Models\\JWTGenerator.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\JWTGenerator.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Models\\JWTGenerator.cs",
+              "RelativeToolTip": "Backend\\Models\\JWTGenerator.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADQAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T12:44:27.589Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\User.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Models\\User.cs",
               "RelativeDocumentMoniker": "Backend\\Models\\User.cs",
-              "ToolTip": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\ProgiBack\\eZgrada\\Backend\\Backend\\Models\\User.cs",
               "RelativeToolTip": "Backend\\Models\\User.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAqwEgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
