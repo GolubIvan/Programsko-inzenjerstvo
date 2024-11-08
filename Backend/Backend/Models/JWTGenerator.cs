@@ -4,10 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 public class JWTGenerator
 {
-    private const string SecretKey = "V7e!$@r2jLe#fQrD1!lU8mNpG^zHsT8@";
+    private const string SecretKey = "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";
 
     public static string GenerateJwt(int userId)
     {
@@ -75,5 +76,30 @@ public class JWTGenerator
             // Ako validacija nije uspjesna (ili ako je expired)
             return -1;
         }
+    }
+
+    public static string ParseGoogleJwtToken(string googleJwtToken)
+    {
+        string email = "";
+        try
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(googleJwtToken) as JwtSecurityToken;
+            
+            if (jsonToken != null)
+            {
+                // Extract claims from the payload
+                email = jsonToken?.Payload["email"]?.ToString();
+            }
+            else
+            {
+                Console.WriteLine("Invalid token");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error parsing token: " + ex.Message);
+        }
+        return email;
     }
 }

@@ -30,5 +30,19 @@ namespace Backend.Controllers
             return Ok(token);
 
         }
+
+        [HttpPost("google")]
+        public IActionResult LogInGoogle()
+        {
+            Request.Headers.TryGetValue("token", out var token);
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            int userID = Backend.Models.User.getUserData(email);
+            
+            if(userID == -1) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
+
+            return Ok(userID);
+
+        }
     }
 }
