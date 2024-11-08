@@ -41,7 +41,7 @@ namespace Backend.Controllers
             
             if(userID == -1) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
 
-            return Ok(userID);
+            return Ok(token);
 
         }
     }

@@ -21,6 +21,7 @@ namespace Backend.Models
 
             var cmd = new NpgsqlCommand("SELECT userid FROM korisnik WHERE email = @email", conn);
             cmd.Parameters.AddWithValue("email", email);
+            Console.WriteLine("tu je: |" + email + "|");
             var reader = cmd.ExecuteReader();
             password = BCrypt.Net.BCrypt.HashPassword(password);
 
@@ -29,20 +30,20 @@ namespace Backend.Models
                 Console.WriteLine("User already exists.");
                 return false;
             }
+            reader.Close();
 
             cmd = new NpgsqlCommand("" +
                 "INSERT INTO korisnik (email, lozinka, imeKorisnika) VALUES (@email, @password, @name);" +
-                "INSERT INTO account (role, zgradaId, userId) VALUES (@role, (SELECT zgradaId where address = @address), (SELECT userId where email = @email));", conn);
+                "INSERT INTO account (role, zgradaId, userId) VALUES (@role, (SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address), (SELECT userId FROM korisnik where email = @email));", conn);
             cmd.Parameters.AddWithValue("email", email);
             cmd.Parameters.AddWithValue("password", password);
             cmd.Parameters.AddWithValue("name", name);
             cmd.Parameters.AddWithValue("role", role);
             cmd.Parameters.AddWithValue("address", address);
             cmd.ExecuteNonQuery();
+            reader.Close();
 
             return true;
         }
-    
-        
     }
 }
