@@ -1,6 +1,5 @@
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace Backend.Controllers
 {
@@ -21,13 +20,14 @@ namespace Backend.Controllers
             Request.Headers.TryGetValue("password", out var password);
             Request.Headers.TryGetValue("email", out var email);
             
-            int userID = Backend.Models.User.getUserData(email);
-            if(userID == -1) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
-            if(!Backend.Models.User.checkPassword(userID, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
+            List<int> zgrade = Backend.Models.Racun.getUserData(email);
+            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
+            if(!Backend.Models.Racun.checkPassword(email, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
             
-            string token = JWTGenerator.GenerateJwt(userID);
+            string token = JWTGenerator.GenerateJwt(email);
+            string role = Backend.Models.User.getRole(email, zgrade[0]);
 
-            return Ok(token);
+            return Ok(new { token = token, role = role });
 
         }
 
@@ -37,11 +37,13 @@ namespace Backend.Controllers
             Request.Headers.TryGetValue("token", out var token);
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
-            int userID = Backend.Models.User.getUserData(email);
+            List<int> zgrade = Backend.Models.Racun.getUserData(email);
             
-            if(userID == -1) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
+            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
 
-            return Ok(token);
+            string role = Backend.Models.User.getRole(email, zgrade[0]);
+
+            return Ok(new { token = token, role = role });
 
         }
     }

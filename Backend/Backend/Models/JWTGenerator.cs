@@ -10,18 +10,18 @@ public class JWTGenerator
 {
     private const string SecretKey = "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";
 
-    public static string GenerateJwt(int userId)
+    public static string GenerateJwt(string email)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, email),
             new Claim(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds().ToString()),
             new Claim(JwtRegisteredClaimNames.Iss, "your-app"),
             new Claim(JwtRegisteredClaimNames.Aud, "your-app-users"),
-            new Claim("id", userId.ToString())
+            new Claim("email", email)
         };
 
         var jwtToken = new JwtSecurityToken(
@@ -35,7 +35,7 @@ public class JWTGenerator
         return tokenHandler.WriteToken(jwtToken);
     }
 
-    public static int DecodeJwt(string token)
+    public static string DecodeJwt(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -60,21 +60,18 @@ public class JWTGenerator
             var claimsDictionary = new Dictionary<string, string>();
             foreach (var claim in principal.Claims)
             {
-                if (claim.Type == "id")
+                if (claim.Type == "email")
                 {
-                    if (int.TryParse(claim.Value, out int number))
-                    {
-                        return number;
-                    }
+                    return claim.Value;
                 }
             }
 
-            return -1;
+            return "";
         }
         catch (SecurityTokenException)
         {
             // Ako validacija nije uspjesna (ili ako je expired)
-            return -1;
+            return "";
         }
     }
 
