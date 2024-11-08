@@ -34,7 +34,7 @@ namespace Backend.Models
         }
 
         public static int getUserData(string email){
-            if(email is null) {
+            if(email is null || email == "") {
                 Console.WriteLine("User not found.");
                 return -1;
             }

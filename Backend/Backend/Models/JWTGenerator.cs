@@ -99,6 +99,7 @@ public class JWTGenerator
         catch (Exception ex)
         {
             Console.WriteLine("Error parsing token: " + ex.Message);
+            return email;
         }
         return email;
     }
