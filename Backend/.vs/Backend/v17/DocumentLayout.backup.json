@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\vedra\\source\\repos\\ezgrada\\backend\\backend\\models\\administrator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\administrator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\vedra\\source\\repos\\ezgrada\\backend\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\vedra\\source\\repos\\ezgrada\\backend\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\vedra\\source\\repos\\ezgrada\\backend\\backend\\models\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Database.cs",
-              "DocumentMoniker": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\Database.cs",
-              "RelativeDocumentMoniker": "Backend\\Models\\Database.cs",
-              "ToolTip": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\Database.cs",
-              "RelativeToolTip": "Backend\\Models\\Database.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T17:27:01.965Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Backend\\Models\\User.cs",
-              "ToolTip": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\User.cs",
-              "RelativeToolTip": "Backend\\Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABGAAAAAAAAAA==",
+              "Title": "Administrator.cs",
+              "DocumentMoniker": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\Administrator.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\Administrator.cs",
+              "ToolTip": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\Administrator.cs",
+              "RelativeToolTip": "Backend\\Models\\Administrator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T17:15:00.387Z",
+              "WhenOpened": "2024-11-08T12:02:15.005Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Program.cs",
-              "RelativeDocumentMoniker": "Backend\\Program.cs",
-              "ToolTip": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Program.cs",
-              "RelativeToolTip": "Backend\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\vedra\\source\\repos\\eZgrada\\Backend\\Backend\\Models\\User.cs",
+              "RelativeToolTip": "Backend\\Models\\User.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA4wBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T14:33:00.612Z",
+              "WhenOpened": "2024-11-07T17:15:00.387Z",
               "EditorCaption": ""
             }
           ]
