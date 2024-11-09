@@ -10,6 +10,7 @@ import useSWRMutation from "swr/mutation";
 import { loginMutator } from "@/fetchers/mutators";
 import { swrKeys } from "@/typings/swrKeys";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
 
 interface ILoginForm {
   email: string;
@@ -24,25 +25,31 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { isSubmitting, errors },
   } = useForm<ILoginForm>();
   async function googleOnSuccess(credentialResponse: CredentialResponse) {
     console.log("google credentials: ", credentialResponse);
     await trigger2({ token: credentialResponse.credential });
   }
+
+  const { mutate } = useSWR("login");
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const loginInfo = {
         token: data.token,
         role: data.role,
       };
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
       console.log("info: ", loginInfo);
+
+      await mutate(data);
       if (loginInfo.role == "Administrator") router.push("/create");
-      else router.push("/building/2307");
+      else router.push("home");
     },
-    onError: (err) => {
-      console.log("Ovaj error ", err);
+    onError: async (error: { message: string }) => {
+      console.log(error.message);
+      setError("password", { message: error.message });
     },
   });
 
@@ -67,7 +74,9 @@ export const LoginForm = () => {
   );
 
   const onCreate = async (data: ILoginForm) => {
-    await trigger(data);
+    try {
+      await trigger(data);
+    } catch (err) {}
   };
 
   return (
@@ -90,18 +99,20 @@ export const LoginForm = () => {
         <Field
           label="Email"
           invalid={Boolean(errors?.email)}
-          errorText="This is an error text"
           disabled={isSubmitting}
+          errorText={errors?.email?.message}
         >
-          <Input placeholder="me@example.com" {...register("email")} />
+          <Input {...register("email", { required: "Unesite svoj email" })} />
         </Field>
         <Field
           label="Lozinka"
-          invalid={Boolean(errors?.email)}
-          errorText="This is an error text"
+          invalid={Boolean(errors?.password)}
           disabled={isSubmitting}
+          errorText={errors?.password?.message}
         >
-          <PasswordInput {...register("password")} />
+          <PasswordInput
+            {...register("password", { required: "Unesite lozinku" })}
+          />
         </Field>
         <Button
           color="white"
