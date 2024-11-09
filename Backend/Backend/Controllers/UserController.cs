@@ -24,7 +24,7 @@ namespace Backend.Controllers
             
             if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." }); 
 
-            return Ok(new { token = token, email = email });
+            return Ok(new { email = email });
 
         }
     }
