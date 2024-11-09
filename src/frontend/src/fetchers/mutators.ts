@@ -4,23 +4,38 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   const response = await fetch(url, {
     method: "POST",
     headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(arg),
   });
   if (!response.ok) {
     const error = await response.json();
-		throw error;
+    throw error;
   }
 
   const responseData = await response.json();
-  
+
   return {
     ...responseData,
     /* token: response.headers.get("token"),
     role: response.headers.get("role") */
   };
+}
+
+export async function createMutator<T>(url: string, { arg }: { arg: T }) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(arg),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw error;
+  }
 }
 
 export async function postMutator<T>(url: string, { arg }: { arg: T }) {

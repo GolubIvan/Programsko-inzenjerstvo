@@ -18,12 +18,16 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, Radio } from "@/components/ui/radio";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import useSWRMutation from "swr/mutation";
+import { swrKeys } from "@/typings/swrKeys";
+import { createMutator } from "@/fetchers/mutators";
 
 interface ICreateForm {
   email: string;
   password: string;
   repeated_password: string;
   username: string;
+  zgrada: string;
   role: "predstavnik" | "suvlasnik";
 }
 
@@ -33,20 +37,27 @@ export function CreateForm() {
     handleSubmit,
     watch,
     reset,
+    setError,
     formState: { isSubmitting, errors },
   } = useForm<ICreateForm>({
     defaultValues: { role: "suvlasnik" },
     mode: "onChange",
   });
 
-  function delay(time: number) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-
   const onCreate = async (data: ICreateForm) => {
-    await delay(2000);
-    reset();
+    console.log(data);
+    await trigger(data);
   };
+
+  const { trigger } = useSWRMutation(swrKeys.createUser, createMutator, {
+    onSuccess: async (data) => {
+      console.log(data);
+      reset();
+    },
+    onError: async (error: { message: string }) => {
+      setError("zgrada", { message: error.message });
+    },
+  });
 
   const emailRequirements = {
     required: "Unesite email",
@@ -130,6 +141,14 @@ export function CreateForm() {
           {...register("repeated_password", passwordConfirmationRequirements)}
         />
       </Field>
+      <Field
+        label="Adresa"
+        invalid={Boolean(errors?.zgrada)}
+        errorText={errors?.zgrada?.message}
+        disabled={isSubmitting}
+      >
+        <Input {...register("zgrada", passwordRequirements)} required />
+      </Field>
       <Field>
         <RadioGroup
           display="flex"
@@ -149,6 +168,9 @@ export function CreateForm() {
             </Radio>
             <Radio value="predstavnik" {...register("role")}>
               Predstavnik
+            </Radio>
+            <Radio value="administrator" {...register("role")}>
+              Administrator
             </Radio>
           </HStack>
         </RadioGroup>
