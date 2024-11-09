@@ -4,22 +4,22 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   const response = await fetch(url, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
     },
     body: JSON.stringify(arg),
   });
   if (!response.ok) {
-    throw new Error(`Dogodila se greška kod mutiranja na url: ${url}`);
+    const error = await response.json();
+		throw error;
   }
 
   const responseData = await response.json();
-  /*
-  TODO:
-  kreirati user objekt
-  */
-  localStorage.setItem("ezgrada-header", JSON.stringify({}));
+  
   return {
-    data: responseData,
+    ...responseData,
+    /* token: response.headers.get("token"),
+    role: response.headers.get("role") */
   };
 }
 
