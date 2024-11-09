@@ -5,7 +5,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Flex, Text, Input, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { GoogleLogin } from "@react-oauth/google";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import useSWRMutation from "swr/mutation";
 import { loginMutator } from "@/fetchers/mutators";
 import { swrKeys } from "@/typings/swrKeys";
@@ -17,6 +17,9 @@ interface ILoginForm {
   password: string;
 }
 
+interface IGoogleLoginForm {
+  token: string;
+}
 export const LoginForm = () => {
   const router = useRouter();
   const {
@@ -25,8 +28,11 @@ export const LoginForm = () => {
     setError,
     formState: { isSubmitting, errors },
   } = useForm<ILoginForm>();
-  function delay(time: number) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+  async function googleOnSuccess(credentialResponse: CredentialResponse) {
+    console.log("google credentials: ", credentialResponse);
+    try {
+      await trigger2({ token: credentialResponse.credential });
+    } catch (err) {}
   }
 
   const { mutate } = useSWR(swrKeys.me);
@@ -44,10 +50,30 @@ export const LoginForm = () => {
       else router.push("/home");
     },
     onError: async (error: { message: string }) => {
-      console.log(error.message);
       setError("password", { message: error.message });
     },
   });
+
+  const { trigger: trigger2 } = useSWRMutation(
+    swrKeys.loginGoogle,
+    loginMutator,
+    {
+      onSuccess: (data) => {
+        const loginInfo = {
+          token: data.token,
+          role: data.role,
+        };
+        localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+        console.log("info: ", loginInfo);
+        if (loginInfo.role == "Administrator") router.push("/create");
+        else router.push("/home");
+      },
+      onError: (error: { message: string }) => {
+        setError("password", { message: error.message });
+      },
+    }
+  );
+
   const onCreate = async (data: ILoginForm) => {
     try {
       await trigger(data);
@@ -102,11 +128,12 @@ export const LoginForm = () => {
         <Text> ili </Text>
         <GoogleLogin
           text="signin_with"
-          onSuccess={(credentialResponse) => {
-            console.log(credentialResponse);
-          }}
+          onSuccess={googleOnSuccess}
           onError={() => {
-            console.log("Login Failed");
+            console.log("lol");
+            setError("password", {
+              message: "Dogodio se problem s Google OAuthom",
+            });
           }}
         />
       </Flex>
