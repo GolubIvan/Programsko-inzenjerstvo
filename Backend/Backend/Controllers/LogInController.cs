@@ -32,10 +32,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost("google")]
-        public async Task<IActionResult> LogInGoogle()
+        public async Task<IActionResult> LogInGoogle([FromBody] Backend.Models.LoginRequest loginRequest)
         {
-            var form = await Request.ReadFormAsync();
-            var token = form["token"].ToString();
+            var token = loginRequest.Token;
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             List<int> zgrade = Backend.Models.Racun.getUserData(email);
