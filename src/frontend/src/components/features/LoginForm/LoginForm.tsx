@@ -16,6 +16,9 @@ interface ILoginForm {
   password: string;
 }
 
+interface IGoogleLoginForm {
+  token: string;
+}
 export const LoginForm = () => {
   const router = useRouter();
   const {
@@ -24,7 +27,8 @@ export const LoginForm = () => {
     formState: { isSubmitting, errors },
   } = useForm<ILoginForm>();
   async function googleOnSuccess(credentialResponse: CredentialResponse) {
-    console.log(credentialResponse);
+    console.log("google credentials: ", credentialResponse);
+    await trigger2({ token: credentialResponse.credential });
   }
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
     onSuccess: (data) => {
