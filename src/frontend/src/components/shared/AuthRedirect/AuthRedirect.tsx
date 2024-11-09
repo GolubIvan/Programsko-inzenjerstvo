@@ -7,12 +7,17 @@ import useSWR from "swr";
 interface IAuthRedirect {
   to: string;
   condition: "isLoggedIn" | "isLoggedOut";
-  role: "admin" | "predstavnik" | "suvlasnik";
+  role: "Administrator" | "Predstavnik" | "Suvlasnik";
 }
 
-export default function AuthRedirect({ to, condition }: IAuthRedirect) {
+interface IMe {
+  email: string;
+  role: string;
+}
+
+export default function AuthRedirect({ to, condition, role }: IAuthRedirect) {
   const route = useRouter();
-  const { data, isLoading } = useSWR(swrKeys.me, authFetcher);
+  const { data, isLoading } = useSWR(swrKeys.me, authFetcher<IMe>);
 
   useEffect(() => {
     if (isLoading) return;
@@ -21,7 +26,7 @@ export default function AuthRedirect({ to, condition }: IAuthRedirect) {
     if (!data && condition == "isLoggedOut") {
       route.push(to);
     }
-    if (data && condition == "isLoggedIn") {
+    if (data && condition == "isLoggedIn" && data.role == role) {
       route.push(to);
     }
   }, [data, isLoading, to, condition, route]);

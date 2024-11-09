@@ -26,10 +26,10 @@ export async function fetcher<T>(
 
 
 export async function authFetcher<T>(input: string | URL | globalThis.Request, init?: RequestInit): Promise<T> {
-	let data;
+	let data, authInfo;
 	try {
 		const value = localStorage.getItem('loginInfo');
-		const authInfo = value ? JSON.parse(value) : {};
+		authInfo = value ? JSON.parse(value) : {};
     console.log("auth info", authInfo);
     const bdy = {token: authInfo.token};
     console.log(bdy);
@@ -39,8 +39,8 @@ export async function authFetcher<T>(input: string | URL | globalThis.Request, i
 			headers: {
         Accept: "application/json",
 				'Content-Type': 'application/json',
+        "token": authInfo.token
 			},
-      body: JSON.stringify({token: authInfo.token})
 		});
 		if (!response.ok) {
 			if (response.status == 401) {};
@@ -53,5 +53,5 @@ export async function authFetcher<T>(input: string | URL | globalThis.Request, i
 		throw error;
 	}
   console.log("returned", data);
-	return data;
+	return {...data, role: authInfo.role};
 }
