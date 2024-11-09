@@ -30,7 +30,9 @@ export const LoginForm = () => {
   } = useForm<ILoginForm>();
   async function googleOnSuccess(credentialResponse: CredentialResponse) {
     console.log("google credentials: ", credentialResponse);
-    await trigger2({ token: credentialResponse.credential });
+    try {
+      await trigger2({ token: credentialResponse.credential });
+    } catch (err) {}
   }
 
   const { mutate } = useSWR("login");
@@ -48,7 +50,6 @@ export const LoginForm = () => {
       else router.push("home");
     },
     onError: async (error: { message: string }) => {
-      console.log(error.message);
       setError("password", { message: error.message });
     },
   });
@@ -65,10 +66,10 @@ export const LoginForm = () => {
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
         console.log("info: ", loginInfo);
         if (loginInfo.role == "Administrator") router.push("/create");
-        else router.push("/building/2307");
+        else router.push("/home");
       },
-      onError: (err) => {
-        console.log("Ovaj error ", err);
+      onError: (error: { message: string }) => {
+        setError("password", { message: error.message });
       },
     }
   );
@@ -129,7 +130,10 @@ export const LoginForm = () => {
           text="signin_with"
           onSuccess={googleOnSuccess}
           onError={() => {
-            console.log("Login Failed");
+            console.log("lol");
+            setError("password", {
+              message: "Dogodio se problem s Google OAuthom",
+            });
           }}
         />
       </Flex>
