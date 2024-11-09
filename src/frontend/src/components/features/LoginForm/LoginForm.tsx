@@ -5,7 +5,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Flex, Text, Input, Heading } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { GoogleLogin } from "@react-oauth/google";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import useSWRMutation from "swr/mutation";
 import { loginMutator } from "@/fetchers/mutators";
 import { swrKeys } from "@/typings/swrKeys";
@@ -21,11 +21,10 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { isSubmitting, errors },
   } = useForm<ILoginForm>();
-  function delay(time: number) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+  async function googleOnSuccess(credentialResponse: CredentialResponse) {
+    console.log(credentialResponse);
   }
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
     onSuccess: (data) => {
@@ -35,13 +34,34 @@ export const LoginForm = () => {
       };
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
       console.log("info: ", loginInfo);
-
       if (loginInfo.role == "Administrator") router.push("/create");
+      else router.push("/building/2307");
     },
     onError: (err) => {
       console.log("Ovaj error ", err);
     },
   });
+
+  const { trigger: trigger2 } = useSWRMutation(
+    swrKeys.loginGoogle,
+    loginMutator,
+    {
+      onSuccess: (data) => {
+        const loginInfo = {
+          token: data.token,
+          role: data.role,
+        };
+        localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+        console.log("info: ", loginInfo);
+        if (loginInfo.role == "Administrator") router.push("/create");
+        else router.push("/building/2307");
+      },
+      onError: (err) => {
+        console.log("Ovaj error ", err);
+      },
+    }
+  );
+
   const onCreate = async (data: ILoginForm) => {
     await trigger(data);
   };
@@ -92,9 +112,7 @@ export const LoginForm = () => {
         <Text> ili </Text>
         <GoogleLogin
           text="signin_with"
-          onSuccess={(credentialResponse) => {
-            console.log(credentialResponse);
-          }}
+          onSuccess={googleOnSuccess}
           onError={() => {
             console.log("Login Failed");
           }}
