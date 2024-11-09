@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <Flex height="100vh">
       <Flex direction="column" width="100%" alignItems="center">
-        <AuthHeader />
+        <AuthHeader canLogout={false} />
         <Flex
           height="80%"
           margin="20px"
