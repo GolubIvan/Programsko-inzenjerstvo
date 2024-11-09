@@ -15,14 +15,13 @@ namespace Backend.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> crateUser()
+        public async Task<IActionResult> crateUser([FromBody] Backend.Models.LoginRequest loginRequest)
         {
-            var form = await Request.ReadFormAsync();
-            var username = form["username"].ToString();
-            var password = form["password"].ToString();
-            var email = form["email"].ToString();
-            var role = form["role"].ToString();
-            var zgrada = form["zgrada"].ToString();
+            var password = loginRequest.Password;
+            var email = loginRequest.Email;
+            var role = loginRequest.Role;
+            var zgrada = loginRequest.Zgrada;
+            var username = loginRequest.Username;
 
             if (!Backend.Models.Administrator.addUser(email, username, password, role, zgrada))
             {

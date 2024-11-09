@@ -1,4 +1,5 @@
 using Backend.Models;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -14,13 +15,11 @@ namespace Backend.Controllers
         }
 
         [HttpPost("normal")]
-        public async Task<IActionResult> LogIn()
+        public async Task<IActionResult> LogIn([FromBody] Backend.Models.LoginRequest loginRequest)
         {
-          var form = await Request.ReadFormAsync();
-            var username = form["username"].ToString();
-            var password = form["password"].ToString();
-            var email = form["email"].ToString();
-
+            var password = loginRequest.Password;
+            var email = loginRequest.Email;
+            
             List<int> zgrade = Backend.Models.Racun.getUserData(email);
             if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
             if(!Backend.Models.Racun.checkPassword(email, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });

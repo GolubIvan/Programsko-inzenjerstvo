@@ -39,7 +39,7 @@ namespace Backend.Models
             if (reader.Read()){
                 role = reader.GetString(0);
             }
-            else return "";
+            reader.Close();
             
             return role;
         }
