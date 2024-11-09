@@ -8,7 +8,7 @@ export default function AuthLayout({
 }>) {
   return (
     <Flex direction="column" height="100vh">
-      <AuthHeader />
+      <AuthHeader canLogout={true} />
       {children}
     </Flex>
   );

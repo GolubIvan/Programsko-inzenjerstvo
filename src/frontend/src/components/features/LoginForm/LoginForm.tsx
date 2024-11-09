@@ -35,7 +35,7 @@ export const LoginForm = () => {
     } catch (err) {}
   }
 
-  const { mutate } = useSWR("login");
+  const { mutate } = useSWR(swrKeys.me);
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
     onSuccess: async (data) => {
       const loginInfo = {
@@ -47,7 +47,7 @@ export const LoginForm = () => {
 
       await mutate(data);
       if (loginInfo.role == "Administrator") router.push("/create");
-      else router.push("home");
+      else router.push("/home");
     },
     onError: async (error: { message: string }) => {
       setError("password", { message: error.message });
