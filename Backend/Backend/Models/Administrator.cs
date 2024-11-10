@@ -17,32 +17,42 @@ namespace Backend.Models
 
         public static Boolean addUser(string email, string name, string password, string role, string address)
         {
-            var conn = Database.GetConnection();
-
-            var cmd = new NpgsqlCommand("SELECT userid FROM korisnik WHERE email = @email", conn);
-            cmd.Parameters.AddWithValue("email", email);
-            Console.WriteLine("tu je: |" + email + "|");
-            var reader = cmd.ExecuteReader();
-            password = BCrypt.Net.BCrypt.HashPassword(password);
-
-            if (reader.Read())
+            using (var conn = Database.GetConnection())
             {
-                Console.WriteLine("User already exists.");
-                return false;
+                // Provjera postoji li korisnik
+                using (var cmd = new NpgsqlCommand("SELECT userid FROM korisnik WHERE email = @email", conn))
+                {
+                    cmd.Parameters.AddWithValue("email", email);
+                    Console.WriteLine("tu je: |" + email + "|");
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        password = BCrypt.Net.BCrypt.HashPassword(password);
+
+                        if (reader.Read())
+                        {
+                            Console.WriteLine("User already exists.");
+                            return false;
+                        }
+                    }
+                }
+
+                // Dodavanje korisnika
+                using (var cmd = new NpgsqlCommand("" +
+                    "INSERT INTO korisnik (email, lozinka, imeKorisnika) VALUES (@email, @password, @name);" +
+                    "INSERT INTO account (role, zgradaId, userId) VALUES (@role, COALESCE((SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address), 0), (SELECT userId FROM korisnik where email = @email));", conn))
+                {
+                    cmd.Parameters.AddWithValue("email", email);
+                    cmd.Parameters.AddWithValue("password", password);
+                    cmd.Parameters.AddWithValue("name", name);
+                    cmd.Parameters.AddWithValue("role", role);
+                    cmd.Parameters.AddWithValue("address", address);
+                    cmd.ExecuteNonQuery();
+                }
+
+                return true;
             }
-            reader.Close();
-
-            cmd = new NpgsqlCommand("" +
-                "INSERT INTO korisnik (email, lozinka, imeKorisnika) VALUES (@email, @password, @name);" +
-                "INSERT INTO account (role, zgradaId, userId) VALUES (@role, COALESCE((SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address), 0), (SELECT userId FROM korisnik where email = @email));", conn);
-            cmd.Parameters.AddWithValue("email", email);
-            cmd.Parameters.AddWithValue("password", password);
-            cmd.Parameters.AddWithValue("name", name);
-            cmd.Parameters.AddWithValue("role", role);
-            cmd.Parameters.AddWithValue("address", address);
-            cmd.ExecuteNonQuery();
-
-            return true;
         }
+
     }
 }
