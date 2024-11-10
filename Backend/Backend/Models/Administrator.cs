@@ -41,7 +41,6 @@ namespace Backend.Models
             cmd.Parameters.AddWithValue("role", role);
             cmd.Parameters.AddWithValue("address", address);
             cmd.ExecuteNonQuery();
-            reader.Close();
 
             return true;
         }

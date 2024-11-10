@@ -17,7 +17,12 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> CheckUser([FromBody] Backend.Models.LoginRequest loginRequest)
         {
-            var token = loginRequest.Token;
+            var token = Request.Headers["token"];
+            if (token == "undefined") {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." }); 
+            }
+            //Console.WriteLine(token);
+            _logger.LogInformation("Checking user with token: {Token}", token);
             
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             List<int> zgrade = Backend.Models.Racun.getUserData(email);

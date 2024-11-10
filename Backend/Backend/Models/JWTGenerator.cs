@@ -83,7 +83,7 @@ public class JWTGenerator
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(googleJwtToken) as JwtSecurityToken;
             
-            if (jsonToken != null)
+            if (jsonToken != null && jsonToken.Payload.ContainsKey("email"))
             {
                 // Extract claims from the payload
                 email = jsonToken?.Payload["email"]?.ToString();

@@ -39,7 +39,7 @@ namespace Backend.Controllers
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             List<int> zgrade = Backend.Models.Racun.getUserData(email);
             
-            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
+            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The specified email does not have a valid Google account." }); 
 
             string role = Backend.Models.User.getRole(email, zgrade[0]);
 
