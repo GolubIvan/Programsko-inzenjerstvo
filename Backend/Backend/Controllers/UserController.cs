@@ -14,7 +14,7 @@ namespace Backend.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> CheckUser([FromBody] Backend.Models.LoginRequest loginRequest)
         {
             var token = Request.Headers["token"];
