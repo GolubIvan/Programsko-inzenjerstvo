@@ -163,13 +163,13 @@ export function CreateForm() {
           {...register("role")}
         >
           <HStack>
-            <Radio value="suvlasnik" {...register("role")}>
+            <Radio value="Suvlasnik" {...register("role")}>
               Suvlasnik
             </Radio>
-            <Radio value="predstavnik" {...register("role")}>
+            <Radio value="Predstavnik" {...register("role")}>
               Predstavnik
             </Radio>
-            <Radio value="administrator" {...register("role")}>
+            <Radio value="Administrator" {...register("role")}>
               Administrator
             </Radio>
           </HStack>
