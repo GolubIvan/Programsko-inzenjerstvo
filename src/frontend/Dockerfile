@@ -24,6 +24,7 @@ WORKDIR /app
 # Copy the built files from the previous stage
 COPY --from=build /app/build /usr/share/nginx/html
 
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose the port that the application will run on
 EXPOSE 80
 
