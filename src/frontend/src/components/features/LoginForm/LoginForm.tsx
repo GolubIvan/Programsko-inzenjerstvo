@@ -65,8 +65,8 @@ export const LoginForm = () => {
         };
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
         console.log("info: ", loginInfo);
-        if (loginInfo.role == "Administrator") router.push("/create");
-        else router.push("/home");
+        /* if (loginInfo.role == "Administrator") router.push("/create");
+        else router.push("/home"); */
       },
       onError: (error: { message: string }) => {
         setError("password", { message: error.message });
