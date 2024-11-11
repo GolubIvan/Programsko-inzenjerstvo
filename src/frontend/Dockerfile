@@ -1,32 +1,32 @@
-# Stage 1: Build the React app
-FROM node:18-alpine AS build
-ARG BUILD_ENV=production
+# Stage 1: Build the React application
+FROM node:18 AS builder
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (or yarn.lock if you use Yarn)
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies based on the specified environment
-RUN npm install --only=$BUILD_ENV
+# Install dependencies
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
 
-# Build the React application
+# Build the Next.js application
 RUN npm run build
 
-# Stage 2: Serve the application with Nginx
-FROM nginx:stable-alpine AS serve
+# Stage 2: Run the application with next start
+FROM node:18 AS runtime
+
+# Set working directory
 WORKDIR /app
 
-# Copy the built files from the previous stage
-COPY --from=build /app/build /usr/share/nginx/html
+# Copy build files from the builder stage
+COPY --from=builder /app ./
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-# Expose the port that the application will run on
-EXPOSE 80
+# Expose the port Next.js will run on (default: 3000)
+EXPOSE 3000
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the Next.js app in production mode
+CMD ["npm", "start"]
