@@ -1,4 +1,4 @@
-const backend = "http://localhost:8080";
+const backend = "https://ezgrada-sv5d.onrender.com";
 
 export const swrKeys = {
   login: `${backend}/login/normal`,
