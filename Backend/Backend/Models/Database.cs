@@ -3,7 +3,9 @@ using Npgsql;
 
 public static class Database
 {
-    private static readonly string connString = "Host=localhost;Username=postgres;Password=baze;Database=eZgrada";
+    private static readonly string connString = "Host=host.docker.internal;Username=postgres;Password=baze;Database=eZgrada";
+
+    //private static readonly string connString = "Host=localhost;Username=postgres;Password=baze;Database=eZgrada";
     private static NpgsqlConnection? connection;
 
     public static NpgsqlConnection GetConnection()
