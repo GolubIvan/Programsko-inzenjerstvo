@@ -46,8 +46,8 @@ export const LoginForm = () => {
       console.log("info: ", loginInfo);
 
       await mutate(data);
-      if (loginInfo.role == "Administrator") router.push("/create");
-      else router.push("/home");
+      /* if (loginInfo.role == "Administrator") router.push("/create");
+      else router.push("/home"); */
     },
     onError: async (error: { message: string }) => {
       setError("password", { message: error.message });
@@ -58,13 +58,14 @@ export const LoginForm = () => {
     swrKeys.loginGoogle,
     loginMutator,
     {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         const loginInfo = {
           token: data.token,
           role: data.role,
         };
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
         console.log("info: ", loginInfo);
+        await mutate(data);
         /* if (loginInfo.role == "Administrator") router.push("/create");
         else router.push("/home"); */
       },
