@@ -9,7 +9,7 @@
 
 # Upute za korištenje aplikacije
 URL na aplikaciju:
-https://ezgradafront.onrender.com/<br>
+https://ezgrada-h2gu.onrender.com/<br>
 Login:<br>
 * admin: ana@gmail.com, lozinka: lozinka123<br>
 * ostali korisnik: ivan@gmail.com, lozinka: ludalozinka<br>
