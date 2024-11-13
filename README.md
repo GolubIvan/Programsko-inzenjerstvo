@@ -7,6 +7,18 @@
 > 
 > Zašto ovaj dokument? Samo manji dio timova je do sada propoznao potrebu (a i meni je lakše pratiti Vaš rad).  
 
+# Upute za korištenje aplikacije
+URL na aplikaciju:
+https://ezgradafront.onrender.com/<br>
+Login:<br>
+* admin: ana@gmail.com, lozinka: lozinka123<br>
+* ostali korisnik: ivan@gmail.com, lozinka: ludalozinka<br>
+## Kreiranje korisnika:<br>
+Moguće je prijaviti nove korisnike (pa i napraviti račun sa svojim Google Accountom), jedino je važno da ulica bude neka od sljedećih:<br>
+* Ulica Kralja Tomislava 10<br>
+* Ulica Ivana Meštrovića 15<br>
+* Ulica Nikole Tesle 3 <br>
+
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
