@@ -66,7 +66,7 @@ Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevn
 
 
 # Članovi tima 
-> Ivan Gulubić ivan.golubic@fer.unizg.hr - Voditelj projekta <br />
+> Ivan Golubić ivan.golubic@fer.unizg.hr - Voditelj projekta <br />
 > Marin Rossini marin.rossini@fer.unizg.hr <br />
 > Sara Lazarušić sara.lazarusic@fer.unizg.hr <br />
 > Kristian Lovey kristian.lovey@fer.unizg.hr <br />
