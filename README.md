@@ -23,7 +23,7 @@ Moguće je prijaviti nove korisnike (pa i napraviti račun sa svojim Google Acco
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
 
-Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevne dogovore i organiziciju suživota u stambenim objektima. Prestavnici stanara i suvlasnici bit će u mogućnosti brzo i jednostavno kreirati i najaviti sastanke stanara koji će olakšati svakodnevni život. Problemi od jednostavnih točaka dnevnog reda pa sve do riješavanja većih nedoumica od sada je jednostavno uz sve pogodnosti koje nudi naša aplikacija. O sastancima pojedine zgrade upravljati će administrator, a sastanci će biti vidljivi svim sadašnjim i budućim suvlasnicima i administratorima stambenog objekta.
+Cilj eZgrade jest kreirati jedinstvenu web-aplikaciju koja olakšava svakodnevne dogovore i organizaciju suživota u stambenim objektima. Predstavnici stanara i suvlasnici bit će u mogućnosti brzo i jednostavno kreirati i najaviti sastanke stanara koji će olakšati svakodnevni život. Problemi od jednostavnih točaka dnevnog reda pa sve do rješavanja većih nedoumica od sada je jednostavno uz sve pogodnosti koje nudi naša aplikacija. O sastancima pojedine zgrade upravljat će administrator, a sastanci će biti vidljivi svim sadašnjim i budućim suvlasnicima te administratorima stambenog objekta.
 
 
 # Funkcijski zahtjevi
