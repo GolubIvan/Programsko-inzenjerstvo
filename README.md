@@ -20,7 +20,7 @@ Moguće je prijaviti nove korisnike (pa i napraviti račun sa svojim Google Acco
 * Ulica Nikole Tesle 3 <br>
 
 # Opis projekta
-Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
+Ovaj projekt je rezultat timskog rada u sklopu projektnog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
 
 Cilj eZgrade jest kreirati jedinstvenu web-aplikaciju koja olakšava svakodnevne dogovore i organizaciju suživota u stambenim objektima. Predstavnici stanara i suvlasnici bit će u mogućnosti brzo i jednostavno kreirati i najaviti sastanke stanara koji će olakšati svakodnevni život. Problemi od jednostavnih točaka dnevnog reda pa sve do rješavanja većih nedoumica od sada je jednostavno uz sve pogodnosti koje nudi naša aplikacija. O sastancima pojedine zgrade upravljat će administrator, a sastanci će biti vidljivi svim sadašnjim i budućim suvlasnicima te administratorima stambenog objekta.
@@ -46,7 +46,7 @@ Cilj eZgrade jest kreirati jedinstvenu web-aplikaciju koja olakšava svakodnevne
 > Aplikacija mora omogućiti administratoru kreiranje profila predstavnika i suvlasnika.<br />
 > Aplikacija za svaki profil omogućuje kreiranje korisničkog imena, lozinke i e-mail adrese.<br />
 > Aplikacija mora korisnicima omogućiti promjenu lozinke koristeći prethodnu lozinku.<br />
-> Aplikacija realizira aplikacijsko sučelje koje će koristiti aplikacija StanBlog, a preko kojegje moguće kreirati sastanak kriran iz specifične diskusije.<br />
+> Aplikacija realizira aplikacijsko sučelje koje će koristiti aplikacija StanBlog, a preko kojeg je moguće kreirati sastanak kreiran iz specifične diskusije.<br />
 > Proces registracije i prijave bit će pojednostavljen korištenjem vanjskih servisa za autentifikaciju.<br />
 
 # Nefunkcijski zahtjevi
