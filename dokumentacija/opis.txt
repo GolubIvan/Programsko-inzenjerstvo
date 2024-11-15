@@ -22,19 +22,32 @@ Funkcionalnosti za predstavnike stanara: Predstavnici imaju mogućnost organizac
 •	Popis pozvanih sudionika
 •	Status sastanka – „Objavljen“, „Planiran“, „Obavljen“
 •	Dodatno stanje „Arhiviran“
+
 Svi suvlasnici pozvani na sastanak dobit će obavijest o objavljenom sastanku. Klikom na sažetak sastanka korisniku će se prikazati detaljan opis sastanka koji se naknadno može i uređivati. Nakon završetka sastanka, predstavnik ga može označiti kao „Obavljen“ te unijeti zaključke za svaku točku dnevnog reda, pri čemu zaključci mogu imati pravni učinak ili ne. Također, predstavnik može arhivirati sastanak, čime arhiva svih prijašnjih sastanaka ostaje dostupna svim stanarima objekta. Ukoliko neki sastanak bude arhiviran, obavijest na mail će dobiti svi suvlasnici koji su sudjelovali u navedenom sastanku.
 Gdje se tu javlja problem?
 Život u zajedničkim stambenim prostorima donosi razne izazove, uključujući financijske troškove, održavanje (poput popravaka zidova i cijevi), kao i nesuglasice među stanarima. Na tržištu postoje rješenja za održavanje sastanaka, poput aplikacija za virtualne sastanke kao što su Zoom ili Skype, no te aplikacije ne nude specifične funkcionalnosti potrebne za stanare.
 Iako postoje druge platforme za organizaciju sastanaka, nijedna nije idealno prilagođena za specifične potrebe stanara stambenih zgrada. Dvije često spominjane platforme, Skedda i Calendly, nude korisne funkcionalnosti, ali im nedostaje prilagodljivost i pristupačnost koje su ključne za zajednički život u zgradama.
 Kod Calendlyja, sučelje za kreiranje korisnika je jednostavno (slika 1.1), no orijentirano je više prema poslovnim korisnicima. Administratori mogu pozvati članove tima putem emaila, a dodijeljeni korisnici sami završavaju proces postavljanja svojih profila. Sučelje omogućuje jednostavno dodavanje korisnika, ali ne nudi specifične opcije za detaljnije definiranje uloga i prava, što bi bilo korisno za predstavnike i suvlasnike stambenih objekata. Za dodatne funkcionalnosti potrebna je nadogradnja na plaćeni plan, što može biti financijski nepovoljno za većinu stanara.
  
+
+(https://github.com/user-attachments/assets/016d4de2-fb70-41e2-98cc-11caa17cabd8)
+
 Slika 1.1 sučelje Calenedly
 
-S druge strane, Skedda ima sučelje koje je više prilagođeno velikim organizacijama (slika 1.2) i korporativnim korisnicima. Sučelje za dodavanje korisnika omogućava administratorima unos osnovnih podataka te upravljanje korisničkim pravima, ali ne nudi besplatan pristup i usmjereno je prvenstveno na korištenje u uredskim prostorima. Početna pretplata od 100 USD mjesečno i korporativna orijentacija čine Skeddu nepraktičnom opcijom za stanare stambenih zgrada koji trebaju funkcionalnost namijenjenu stambenim zajednicama, a ne poslovnim potrebama.
- 
+S druge strane, Skedda ima sučelje koje je više prilagođeno velikim organizacijama (_slika 1.2_) i korporativnim korisnicima. Sučelje za dodavanje korisnika omogućava administratorima unos osnovnih podataka te upravljanje korisničkim pravima, ali ne nudi besplatan pristup i usmjereno je prvenstveno na korištenje u uredskim prostorima. Početna pretplata od 100 USD mjesečno i korporativna orijentacija čine Skeddu nepraktičnom opcijom za stanare stambenih zgrada koji trebaju funkcionalnost namijenjenu stambenim zajednicama, a ne poslovnim potrebama.
+
+(https://github.com/user-attachments/assets/73b56850-e8a9-4618-8794-4c1a21373656)
+
 Slika 1.2 sučelje Skedda
+
 Kako eZgrada donosi bolje rješenje?
-Za razliku od Skedde i Calendlyja, eZgrada je specijalizirana za potrebe stanara i njihovih predstavnika. Sučelje (slika 1.3) za kreiranje korisnika omogućava administratorima jednostavan unos ključnih podataka korisnika koji su namijenjeni specifično za zgradu. Korisnici automatski dobivaju obavijesti putem emaila s pristupnim podacima te im je odmah dodijeljen skup prava unutar aplikacije, prilagođen ulozi koju imaju u stambenom objektu. Time je upravljanje korisnicima ne samo jednostavno, već i specifično prilagođeno stvarnim potrebama života u stambenim zgradama, omogućujući eZgradi da bude praktično, ekonomično i dostupno rješenje za sve stanare.
+
+Za razliku od Skedde i Calendlyja, eZgrada je specijalizirana za potrebe stanara i njihovih predstavnika. Sučelje (slika 1.3) za kreiranje korisnika omogućava administratorima jednostavan unos ključnih podataka korisnika koji su namijenjeni specifično za zgradu. Korisnici automatski dobivaju obavijesti putem emaila s pristupnim podacima te im je odmah dodijeljen skup prava unutar aplikacije, prilagođen ulozi koju imaju u stambenom objektu. Time je upravljanje i kreiranje korisnicima (slika 1.4 upravljanje i kreiranje korisnika)ne samo jednostavno, već i specifično prilagođeno stvarnim potrebama života u stambenim zgradama, omogućujući eZgradi da bude praktično, ekonomično i dostupno rješenje za sve stanare.
+
+(https://github.com/user-attachments/assets/37586d96-1987-4469-a26e-4af1f3e37905)
+
 Slika 1.3 sučelje eZgrade za kreiranje korisnika
 
+(https://github.com/user-attachments/assets/09eef2cd-4b6a-4f95-8368-f2923c09c7cd)
+Slika 1.4 upravljanje i kreiranje korisnika
 
