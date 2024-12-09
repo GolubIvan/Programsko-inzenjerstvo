@@ -25,7 +25,7 @@ namespace Backend.Controllers
             _logger.LogInformation("Checking user with token: {Token}", token);
             
             string email = JWTGenerator.ParseGoogleJwtToken(token);
-            List<int> zgrade = Backend.Models.Racun.getUserData(email);
+            List<KeyValuePair<int, string>> zgrade = Backend.Models.Racun.getUserData(email);
             
             if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." }); 
 

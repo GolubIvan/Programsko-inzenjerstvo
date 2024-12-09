@@ -17,12 +17,14 @@ namespace Backend.Controllers
         [HttpPost("normal")]
         public async Task<IActionResult> LogIn([FromBody] Backend.Models.LoginRequest loginRequest)
         {
+            Console.WriteLine("Login request");
             var password = loginRequest.Password;
             var email = loginRequest.Email;
-            
+            Console.WriteLine("Email:" + email);
+
             if(!Backend.Models.Racun.checkPassword(email, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
             
-            List<pair<int, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
+            List<KeyValuePair<int, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
             if(zgrade_uloge.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
             
             string token = JWTGenerator.GenerateJwt(email);
@@ -37,14 +39,11 @@ namespace Backend.Controllers
             var token = loginRequest.Token;
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
-            List<int> zgrade = Backend.Models.Racun.getUserData(email);
             
-            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The specified email does not have a valid Google account." }); 
-
-            string role = Backend.Models.User.getRole(email, zgrade[0]);
-
-            return Ok(new { token = token, role = role });
-
+            List<KeyValuePair<int, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
+            if(zgrade_uloge.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
+            
+            return Ok(new { token = token, podaci = zgrade_uloge });
         }
     }
 }

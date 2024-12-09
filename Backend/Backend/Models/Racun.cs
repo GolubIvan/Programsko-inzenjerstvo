@@ -40,24 +40,22 @@ namespace Backend.Models
                 return false;
         }
 
-        public static List<pair<int, string>> getUserData(string email){
-            List<pair<int, string>> zgrade_uloge = new List<pair<int, string>>(); 
+        public static List<KeyValuePair<int, string>> getUserData(string email){
+            List<KeyValuePair<int, string>> zgrade_uloge = new List<KeyValuePair<int, string>>(); 
             if(email is null || email == "") {
                 Console.WriteLine("User not found.");
                 return zgrade_uloge;
             }
             var conn = Database.GetConnection();
-            
-            using (var cmd = new NpgsqlCommand("SELECT zgradaID FROM korisnik JOIN account USING (userId) WHERE email = @email", conn))
+            using (var cmd = new NpgsqlCommand("SELECT zgradaID, role FROM korisnik JOIN account USING (userId) WHERE email = @email", conn))
             {
                 cmd.Parameters.AddWithValue("email", email);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read()){
                     int read = reader.GetInt32(0);
-                    int role = Backend.Models.User.getRole(email, read);
-                    zgrade_uloge.Add(make_pair(read, role)); 
+                    string uloga = reader.GetString(1);
+                    zgrade_uloge.Add(new KeyValuePair<int, string>(read, uloga));
                 }
-                    
                 reader.Close();
             }
             return zgrade_uloge;
