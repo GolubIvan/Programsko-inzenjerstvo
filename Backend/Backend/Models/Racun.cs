@@ -40,11 +40,11 @@ namespace Backend.Models
                 return false;
         }
 
-        public static List<int> getUserData(string email){
-            List<int> zgrade = new List<int>(); 
+        public static List<pair<int, string>> getUserData(string email){
+            List<pair<int, string>> zgrade_uloge = new List<pair<int, string>>(); 
             if(email is null || email == "") {
                 Console.WriteLine("User not found.");
-                return zgrade;
+                return zgrade_uloge;
             }
             var conn = Database.GetConnection();
             
@@ -53,12 +53,14 @@ namespace Backend.Models
                 cmd.Parameters.AddWithValue("email", email);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read()){
-                    zgrade.Add(reader.GetInt32(0)); 
+                    int read = reader.GetInt32(0);
+                    int role = Backend.Models.User.getRole(email, read);
+                    zgrade_uloge.Add(make_pair(read, role)); 
                 }
                     
                 reader.Close();
             }
-            return zgrade;
+            return zgrade_uloge;
         }
 
         public Boolean changePassword(string email, string oldPassword, string newPassword)
