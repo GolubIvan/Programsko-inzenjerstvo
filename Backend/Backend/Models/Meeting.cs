@@ -15,7 +15,7 @@ namespace Backend.Models
         public int zgradaId { get; set; }
         public int kreatorId { get; set; }
         public string sazetak { get; set; }
-        private List<TockaDnevnogReda> tockeDnevnogReda { get; set; }
+        public List<TockaDnevnogReda> tockeDnevnogReda { get; set; }
 
         public Meeting(int meetingId, string naslov, string opis, string mjesto, DateTime? vrijeme, string status, int zgradaId, int kreatorId, string sazetak)
         {
@@ -41,7 +41,7 @@ namespace Backend.Models
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    string sazetak = reader.GetString(0);
+                    string? sazetak = reader.IsDBNull(0) ? null : reader.GetString(0);
                     DateTime vrijeme = reader.GetDateTime(1);
                     string mjesto = reader.GetString(2);
                     string status = reader.GetString(3);
@@ -64,10 +64,10 @@ namespace Backend.Models
                     {
                         string imeTocke = reader.GetString(0);
                         bool imaPravniUcinak = reader.GetBoolean(1);
-                        string? sazetak = reader.GetString(2);
-                        string? stanjeZakljucka = reader.GetString(3);
+                        string? sazetak = reader.IsDBNull(2) ? null : reader.GetString(2);
+                        string? stanjeZakljucka = reader.IsDBNull(3) ? null : reader.GetString(3);
                         int id = reader.GetInt32(4);
-                        string? url = reader.GetString(5);
+                        string? url = reader.IsDBNull(5) ? null : reader.GetString(5);
                         int sastanakId = reader.GetInt32(6);
 
                         meet.tockeDnevnogReda.Add(new TockaDnevnogReda(id, imeTocke, imaPravniUcinak, sazetak, stanjeZakljucka, url, sastanakId));
@@ -89,7 +89,7 @@ namespace Backend.Models
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    string sazetak = reader.GetString(0);
+                    string? sazetak = reader.IsDBNull(0) ? null : reader.GetString(0);
                     DateTime vrijeme = reader.GetDateTime(1);
                     string mjesto = reader.GetString(2);
                     string status = reader.GetString(3);
@@ -111,14 +111,17 @@ namespace Backend.Models
                 {
                     string imeTocke = reader.GetString(0);
                     bool imaPravniUcinak = reader.GetBoolean(1);
-                    string? sazetak = reader.GetString(2);
-                    string? stanjeZakljucka = reader.GetString(3);
+                    string? sazetak = reader.IsDBNull(2) ? null : reader.GetString(2);
+                    string? stanjeZakljucka = reader.IsDBNull(3) ? null : reader.GetString(3);
                     int id = reader.GetInt32(4);
-                    string? url = reader.GetString(5);
+                    string? url = reader.IsDBNull(5) ? null : reader.GetString(5);
                     int sastanakId = reader.GetInt32(6);
 
                     meeting.tockeDnevnogReda.Add(new TockaDnevnogReda(id, imeTocke, imaPravniUcinak, sazetak, stanjeZakljucka, url, sastanakId));
+                    Console.WriteLine("Tocka dnevnog reda: " + imeTocke);
+                    
                 }
+
                 reader.Close();
             }
 
