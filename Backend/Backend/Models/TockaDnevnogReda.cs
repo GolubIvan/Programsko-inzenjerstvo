@@ -2,16 +2,23 @@
 {
     public class TockaDnevnogReda
     {
-        private string opis {  get; set; }
-        private StanjeTocke stanje { get; set; }
-        private Boolean pravniUcinak {  get; set; }
+        public int id { get; set; }
+        public string imeTocke { get; set; }
+        public bool imaPravniUcinak { get; set; }
+        public string sazetak { get; set; }
+        public string stanjeZakljucka { get; set; }
+        public string url { get; set; }
+        public int sastanakId { get; set; }
 
-        public TockaDnevnogReda(string opis, Boolean pravniUcinak)
+        public TockaDnevnogReda(int id, string imeTocke, bool imaPravniUcinak, string sazetak, string stanjeZakljucka, string url, int sastanakId)
         {
-            this.opis = opis;
-            this.pravniUcinak = pravniUcinak;
-            this.stanje = StanjeTocke.Nedefiniran;
-            
+            this.id = id;
+            this.imeTocke = imeTocke;
+            this.imaPravniUcinak = imaPravniUcinak;
+            this.sazetak = sazetak;
+            this.stanjeZakljucka = stanjeZakljucka;
+            this.url = url;
+            this.sastanakId = sastanakId;
         }
     }
 }

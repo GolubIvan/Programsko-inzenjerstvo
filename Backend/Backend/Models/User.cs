@@ -14,19 +14,19 @@ namespace Backend.Models
 
         
 
-        public List<Meeting> dohvatiMeetinge(int zgradaId)
-        {
-            var conn = Database.GetConnection();
-            List<Meeting> meetings = new List<Meeting>();
-            var cmd = new NpgsqlCommand("SELECT * FROM meeting WHERE zgradaId = @id", conn);
-            cmd.Parameters.AddWithValue("id", zgradaId);
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                meetings.Add(new Meeting(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetDateTime(2)));
-            }
-            return meetings;
-        }
+        // public List<Meeting> dohvatiMeetinge(int zgradaId)
+        // {
+        //     var conn = Database.GetConnection();
+        //     List<Meeting> meetings = new List<Meeting>();
+        //     var cmd = new NpgsqlCommand("SELECT * FROM meeting WHERE zgradaId = @id", conn);
+        //     cmd.Parameters.AddWithValue("id", zgradaId);
+        //     var reader = cmd.ExecuteReader();
+        //     while (reader.Read())
+        //     {
+        //         meetings.Add(new Meeting(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetDateTime(2)));
+        //     }
+        //     return meetings;
+        // }
 
         public static string getRole(string email, int zgradaId)
         {
