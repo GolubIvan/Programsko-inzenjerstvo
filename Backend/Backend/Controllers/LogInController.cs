@@ -24,12 +24,14 @@ namespace Backend.Controllers
 
             if(!Backend.Models.Racun.checkPassword(email, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
             
-            List<KeyValuePair<int, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
+            List<KeyValuePair<Backend.Models.Zgrada, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
             if(zgrade_uloge.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
-            
+            foreach(var zgrada_uloga in zgrade_uloge){
+                Console.WriteLine(zgrada_uloga);
+            }
             string token = JWTGenerator.GenerateJwt(email);
-
-            return Ok(new { token = token, podaci = zgrade_uloge });
+            var podaci = zgrade_uloge.Select(zu => new { zgrada = new{address = zu.Key.address, zgradaId = zu.Key.zgradaId}, uloga = zu.Value});
+            return Ok(new { token = token, podaci = podaci });
 
         }
 
@@ -40,9 +42,9 @@ namespace Backend.Controllers
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             
-            List<KeyValuePair<int, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
+            List<KeyValuePair<Backend.Models.Zgrada, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
             if(zgrade_uloge.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 
-            
+
             return Ok(new { token = token, podaci = zgrade_uloge });
         }
     }

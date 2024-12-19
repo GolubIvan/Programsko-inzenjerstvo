@@ -40,21 +40,24 @@ namespace Backend.Models
                 return false;
         }
 
-        public static List<KeyValuePair<int, string>> getUserData(string email){
-            List<KeyValuePair<int, string>> zgrade_uloge = new List<KeyValuePair<int, string>>(); 
+        public static List<KeyValuePair<Backend.Models.Zgrada, string>> getUserData(string email){
+            List<KeyValuePair<Backend.Models.Zgrada, string>> zgrade_uloge = new List<KeyValuePair<Backend.Models.Zgrada, string>>(); 
             if(email is null || email == "") {
                 Console.WriteLine("User not found.");
                 return zgrade_uloge;
             }
             var conn = Database.GetConnection();
-            using (var cmd = new NpgsqlCommand("SELECT zgradaID, role FROM korisnik JOIN account USING (userId) WHERE email = @email", conn))
+            using (var cmd = new NpgsqlCommand("SELECT zgradaId, adresaZgrade, role FROM korisnik JOIN account NATURAL JOIN zgrada USING (userId) WHERE email = @email", conn))
             {
                 cmd.Parameters.AddWithValue("email", email);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read()){
-                    int read = reader.GetInt32(0);
-                    string uloga = reader.GetString(1);
-                    zgrade_uloge.Add(new KeyValuePair<int, string>(read, uloga));
+                    int zgradaId = reader.GetInt32(0);
+                    string adresaZgrade = reader.GetString(1);
+                    string uloga = reader.GetString(2);
+                    var par = new KeyValuePair<Backend.Models.Zgrada, string>(new Backend.Models.Zgrada(adresaZgrade, zgradaId), uloga);
+                    zgrade_uloge.Add(par);
+                    // Console.WriteLine(par);
                 }
                 reader.Close();
             }
