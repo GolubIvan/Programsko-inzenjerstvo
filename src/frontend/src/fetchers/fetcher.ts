@@ -2,7 +2,7 @@ export async function fetcher<T>(
   input: string | URL | globalThis.Request,
   init?: RequestInit
 ): Promise<T> {
-  const headerJSON = localStorage.getItem("ezgrada-header");
+  const headerJSON = localStorage.getItem("ezgrada-login");
   if (headerJSON == null) throw new Error("Problem while accessing user data");
   const header = JSON.parse(headerJSON);
   const response = await fetch(input, {
@@ -24,34 +24,37 @@ export async function fetcher<T>(
   return data;
 }
 
-
-export async function authFetcher<T>(input: string | URL | globalThis.Request, init?: RequestInit): Promise<T> {
-	let data, authInfo;
-	try {
-		const value = localStorage.getItem('loginInfo');
-		authInfo = value ? JSON.parse(value) : {};
+export async function authFetcher<T>(
+  input: string | URL | globalThis.Request,
+  init?: RequestInit
+): Promise<T> {
+  let data, authInfo;
+  try {
+    const value = localStorage.getItem("loginInfo");
+    authInfo = value ? JSON.parse(value) : {};
     console.log("auth info", authInfo);
-    const bdy = {token: authInfo.token};
+    const bdy = { token: authInfo.token };
     console.log(bdy);
     console.log(input);
-		const response = await fetch(input, {
-			...init,
-			headers: {
+    const response = await fetch(input, {
+      ...init,
+      headers: {
         Accept: "application/json",
-				'Content-Type': 'application/json',
-        "token": authInfo.token
-			},
-		});
-		if (!response.ok) {
-			if (response.status == 401) {};
-			throw response;
-		}
-		if (response.status !== 204) {
-			data = await response.json();
-		}
-	} catch (error) {
-		throw error;
-	}
+        "Content-Type": "application/json",
+        token: authInfo.token,
+      },
+    });
+    if (!response.ok) {
+      if (response.status == 401) {
+      }
+      throw response;
+    }
+    if (response.status !== 204) {
+      data = await response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
   console.log("returned", data);
-	return {...data, role: authInfo.role};
+  return { ...data, role: authInfo.role };
 }
