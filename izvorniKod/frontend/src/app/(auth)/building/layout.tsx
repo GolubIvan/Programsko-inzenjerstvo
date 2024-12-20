@@ -1,4 +1,4 @@
-
+import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 import { Flex } from "@chakra-ui/react";
 
 export default function AuthLayout2({
@@ -8,6 +8,7 @@ export default function AuthLayout2({
 }>) {
   return (
     <Flex direction="column" height="100vh">
+      <AuthHeader canLogout={true} title={"Unska 2"} />
       {children}
     </Flex>
   );

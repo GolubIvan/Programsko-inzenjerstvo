@@ -38,9 +38,9 @@ export const LoginForm = () => {
   const { mutate } = useSWR(swrKeys.me);
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
     onSuccess: async (data) => {
+      console.log("DATA:", data);
       const loginInfo = {
         token: data.token,
-        role: data.role,
       };
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
       console.log("info: ", loginInfo);
