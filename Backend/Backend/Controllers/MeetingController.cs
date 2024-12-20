@@ -26,5 +26,6 @@ namespace Backend.Controllers
 
             return Ok(new { meetingId = meetingId, meeting = meeting });
         }
+        
     }
 }

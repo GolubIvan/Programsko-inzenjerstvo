@@ -32,7 +32,11 @@ namespace Backend.Models
             if (reader.Read())
                 storedHash = reader.GetString(0);
             else
+                {
                 Console.WriteLine("User not found.");
+                reader.Close();
+                return false;
+                }
             reader.Close();
             if (BCrypt.Net.BCrypt.Verify(inputPassword, storedHash))
                 return true;
