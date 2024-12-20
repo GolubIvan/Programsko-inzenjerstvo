@@ -1,18 +1,33 @@
 "use client";
 import { authFetcher, fetcher } from "@/fetchers/fetcher";
 import { swrKeys } from "@/typings/swrKeys";
-import { Box, Heading } from "@chakra-ui/react";
+import { Podaci, Zgrada } from "@/typings/user";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import useSWR from "swr";
 
-export default function BuildingListContiner() {
-  const { data, isLoading, error } = useSWR(swrKeys.login, authFetcher);
-  if (error) {
-    if (error.status !== 401) return <Box>Something went wrong...</Box>;
-  }
-  if (isLoading) {
-    return <Box>Loading...</Box>;
-  } else {
-    console.log(data);
-    return <Heading> Ovdje ce biti lista vasih zgrada </Heading>;
-  }
+interface IBuildingListContainerProps {
+  podaci: Podaci[];
+}
+
+export default function BuildingListContainer({
+  podaci: podaci,
+}: IBuildingListContainerProps) {
+  podaci.map((podatak: Podaci) => {
+    console.log(podatak);
+  });
+  return (
+    <Flex direction="column">
+      {podaci.map((podatak: Podaci, key) => {
+        return (
+          <Text key={key}>
+            {podatak.zgrada.address +
+              " na ovom mestu " +
+              podatak.zgrada.zgradaId +
+              " ovaj id " +
+              podatak.uloga}
+          </Text>
+        );
+      })}
+    </Flex>
+  );
 }
