@@ -1,4 +1,3 @@
-import { Header } from "@/components/shared/Header/Header";
 import { Flex } from "@chakra-ui/react";
 
 export default function AuthLayout({
@@ -8,8 +7,7 @@ export default function AuthLayout({
 }>) {
   return (
     <Flex direction="column" height="100vh">
-      <Header buildingAddress="Majstora radovana 10" />
-      {children}
+      Bokic
     </Flex>
   );
 }

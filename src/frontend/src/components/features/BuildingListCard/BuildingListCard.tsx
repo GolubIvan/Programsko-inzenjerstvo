@@ -8,6 +8,7 @@ import {
   IconButton,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 interface IBuildingListCardProps {
   podatak: Podaci;
@@ -16,6 +17,10 @@ interface IBuildingListCardProps {
 export const BuildingListCard = ({
   podatak: podatak,
 }: IBuildingListCardProps) => {
+  const router = useRouter();
+  const checkoutBuilding = (id: number) => {
+    router.push("/building/" + id);
+  };
   return (
     <Card.Root
       width="60%"
@@ -38,7 +43,11 @@ export const BuildingListCard = ({
           >
             {podatak.uloga}
           </Text>
-          <Button bgColor="gray.600" _hover={{ bgColor: "green.600" }}>
+          <Button
+            bgColor="gray.600"
+            _hover={{ bgColor: "green.600" }}
+            onClick={() => checkoutBuilding(podatak.zgrada.zgradaId)}
+          >
             Enter
           </Button>
         </Flex>
