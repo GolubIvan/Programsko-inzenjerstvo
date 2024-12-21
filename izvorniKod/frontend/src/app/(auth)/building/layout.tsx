@@ -9,7 +9,7 @@ export default function AuthLayout2({
   return (
     <Flex direction="column" height="100vh">
       <AuthHeader canLogout={true} title={"Unska 2"} />
-      {children}
+      <Flex padding="5%">{children}</Flex>
     </Flex>
   );
 }
