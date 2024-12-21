@@ -35,7 +35,7 @@ export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
           justifyContent="space-between"
           height="100%"
           alignItems="center"
-          width="30%"
+          width="60%"
         >
           <Image
             src={logoImage.src}

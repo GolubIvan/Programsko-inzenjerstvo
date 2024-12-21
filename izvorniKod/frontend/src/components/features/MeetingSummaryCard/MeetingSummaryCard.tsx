@@ -34,7 +34,7 @@ export function MeetingSummaryCard({ meeting }: IMeetingSummaryCard) {
       col = "yellow";
   }
   return (
-    <Card.Root background={"orange.400"} width="30%" borderRadius="20px">
+    <Card.Root background={"orange.400"} width="300px" borderRadius="20px">
       <CardBody
         margin="3%"
         marginBottom="0"

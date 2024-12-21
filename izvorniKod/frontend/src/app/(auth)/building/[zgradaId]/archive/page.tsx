@@ -1,0 +1,81 @@
+"use client";
+
+import { MeetingSummaryCard } from "@/components/features/MeetingSummaryCard/MeetingSummaryCard";
+import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
+import { authFetcher } from "@/fetchers/fetcher";
+import { IMeeting } from "@/typings/meeting";
+import { swrKeys } from "@/typings/swrKeys";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { useParams, useRouter } from "next/navigation";
+import { Router } from "next/router";
+import useSWR from "swr";
+
+interface IMeetingFetch {
+  buildingId: Number;
+  address: string;
+  role: string;
+  meetings: Array<IMeeting>;
+}
+
+export default function ZgradaPage() {
+  const params = useParams();
+  const router = useRouter();
+  let id = params.zgradaId as string;
+  const { data, isLoading, error } = useSWR(
+    swrKeys.building(`${id}`),
+    authFetcher<IMeetingFetch>
+  );
+  if (error) {
+    console.log(error.message);
+    if (error.status !== 401)
+      return <Box>No meetings found for the specified building.</Box>;
+  }
+  if (isLoading) {
+    return <Box>Loading...</Box>;
+  }
+  console.log(data?.meetings.length);
+  console.log("DATA", data);
+
+  const returnFunction = function () {
+    router.push("./");
+  };
+
+  const archivedMeetings = data?.meetings.filter(
+    (meeting: IMeeting) => meeting.status == "Arhiviran"
+  );
+
+  return (
+    <Flex direction="column" height="100vh">
+      <AuthHeader canLogout={true} title={data?.address} />
+      <Flex padding="5%" paddingTop="2vh">
+        <Flex direction="column" width="100%" paddingTop="0" gap="10px">
+          <Flex
+            direction="row"
+            justifyContent="space-between"
+            marginBottom="5vh"
+            gap="10px"
+            wrap="wrap"
+          >
+            <Button
+              background="gray.300"
+              color="black"
+              onClick={returnFunction}
+            >
+              Povratak na popis sastanaka
+            </Button>
+          </Flex>
+          <Heading fontSize="2rem">Vaši arhivirani sastanci...</Heading>
+          <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
+            {archivedMeetings?.length != 0 &&
+              data?.meetings.map((meeting, ind) => {
+                return <MeetingSummaryCard key={ind} meeting={meeting} />;
+              })}
+            {archivedMeetings?.length == 0 && (
+              <Text>Još nema arhiviranih sastanaka za ovu zgradu.</Text>
+            )}
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+}
