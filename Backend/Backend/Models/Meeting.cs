@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Npgsql;
 
 namespace Backend.Models
@@ -127,5 +128,39 @@ namespace Backend.Models
 
             return meeting;
         }
+        public static bool deleteMeeting(int meetingId)
+        {
+            try
+            {
+                var conn = Database.GetConnection();
+                
+                using (var transaction = conn.BeginTransaction())
+                {
+                    
+                    using (var cmd = new NpgsqlCommand("DELETE FROM sastanak WHERE sastanakid = @meetingId", conn))
+                    {
+                        cmd.Parameters.AddWithValue("meetingId", meetingId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            return false; 
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting meeting: " + ex.Message);
+                return false; 
+            }
+        }
+
     }
 }
