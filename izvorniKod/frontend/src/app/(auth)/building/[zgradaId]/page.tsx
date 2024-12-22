@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import { Flex, Text } from "@chakra-ui/react";
-
-export default function ZgradaPage() {
-  return (
-    <Flex direction="column">
-      <Text>Pozdrav, ovdje je popis zgrada</Text>
-=======
 "use client";
 
 import { MeetingSummaryCard } from "@/components/features/MeetingSummaryCard/MeetingSummaryCard";
@@ -94,7 +86,6 @@ export default function ZgradaPage() {
           </Flex>
         </Flex>
       </Flex>
->>>>>>> frontend
     </Flex>
   );
 }

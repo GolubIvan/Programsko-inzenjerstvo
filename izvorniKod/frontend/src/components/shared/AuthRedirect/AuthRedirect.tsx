@@ -7,11 +7,7 @@ import useSWR from "swr";
 interface IAuthRedirect {
   to: string;
   condition: "isLoggedIn" | "isLoggedOut";
-<<<<<<< HEAD
-  role: "Administrator" | "Predstavnik" | "Suvlasnik";
-=======
   role?: "Administrator" | "Predstavnik" | "Suvlasnik";
->>>>>>> frontend
 }
 
 interface IMe {
@@ -30,11 +26,7 @@ export default function AuthRedirect({ to, condition, role }: IAuthRedirect) {
     if (!data && condition == "isLoggedOut") {
       route.push(to);
     }
-<<<<<<< HEAD
-    if (data && condition == "isLoggedIn" && data.role == role) {
-=======
     if (data && condition == "isLoggedIn") {
->>>>>>> frontend
       route.push(to);
     }
   }, [data, isLoading, to, condition, route]);

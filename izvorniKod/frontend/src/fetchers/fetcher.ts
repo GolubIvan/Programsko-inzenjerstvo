@@ -65,5 +65,5 @@ export async function authFetcher<T>(
     throw error;
   }
   console.log("returned", data);
-  return { ...data, role: authInfo.role };
+  return { ...data };
 }

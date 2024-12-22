@@ -6,8 +6,6 @@ export interface IMeetingSummary {
   summary: string;
   status: "obavljen" | "objavljen" | "planiran" | "arhiviran";
 }
-<<<<<<< HEAD
-=======
 
 export interface IMeeting {
   meetingId: Number;
@@ -31,4 +29,3 @@ export interface ITocka {
   url?: string;
   sastanakId: Number;
 }
->>>>>>> frontend
