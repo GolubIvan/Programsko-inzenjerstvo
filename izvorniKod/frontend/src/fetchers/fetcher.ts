@@ -2,7 +2,7 @@ export async function fetcher<T>(
   input: string | URL | globalThis.Request,
   init?: RequestInit
 ): Promise<T> {
-  const headerJSON = localStorage.getItem("ezgrada-login");
+  const headerJSON = localStorage.getItem("ezgrada-header");
   if (headerJSON == null) throw new Error("Problem while accessing user data");
   const header = JSON.parse(headerJSON);
   const response = await fetch(input, {

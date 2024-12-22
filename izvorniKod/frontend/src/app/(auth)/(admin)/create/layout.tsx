@@ -1,5 +1,5 @@
-import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 import { Flex } from "@chakra-ui/react";
+import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 
 export default function AuthLayout({
   children,

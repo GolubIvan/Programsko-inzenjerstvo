@@ -1,13 +1,15 @@
+import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 import { Flex } from "@chakra-ui/react";
+import { createContext } from "react";
 
-export default function AuthLayout({
+interface IAddressProvider {
+  address: string;
+}
+
+export default function AuthLayout2({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <Flex direction="column" height="100vh">
-      Bokic
-    </Flex>
-  );
+  return <>{children}</>;
 }

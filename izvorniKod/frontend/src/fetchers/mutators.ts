@@ -15,7 +15,7 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   }
 
   const responseData = await response.json();
-
+  //console.log(responseData);
   return {
     ...responseData,
     /* token: response.headers.get("token"),
