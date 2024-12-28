@@ -5,12 +5,12 @@
         public int id { get; set; }
         public string imeTocke { get; set; }
         public bool imaPravniUcinak { get; set; }
-        public string sazetak { get; set; }
+        public string? sazetak { get; set; }
         public string stanjeZakljucka { get; set; }
-        public string url { get; set; }
+        public string? url { get; set; }
         public int sastanakId { get; set; }
 
-        public TockaDnevnogReda(int id, string imeTocke, bool imaPravniUcinak, string sazetak, string stanjeZakljucka, string url, int sastanakId)
+        public TockaDnevnogReda(int id, string imeTocke, bool imaPravniUcinak, string? sazetak, string stanjeZakljucka, string? url, int sastanakId)
         {
             this.id = id;
             this.imeTocke = imeTocke;

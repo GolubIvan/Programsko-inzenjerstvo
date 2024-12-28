@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using System.Data;
 namespace Backend.Models
 
 {
@@ -67,7 +68,22 @@ namespace Backend.Models
             }
             return zgrade_uloge;
         }
-
+        public static int getID(string email)
+        {
+            int id = -1;
+            var conn = Database.GetConnection();
+            using (var cmd = new NpgsqlCommand("SELECT userID FROM korisnik WHERE email = @email", conn))
+            {
+                cmd.Parameters.AddWithValue("email", email);
+                var reader = cmd.ExecuteReader();
+                if(reader.Read())
+                {
+                    id = reader.GetInt16(0);
+                }
+                reader.Close();
+            }
+            return id;
+        }
         public Boolean changePassword(string email, string oldPassword, string newPassword)
         {
             if (checkPassword(email, oldPassword))

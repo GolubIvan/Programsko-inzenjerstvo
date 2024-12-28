@@ -30,17 +30,22 @@ namespace Backend.Models
 
         public static string getRole(string email, int zgradaId)
         {
+            string role = "";
+
             var conn = Database.GetConnection();
-            string role ="";
-            var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik USING(userID) WHERE zgradaId = @zgradaId AND email = @email", conn);
-            cmd.Parameters.AddWithValue("zgradaId", zgradaId);
-            cmd.Parameters.AddWithValue("email", email);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read()){
-                role = reader.GetString(0);
-            }
-            reader.Close();
             
+
+        using (var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik USING(userID) WHERE zgradaId = @zgradaId AND email = @email", conn))
+            { 
+            cmd.Parameters.AddWithValue("zgradaId", zgradaId);
+            cmd.Parameters.AddWithValue("email", email);          
+
+            using (var reader = cmd.ExecuteReader())
+                {
+                 if (reader.Read())role = reader.GetString(0);
+                }
+            }        
+
             return role;
         }
     }
