@@ -8,4 +8,7 @@ export const swrKeys = {
   building: (id: string) => {
     return `${backend}/buildings/${id}`;
   },
+  meeting: (id: string) => {
+    return `${backend}/meetings/${id}`
+  }
 };
