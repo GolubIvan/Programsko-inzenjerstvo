@@ -38,9 +38,10 @@ export const LoginForm = () => {
   const { mutate } = useSWR(swrKeys.me);
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
     onSuccess: async (data) => {
-      console.log("DATA:", data);
+      console.log("Data ", data);
       const loginInfo = {
         token: data.token,
+        role: data.podaci[0].uloga,
       };
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
       console.log("info: ", loginInfo);
@@ -66,8 +67,8 @@ export const LoginForm = () => {
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
         console.log("info: ", loginInfo);
         await mutate(data);
-        /* if (loginInfo.role == "Administrator") router.push("/create");
-        else router.push("/home"); */
+        if (loginInfo.role == "Administrator") router.push("/create");
+        else router.push("/home");
       },
       onError: (error: { message: string }) => {
         setError("password", { message: error.message });

@@ -5,5 +5,7 @@ export const swrKeys = {
   loginGoogle: `${backend}/login/google`,
   createUser: `${backend}/admin/create`,
   me: `${backend}/me`,
-  building: (id: string) => {return `${backend}/buildings/${id}`;}
-}
+  building: (id: string) => {
+    return `${backend}/buildings/${id}`;
+  },
+};
