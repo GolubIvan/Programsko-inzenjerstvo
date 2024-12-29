@@ -32,6 +32,37 @@ namespace Backend.Controllers
             return Ok(new { meetingId = meetingId, meeting = meeting });
         }
 
+        [HttpPost("obavljen/{meetingId}")]
+        public IActionResult ObavljenMeeting(int meetingId)
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+
+            if (token == "undefined" || token == "")        
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+            Backend.Models.Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+            if (meeting == null)
+            {
+                return NotFound(new { error = "Meeting not found", message = "Meeting with the specified ID not found." });
+            }
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+
+            if (uloga != "Predstavnik")                      
+            {
+                return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
+            }
+            if (meeting.status != "Objavljen") { return BadRequest(new { error = "Invalid change", message = "Meeting has to be Objavljen." }); }
+
+
+            if (meeting.vrijeme > DateTime.Now) { return BadRequest(new { error = "Invalid change", message = "Meeting cannot be done before its planned date." }); }
+
+            if(Backend.Models.Meeting.changeState("Obavljen",meetingId) != true) { return StatusCode(500, new { error = "Changing failed", message = "Failed to change the meeting state." }); }
+
+            return Ok(new {message = "Meeting has been changed to Obaljven."});
+        }
+
         [HttpPost("create")]
         public IActionResult CreateMeeting([FromBody] MeetingRequest meetingRequest)
         {
@@ -51,7 +82,7 @@ namespace Backend.Controllers
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             string uloga = Backend.Models.User.getRole(email, meetingRequest.ZgradaId);
 
-            Console.WriteLine(meetingRequest.Naslov);
+            //Console.WriteLine(meetingRequest.Naslov);
 
             if(uloga != "Predstavnik")                      //dobra rola
             {
