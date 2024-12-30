@@ -192,7 +192,7 @@ namespace Backend.Models
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error deleting meeting: " + ex.Message);
+                //Console.WriteLine("Error deleting meeting: " + ex.Message);
                 return false;
             }
         }
@@ -204,7 +204,7 @@ namespace Backend.Models
 
                 using (var transaction = conn.BeginTransaction())
                 {
-                    using (var cmd = new NpgsqlCommand("DELETE FROM sudjelovanje (zgradaid,userid,sastanakid) WHERE zgradaid = @zgradaid AND userid = @userid AND meetingid = @meetingid)", conn))
+                    using (var cmd = new NpgsqlCommand("DELETE FROM sudjelovanje WHERE zgradaid = @zgradaid AND userid = @userid AND sastanakid = @meetingid", conn))
                     {
                         cmd.Parameters.AddWithValue("zgradaid", zgradaId);
                         cmd.Parameters.AddWithValue("userid", userId);
