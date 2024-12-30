@@ -1,5 +1,5 @@
 import { User } from "@/typings/user";
-import { fetcher } from "./fetcher";
+import { authFetcher } from "./fetcher";
 export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   const response = await fetch(url, {
     method: "POST",
@@ -45,21 +45,22 @@ export async function createMutator<T>(url: string, { arg }: { arg: T }) {
 }
 
 export async function postMutator<T>(url: string, { arg }: { arg: T }) {
-  return await fetcher<{ review: User }>(url, {
+  return await authFetcher<{ review: User }>(url, {
     method: "POST",
     body: JSON.stringify(arg),
   });
 }
 
 export async function deleteMutator<T>(url: string, { arg }: { arg: T }) {
-  return await fetcher<{ review: User }>(url, {
+  console.log("lol");
+  return await authFetcher<{ review: User }>(url, {
     method: "DELETE",
     body: JSON.stringify(arg),
   });
 }
 
 export async function patchMutator<T>(url: string, { arg }: { arg: T }) {
-  return await fetcher<{ review: User }>(url, {
+  return await authFetcher<{ review: User }>(url, {
     method: "PATCH",
     body: JSON.stringify(arg),
   });

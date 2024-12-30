@@ -1,6 +1,6 @@
 "use client";
 import BuildingListContainer from "@/components/features/BuildingList/BuildingListContainer/BuildingListContainer";
-import { authFetcher, fetcher } from "@/fetchers/fetcher";
+import { authFetcher } from "@/fetchers/fetcher";
 import { swrKeys } from "@/typings/swrKeys";
 import { User } from "@/typings/user";
 import { Box, Heading } from "@chakra-ui/react";

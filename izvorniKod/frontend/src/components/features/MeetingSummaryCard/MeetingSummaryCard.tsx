@@ -23,6 +23,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CgPin, CgCalendarDates } from "react-icons/cg";
 import { BiEdit } from "react-icons/bi";
+import useSWRMutation from "swr/mutation";
+import { swrKeys } from "@/typings/swrKeys";
+import { deleteMutator } from "@/fetchers/mutators";
 interface IMeetingSummaryCard {
   role: "Administrator" | "Predstavnik" | "Suvlasnik";
   meeting: IMeeting;
@@ -32,6 +35,10 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
   const router = useRouter();
   const date = new Date(meeting.vrijeme);
   let col;
+  const { trigger } = useSWRMutation(
+    swrKeys.deleteMeeting(`${meeting.meetingId}`),
+    deleteMutator
+  );
   switch (meeting.status) {
     case "Obavljen":
       col = "green";
@@ -85,6 +92,15 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                     }}
                   >
                     Uredi
+                  </MenuItem>
+                  <MenuItem
+                    value="Izbrisi"
+                    onClick={async () => {
+                      console.log(meeting.meetingId);
+                      await trigger();
+                    }}
+                  >
+                    Izbriši
                   </MenuItem>
                 </MenuContent>
               </MenuRoot>

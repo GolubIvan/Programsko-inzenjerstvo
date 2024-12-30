@@ -12,4 +12,7 @@ export const swrKeys = {
     return `${backend}/meetings/${id}`;
   },
   createMeeting: `${backend}/meetings/create`,
+  deleteMeeting: (id: string) => {
+    return `${backend}/meetings/delete/${id}`;
+  },
 };

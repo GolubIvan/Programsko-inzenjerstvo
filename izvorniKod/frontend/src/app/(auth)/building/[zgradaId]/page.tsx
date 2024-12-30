@@ -3,12 +3,14 @@
 import { MeetingSummaryCard } from "@/components/features/MeetingSummaryCard/MeetingSummaryCard";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 import { authFetcher } from "@/fetchers/fetcher";
+import { deleteMutator } from "@/fetchers/mutators";
 import { IMeeting } from "@/typings/meeting";
 import { swrKeys } from "@/typings/swrKeys";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { Router } from "next/router";
 import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
 interface IMeetingFetch {
   buildingId: Number;
@@ -21,7 +23,7 @@ export default function ZgradaPage() {
   const params = useParams();
   const router = useRouter();
   let id = params.zgradaId as string;
-  const { data, isLoading, error } = useSWR(
+  const { data, isLoading, error, mutate } = useSWR(
     swrKeys.building(`${id}`),
     authFetcher<IMeetingFetch>
   );
@@ -39,7 +41,7 @@ export default function ZgradaPage() {
   const activeMeetings = data?.meetings.filter(
     (meeting: IMeeting) => meeting.status != "Arhiviran"
   );
-
+  const deleteMeeting = (id: string) => {};
   return (
     <Flex direction="column" height="100vh">
       <AuthHeader canLogout={true} title={data?.address} />
@@ -61,7 +63,11 @@ export default function ZgradaPage() {
             </Button>
             <Flex direction="row" gap="5px" flexWrap="wrap">
               {data?.role == "Predstavnik" && (
-                <Button background="gray.300" color="black">
+                <Button
+                  background="gray.300"
+                  color="black"
+                  onClick={() => router.push(`/building/${id}/create`)}
+                >
                   + Kreirajte novi sastanak
                 </Button>
               )}
