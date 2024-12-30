@@ -18,8 +18,13 @@ namespace Backend.Models
             var conn = Database.GetConnection();
 
 
-            string insertMeetingQuery = "INSERT INTO sastanak (sazetaknamjeresastanka, vrijemesastanka, mjestosastanka, naslovsastanaka, statussastanka, zgradaID, kreatorID) VALUES(@SazetakNamjereSastanka, @VrijemeSastanka, @MjestoSastanka,@NaslovSastanaka, @StatusSastanka, @ZgradaID, @KreatorID)";
+            string insertMeetingQuery =
+                "INSERT INTO sastanak (sazetaknamjeresastanka, vrijemesastanka, mjestosastanka, naslovsastanaka, statussastanka, zgradaID, kreatorID) " +
+                "VALUES(@SazetakNamjereSastanka, @VrijemeSastanka, @MjestoSastanka,@NaslovSastanaka, @StatusSastanka, @ZgradaID, @KreatorID) " +
+                "RETURNING sastanakid";
+            
             int sastanakId;
+
             using (var cmd = new NpgsqlCommand(insertMeetingQuery, conn))
             {
                 cmd.Parameters.AddWithValue("@SazetakNamjereSastanka", meetingRequest.Sazetak ?? (object)DBNull.Value);
@@ -30,9 +35,18 @@ namespace Backend.Models
                 cmd.Parameters.AddWithValue("@ZgradaID", meetingRequest.ZgradaId);
                 cmd.Parameters.AddWithValue("@KreatorID", creatorId);
 
-                sastanakId = (int)cmd.ExecuteNonQuery();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sastanakId = reader.GetInt32(0); // Retrieve the first column, which is the ID
+                    }
+                    else
+                    {
+                        throw new Exception("Failed to retrieve the ID of the newly inserted meeting.");
+                    }
+                }
             }
-
 
             string insertAgendaItemQuery = "INSERT INTO tocka_dnevnog_reda (imetocke, imapravniucinak, sazetakrasprave, stanjezakljucka, linknadiskusiju, sastanakid) VALUES(@ImeTocke, @ImaPravniUcinak, @SazetakRasprave, @StanjeZakljucka, @LinkNaDiskusiju, @SastanakID)";
 
