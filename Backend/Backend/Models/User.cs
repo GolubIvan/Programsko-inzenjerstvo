@@ -35,7 +35,7 @@ namespace Backend.Models
             var conn = Database.GetConnection();
             
 
-        using (var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik USING(userID) WHERE zgradaId = @zgradaId AND email = @email", conn))
+        using (var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik ON account.userid = korisnik.userid WHERE zgradaid = @zgradaId AND email = @email", conn))
             { 
             cmd.Parameters.AddWithValue("zgradaId", zgradaId);
             cmd.Parameters.AddWithValue("email", email);          

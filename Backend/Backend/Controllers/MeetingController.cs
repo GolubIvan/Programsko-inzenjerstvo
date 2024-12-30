@@ -101,7 +101,7 @@ namespace Backend.Controllers
 
             if (meeting.vrijeme > DateTime.Now) { return BadRequest(new { error = "Invalid change", message = "Meeting cannot be done before its planned date." }); }
 
-            if(Backend.Models.Meeting.changeState("Obavljen",meetingId) != true) { return StatusCode(500, new { error = "Changing failed", message = "Failed to change the meeting state." }); }
+            if(Backend.Models.Meeting.changeMeetingState("Obavljen",meetingId) != true) { return StatusCode(500, new { error = "Changing failed", message = "Failed to change the meeting state." }); }
 
             return Ok(new {message = "Meeting has been changed to Obaljven."});
         }
@@ -155,10 +155,6 @@ namespace Backend.Controllers
 
             if (uloga == "Predstavnik")
             {
-                if (meeting == null)
-                {
-                    return NotFound(new { error = "Meeting not found", message = "Meeting with the specified ID not found." });
-                }
                 bool isDeleted = Backend.Models.Meeting.deleteMeeting(meetingId);
 
                 if (!isDeleted)
@@ -169,6 +165,61 @@ namespace Backend.Controllers
             }
             return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
         }
+        [HttpPost("join/{meetingId}")]
+        public IActionResult JoinMeeting(int meetingId)
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+            if (token == "undefined" || token == "")
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
 
+            string email = JWTGenerator.ParseGoogleJwtToken(token); //problematicno jer ce raditi i za istekle tokene
+
+            Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+
+            if (meeting == null) return BadRequest(new { error = "Joining failed", message = "Meeting doesnt exist." });
+
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+            
+            if (uloga != "")
+            {
+                bool isJoined = Backend.Models.Meeting.joinMeeting(meeting.zgradaId,Racun.getID(email),meeting.meetingId);
+                if (!isJoined)
+                {
+                    return StatusCode(500, new { error = "Joining failed.", message = "Failed to add user to meeting." });
+                }
+                return Ok(new { message = "Added to the meeting." });
+            }
+            return Unauthorized(new { error = "Invalid role", message = "The user role does not exist for the building." });
+        }
+        [HttpPost("leave/{meetingId}")]
+        public IActionResult LeaveMeeting(int meetingId)
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+            if (token == "undefined" || token == "")
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token); //problematicno jer ce raditi i za istekle tokene
+
+            Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+
+            if (meeting == null) return BadRequest(new { error = "Leaving failed", message = "Meeting doesnt exist." });
+
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+
+            if (uloga != "")
+            {
+                bool isJoined = Backend.Models.Meeting.leaveMeeting(meeting.zgradaId, Racun.getID(email), meeting.meetingId);
+                if (!isJoined)
+                {
+                    return StatusCode(500, new { error = "Leaving failed.", message = "Failed to remove user from the meeting." });
+                }
+                return Ok(new { message = "User left the meeting." });
+            }
+            return Unauthorized(new { error = "Invalid role", message = "The user role does not exist for the building." });
+        }
     }
 }

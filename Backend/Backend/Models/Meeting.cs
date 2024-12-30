@@ -119,7 +119,7 @@ namespace Backend.Models
                     int sastanakId = reader.GetInt32(6);
 
                     meeting.tockeDnevnogReda.Add(new TockaDnevnogReda(id, imeTocke, imaPravniUcinak, sazetak, stanjeZakljucka, url, sastanakId));
-                    Console.WriteLine("Tocka dnevnog reda: " + imeTocke);
+                    //Console.WriteLine("Tocka dnevnog reda: " + imeTocke);
                     
                 }
 
@@ -128,7 +128,7 @@ namespace Backend.Models
 
             return meeting;
         }
-        public static bool changeState(string status,int meetingId)
+        public static bool changeMeetingState(string status,int meetingId)
         {
             try
             {
@@ -141,6 +141,74 @@ namespace Backend.Models
                     {
                         cmd.Parameters.AddWithValue("meetingId", meetingId);
                         cmd.Parameters.AddWithValue("status", status);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting meeting: " + ex.Message);
+                return false;
+            }
+        }
+        public static bool joinMeeting(int zgradaId,int userId, int meetingId)
+        {
+            try
+            {
+                var conn = Database.GetConnection();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    using (var cmd = new NpgsqlCommand("INSERT INTO sudjelovanje (zgradaid,userid,sastanakid) VALUES (@zgradaid,@userid,@meetingid)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("zgradaid", zgradaId);
+                        cmd.Parameters.AddWithValue("userid", userId);
+                        cmd.Parameters.AddWithValue("meetingid", meetingId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting meeting: " + ex.Message);
+                return false;
+            }
+        }
+        public static bool leaveMeeting(int zgradaId, int userId, int meetingId)
+        {
+            try
+            {
+                var conn = Database.GetConnection();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+                    using (var cmd = new NpgsqlCommand("DELETE FROM sudjelovanje (zgradaid,userid,sastanakid) WHERE zgradaid = @zgradaid AND userid = @userid AND meetingid = @meetingid)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("zgradaid", zgradaId);
+                        cmd.Parameters.AddWithValue("userid", userId);
+                        cmd.Parameters.AddWithValue("meetingid", meetingId);
                         int rowsAffected = cmd.ExecuteNonQuery();
 
                         if (rowsAffected > 0)
