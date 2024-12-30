@@ -13,7 +13,7 @@ import useSWR from "swr";
 interface IMeetingFetch {
   buildingId: Number;
   address: string;
-  role: string;
+  role: "Administrator" | "Predstavnik" | "Suvlasnik";
   meetings: Array<IMeeting>;
 }
 
@@ -68,7 +68,13 @@ export default function ZgradaPage() {
           <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
             {archivedMeetings?.length != 0 &&
               data?.meetings.map((meeting, ind) => {
-                return <MeetingSummaryCard key={ind} meeting={meeting} />;
+                return (
+                  <MeetingSummaryCard
+                    key={ind}
+                    meeting={meeting}
+                    role={data.role}
+                  />
+                );
               })}
             {archivedMeetings?.length == 0 && (
               <Text>Još nema arhiviranih sastanaka za ovu zgradu.</Text>
