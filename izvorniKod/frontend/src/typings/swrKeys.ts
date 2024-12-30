@@ -9,6 +9,7 @@ export const swrKeys = {
     return `${backend}/buildings/${id}`;
   },
   meeting: (id: string) => {
-    return `${backend}/meetings/${id}`
-  }
+    return `${backend}/meetings/${id}`;
+  },
+  createMeeting: `${backend}/meetings/create`,
 };
