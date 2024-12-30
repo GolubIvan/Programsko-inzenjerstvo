@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 using BCrypt.Net;
 
 namespace Backend.Models
@@ -48,6 +48,26 @@ namespace Backend.Models
             }        
 
             return role;
+        }
+
+        public static List<string> getKorisniciForZgrada(int zgradaId){
+                
+            List<string> emails = new List<string>();
+            var conn = Database.GetConnection();
+            using (var cmd = new NpgsqlCommand("SELECT email FROM account NATURAL JOIN korisnik WHERE zgradaid = @zgradaId", conn))
+            {
+                cmd.Parameters.AddWithValue("zgradaId", zgradaId);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string email = reader.GetString(0);
+
+                    emails.Add(email);
+                }
+                reader.Close();
+            }
+            
+            return emails;
         }
     }
 }

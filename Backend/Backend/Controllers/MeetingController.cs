@@ -106,6 +106,12 @@ namespace Backend.Controllers
             string subject = "eZgrada obavijest o sastanku";
             string body = "Sastanak \"" + meeting.naslov + "\" je objavljen u tvojoj zgradi!";
             
+            List<string> emails = Backend.Models.User.getKorisniciForZgrada(meeting.zgradaId);
+
+            foreach(string korisnikEmail in emails){
+                Console.WriteLine(korisnikEmail);
+                Backend.Models.MailSender.SendEmail(korisnikEmail, subject, body);
+            }
 
             return Ok(new {message = "Meeting has been changed to Objavljen."});
         }
