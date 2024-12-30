@@ -221,5 +221,46 @@ namespace Backend.Controllers
             }
             return Unauthorized(new { error = "Invalid role", message = "The user role does not exist for the building." });
         }
+
+        [HttpPost("addTocka/{meetingId}")]
+        public IActionResult CreateMeeting([FromBody] TockaDnevnogRedaRequest tocka, int meetingId)
+        {
+            
+            string token = Request.Headers["token"].ToString() ?? "";
+       
+            if (token == "undefined" || token == "")        //postoji token
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            if (tocka == null)                     //postoji tocka
+            {
+                return BadRequest(new { error = "Invalid data", message = "Tocka dnevnog reda je prazna." });
+            }
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+
+            //Console.WriteLine(meetingRequest.Naslov);
+
+            if(uloga != "Predstavnik")                      //dobra rola
+            {
+                return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
+            }
+            int creatorId = Backend.Models.Racun.getID(email);
+
+            if (meeting.status != "Objavljen" && meeting.status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran." }); }
+
+            try
+            {
+                if(Meeting.addTockaDnevnogReda(meetingId, tocka)) return Ok(new { message = "Tocka has been added." });
+                else return BadRequest(new { error = "Invalid data"});
+            }
+            catch (Exception ex) { 
+                return BadRequest(new { error = "Invalid data"});
+            }
+            
+        }
     }
 }

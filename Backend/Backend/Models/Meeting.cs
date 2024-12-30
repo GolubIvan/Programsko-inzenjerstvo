@@ -264,5 +264,44 @@ namespace Backend.Models
             }
         }
 
+        public static bool addTockaDnevnogReda(int meetingId, TockaDnevnogRedaRequest tocka)
+        {
+            try
+            {
+                var conn = Database.GetConnection();
+
+                using (var transaction = conn.BeginTransaction())
+                {
+
+                    using (var cmd = new NpgsqlCommand("INSERT INTO tocka_dnevnog_reda (imetocke, imapravniucinak, sazetakrasprave, stanjezakljucka, linknadiskusiju, sastanakid) VALUES (@imetocke, @imapravniucinak, @sazetakrasprave, @stanjezakljucka, @linknadiskusiju, @sastanakid)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("imetocke", tocka.ImeTocke);
+                        cmd.Parameters.AddWithValue("imapravniucinak", tocka.ImaPravniUcinak);
+                        cmd.Parameters.AddWithValue("sazetakrasprave", tocka.Sazetak ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("stanjezakljucka", tocka.StanjeZakljucka ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("linknadiskusiju", tocka.Url ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("sastanakid", meetingId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting tocka: " + ex.Message);
+                return false;
+            }
+        }
+
     }
 }

@@ -12,7 +12,8 @@ namespace Backend.Models
             this.zgrada = zgrada;
         }
 
-        
+        //ana token:
+        //eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmFAZ21haWwuY29tIiwiZXhwIjoxNzM1NTc0MDg3LCJpc3MiOiJ5b3VyLWFwcCIsImF1ZCI6WyJ5b3VyLWFwcC11c2VycyIsInlvdXItYXBwLXVzZXJzIl0sImVtYWlsIjoiYW5hQGdtYWlsLmNvbSJ9.vcED2tUJxazoPd_VCxR3rRN6anT_2eEr83tIQYc1t9w
 
         // public List<Meeting> dohvatiMeetinge(int zgradaId)
         // {
