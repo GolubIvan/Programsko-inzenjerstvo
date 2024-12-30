@@ -30,6 +30,9 @@ import { TockaDnevnogReda } from "../TockaDnevnogReda/TockaDnevnogReda";
 import { useForm } from "react-hook-form";
 import { Radio, RadioGroup } from "@/components/ui/radio";
 import { Checkbox } from "@/components/ui/checkbox";
+import { swrKeys } from "@/typings/swrKeys";
+import { createMutator } from "@/fetchers/mutators";
+import useSWRMutation from "swr/mutation";
 
 interface IMeetingForm {
   naslov: string;
@@ -63,6 +66,14 @@ export function CreateMeetingForm() {
     status: "Planiran",
     tockeDnevnogReda: [],
   });
+
+  const [newTocka, setNewTocka] = useState<ITockaForm>({
+    imeTocke: "",
+    imaPravniUcinak: false,
+    sazetak: "",
+    url: "",
+    stanjeZakljucka: "Izglasan",
+  });
   const {
     register,
     handleSubmit,
@@ -71,34 +82,48 @@ export function CreateMeetingForm() {
     formState: { isSubmitting },
     watch,
     reset,
-  } = useForm<IMeetingForm>();
-  const {
-    register: register2,
-    handleSubmit: handleSubmit2,
-    control: control2,
-    getValues: getValues2,
-    formState: { isSubmitting: isSibmitting2 },
-    watch: watch2,
-    reset: reset2,
-  } = useForm<ITockaForm>({
-    defaultValues: {
-      imeTocke: "",
-      imaPravniUcinak: false,
-    },
+    setError,
+    setValue,
+  } = useForm<IMeetingForm>({
+    defaultValues: newMeeting,
   });
-  const date = new Date(newMeeting.vrijeme);
+  setValue("status", "Planiran");
+  setValue("zgradaId", newMeeting.zgradaId);
+  const dodajTocku = (data: ITockaForm) => {
+    const tock = { ...data };
+    setNewMeeting((prev) => ({
+      ...prev,
+      tockeDnevnogReda: [...prev.tockeDnevnogReda, tock],
+    }));
+  };
   useEffect(() => {
     console.log(newMeeting); // This will log the updated state
+    setValue("tockeDnevnogReda", newMeeting.tockeDnevnogReda);
   }, [newMeeting]);
-  const dodajTocku = (data: ITockaForm) => {
-    var temp = newMeeting;
-    temp.tockeDnevnogReda = [...newMeeting.tockeDnevnogReda, data];
-    setNewMeeting(() => temp);
-    reset2();
+  const createForm = async (data: IMeetingForm) => {
+    console.log(data);
+    await trigger(data);
   };
 
+  const { trigger } = useSWRMutation(swrKeys.createMeeting, createMutator, {
+    onSuccess: async (data) => {
+      console.log(data);
+      reset();
+      router.push(`/building/${params.zgradaId}`);
+    },
+    onError: async (error: { message: string }) => {
+      setError("sazetak", { message: error.message });
+    },
+  });
+
   return (
-    <CardRoot margin="3%" marginBottom="0" padding="10px">
+    <CardRoot
+      margin="3%"
+      marginBottom="0"
+      padding="10px"
+      as="form"
+      onSubmit={handleSubmit(createForm)}
+    >
       <CardTitle borderBottom="1px solid black">
         <Flex flexDirection="row" alignItems="center">
           <Input
@@ -185,12 +210,16 @@ export function CreateMeetingForm() {
           />
         ))}
       </CardBody>
-      <CardBody gap="10px" as="form" onSubmit={handleSubmit2(dodajTocku)}>
+      <CardBody gap="10px">
         <Heading>{"Nova točka dnevnog reda:"}</Heading>
         <Input
           placeholder="Ime točke dnevnog reda"
           type=""
-          {...register2("imeTocke", { required: true })}
+          onChange={(e) => {
+            let tempT = newTocka;
+            tempT.imeTocke = e.target.value;
+            setNewTocka(tempT);
+          }}
         />
         <Flex
           direction="row"
@@ -198,23 +227,41 @@ export function CreateMeetingForm() {
           alignItems="center"
           width="100%"
           justifyContent="space-between"
+          wrap="wrap"
         >
           <Flex gap="10px">
             <Input
               type="url"
               placeholder="Poveznica na diskusiju (opcionalno)"
-              {...register2("url")}
+              onChange={(e) => {
+                let tempT = newTocka;
+                tempT.url = e.target.value;
+                setNewTocka(tempT);
+              }}
               width="400px"
             />
-            <Checkbox variant="subtle" {...register2("imaPravniUcinak")}>
+            <Checkbox
+              variant="subtle"
+              onChange={(e) => {
+                let tempT = newTocka;
+                tempT.imaPravniUcinak = (e.target as HTMLInputElement).checked;
+                setNewTocka(tempT);
+              }}
+            >
               {"Ima pravni učinak"}
             </Checkbox>
           </Flex>
-          <Button type="submit" width="100px" color="white" bg="black">
+          <Button
+            width="100px"
+            color="white"
+            bg="black"
+            onClick={() => dodajTocku(newTocka)}
+          >
             {"Dodaj točku"}
           </Button>
         </Flex>
       </CardBody>
+      <Button type="submit"> {"Kreiraj sastanak"} </Button>
     </CardRoot>
   );
 }

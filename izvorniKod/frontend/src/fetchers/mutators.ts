@@ -24,11 +24,17 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
 }
 
 export async function createMutator<T>(url: string, { arg }: { arg: T }) {
+  console.log(arg);
+  console.log(url);
+  console.log(JSON.stringify(arg));
+  const value = localStorage.getItem("loginInfo");
+  let authInfo = value ? JSON.parse(value) : {};
   const response = await fetch(url, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      token: authInfo.token,
     },
     body: JSON.stringify(arg),
   });

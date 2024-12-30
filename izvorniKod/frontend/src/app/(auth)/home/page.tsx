@@ -8,6 +8,7 @@ import useSWR from "swr";
 
 export default function BuildingsListPage() {
   const { data, isLoading, error } = useSWR<User>(swrKeys.me, authFetcher);
+  console.log(data);
   if (error) {
     if (error.status !== 401) return <Box>Something went wrong...</Box>;
   }
