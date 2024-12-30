@@ -32,6 +32,49 @@ namespace Backend.Controllers
             return Ok(new { meetingId = meetingId, meeting = meeting });
         }
 
+        [HttpPost("create")]
+        public IActionResult CreateMeeting([FromBody] MeetingRequest meetingRequest)
+        {
+            
+            string token = Request.Headers["token"].ToString() ?? "";
+       
+            if (token == "undefined" || token == "")        //postoji token
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            if (meetingRequest == null)                     //postoji meeting
+            {
+                return BadRequest(new { error = "Invalid data", message = "Meeting data required." });
+            }
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            string uloga = Backend.Models.User.getRole(email, meetingRequest.ZgradaId);
+
+            //Console.WriteLine(meetingRequest.Naslov);
+
+            if(uloga != "Predstavnik")                      //dobra rola
+            {
+                return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
+            }
+            int creatorId = Backend.Models.Racun.getID(email);
+            //int creatorId = 1;
+
+            if (meetingRequest.Status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran." }); }
+
+            try
+            {
+                MeetingRequest.AddMeeting(meetingRequest, creatorId);
+                return Ok(new { message = "Meeting has been added." });
+            }
+            catch (Exception ex) { 
+                return BadRequest(new { error = "Invalid data"});
+            }
+            
+        }
+
+
+
         [HttpPost("obavljen/{meetingId}")]
         public IActionResult ObavljenMeeting(int meetingId)
         {
@@ -62,48 +105,34 @@ namespace Backend.Controllers
 
             return Ok(new {message = "Meeting has been changed to Obaljven."});
         }
-
-        [HttpPost("create")]
-        public IActionResult CreateMeeting([FromBody] MeetingRequest meetingRequest)
+        [HttpPost("obavljen")]
+        public IActionResult ObavljenMeetingTockeDnevnogReda([FromBody] Meeting meeting)
         {
-            
             string token = Request.Headers["token"].ToString() ?? "";
-       
-            if (token == "undefined" || token == "")        //postoji token
+
+            if (token == "undefined" || token == "")
             {
                 return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
-
-            if (meetingRequest == null)                     //postoji meeting
+            if (meeting == null)
             {
-                return BadRequest(new { error = "Invalid data", message = "Meeting data required." });
+                return NotFound(new { error = "Meeting not found", message = "Meeting with the specified ID not found." });
             }
-
             string email = JWTGenerator.ParseGoogleJwtToken(token);
-            string uloga = Backend.Models.User.getRole(email, meetingRequest.ZgradaId);
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
 
-            //Console.WriteLine(meetingRequest.Naslov);
-
-            if(uloga != "Predstavnik")                      //dobra rola
+            if (uloga != "Predstavnik")
             {
                 return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
             }
-            int creatorId = Backend.Models.Racun.getID(email);
-            //int creatorId = 1;
 
-            //ne dobar format
-            //if (meetingRequest.Status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran." }); }
+            if (meeting.status != "Obavljen") { return BadRequest(new { error = "Invalid change", message = "Meeting has to be Obavljen." }); }
 
-            try
-            {
-                MeetingRequest.AddMeeting(meetingRequest, creatorId);
-                return Ok(new { message = "Meeting has been added." });
-            }
-            catch (Exception ex) { 
-                return BadRequest(new { error = "Invalid data"});
-            }
-            
+            if (!TockaDnevnogReda.changeZakljucak(meeting)) { return StatusCode(500, new { error = "Update failed", message = "Failed to update the meeting." }); }
+
+            return Ok(new { message = "Meetings tocke dnevnog reda have been updated." });
         }
+
 
 
         [HttpPost("delete/{meetingId}")]

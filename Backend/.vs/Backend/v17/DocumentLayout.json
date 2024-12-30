@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\meeting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\meeting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\tockadnevnogreda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\tockadnevnogreda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\controllers\\meetingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\meetingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\meeting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\meeting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\racun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\racun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\meetingrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\meetingrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|c:\\users\\ivan\\desktop\\aaaaaaa\\back\\backend\\backend\\models\\tockadnevnogredarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1C0E170-1224-4FA4-89B7-296873938488}|Backend\\Backend.csproj|solutionrelative:backend\\models\\tockadnevnogredarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,52 +38,52 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Database.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\Database.cs",
-              "RelativeDocumentMoniker": "Backend\\Models\\Database.cs",
-              "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\Database.cs",
-              "RelativeToolTip": "Backend\\Models\\Database.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAeAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "TockaDnevnogRedaRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\TockaDnevnogRedaRequest.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\TockaDnevnogRedaRequest.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\TockaDnevnogRedaRequest.cs",
+              "RelativeToolTip": "Backend\\Models\\TockaDnevnogRedaRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-29T21:20:23.766Z",
+              "WhenOpened": "2024-12-29T23:22:57.611Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Racun.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\Racun.cs",
-              "RelativeDocumentMoniker": "Backend\\Models\\Racun.cs",
-              "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\Racun.cs",
-              "RelativeToolTip": "Backend\\Models\\Racun.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAuwFsAAABzAAAAAAAAAA==",
+              "Title": "MeetingRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\MeetingRequest.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\MeetingRequest.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\MeetingRequest.cs",
+              "RelativeToolTip": "Backend\\Models\\MeetingRequest.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAmwBoAAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T23:37:29.005Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Backend\\Models\\User.cs",
-              "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\User.cs",
-              "RelativeToolTip": "Backend\\Models\\User.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAiwCkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T19:51:13.395Z",
+              "WhenOpened": "2024-12-29T23:22:24.02Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TockaDnevnogReda.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\TockaDnevnogReda.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\TockaDnevnogReda.cs",
+              "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\TockaDnevnogReda.cs",
+              "RelativeToolTip": "Backend\\Models\\TockaDnevnogReda.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAywCQAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-29T23:21:29.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Meeting.cs",
               "DocumentMoniker": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\Meeting.cs",
               "RelativeDocumentMoniker": "Backend\\Models\\Meeting.cs",
               "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Models\\Meeting.cs",
               "RelativeToolTip": "Backend\\Models\\Meeting.cs",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAiwH4AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAiwIsAAACKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-28T19:46:45.2Z",
               "EditorCaption": ""
@@ -96,7 +96,7 @@
               "RelativeDocumentMoniker": "Backend\\Controllers\\MeetingController.cs",
               "ToolTip": "C:\\Users\\Ivan\\Desktop\\aaaaaaa\\back\\Backend\\Backend\\Controllers\\MeetingController.cs",
               "RelativeToolTip": "Backend\\Controllers\\MeetingController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAowDMAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAqwH8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-20T19:24:46.572Z",
               "EditorCaption": ""

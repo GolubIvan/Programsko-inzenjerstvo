@@ -1,4 +1,6 @@
-﻿namespace Backend.Models
+﻿using Npgsql;
+
+namespace Backend.Models
 {
     public class TockaDnevnogReda
     {
@@ -19,6 +21,34 @@
             this.stanjeZakljucka = stanjeZakljucka;
             this.url = url;
             this.sastanakId = sastanakId;
+        }
+
+
+        public static bool changeZakljucak(Meeting meeting)
+        {
+            try
+            {
+                var conn = Database.GetConnection();
+                string updateTocka = "UPDATE tocka_dnevnog_reda SET stanjezakljucka = @stanje WHERE tdr_id = @tdr_id";
+                foreach (var tocka in meeting.tockeDnevnogReda)
+                {
+                    using (var cmd = new NpgsqlCommand(updateTocka, conn))
+                    {
+                        if(tocka.stanjeZakljucka != null)
+                        {
+                            cmd.Parameters.AddWithValue("stanje",tocka.stanjeZakljucka);
+                            cmd.Parameters.AddWithValue("tdr_id", tocka.id);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting meeting: " + ex.Message);
+                return false;
+            }
+            return true;
         }
     }
 }
