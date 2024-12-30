@@ -79,6 +79,7 @@ namespace Backend.Controllers
         {
             string token = Request.Headers["token"].ToString() ?? "";
 
+
             if (token == "undefined" || token == "")        
             {
                 return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
@@ -101,6 +102,10 @@ namespace Backend.Controllers
             if (meeting.vrijeme > DateTime.Now) { return BadRequest(new { error = "Invalid change", message = "Meeting cannot be done before its planned date." }); }
 
             if(Backend.Models.Meeting.changeMeetingState("Objavljen",meetingId) != true) { return StatusCode(500, new { error = "Changing failed", message = "Failed to change the meeting state." }); }
+
+            string subject = "eZgrada obavijest o sastanku";
+            string body = "Sastanak \"" + meeting.naslov + "\" je objavljen u tvojoj zgradi!";
+            
 
             return Ok(new {message = "Meeting has been changed to Objavljen."});
         }
