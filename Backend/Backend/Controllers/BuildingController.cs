@@ -51,6 +51,7 @@ namespace Backend.Controllers
                 kreatorId = meeting.kreatorId,
                 sazetak = meeting.sazetak,
                 sudjelovanje = Meeting.checkSudjelovanje(buildingId,userId, meeting.meetingId), 
+                brojSudionika = Meeting.checkSudioniciCount(buildingId,meeting.meetingId),
                 tockeDnevnogReda = meeting.tockeDnevnogReda,
                 isCreator = meeting.kreatorId
             }).ToList();

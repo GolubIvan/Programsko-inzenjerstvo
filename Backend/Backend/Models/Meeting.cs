@@ -284,6 +284,26 @@ namespace Backend.Models
                 return false;
             }
         }
+        public static int checkSudioniciCount(int zgradaId,int meetingId)
+        {
+            try
+            {
+                var conn = Database.GetConnection();
+                using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND sastanakid = @meetingid", conn))
+                {
+                    cmd.Parameters.AddWithValue("zgradaid", zgradaId);
+                    cmd.Parameters.AddWithValue("meetingid", meetingId);
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting meeting: " + ex.Message);
+                return -1;
+            }
+        }
         public static bool addTockaDnevnogReda(int meetingId, TockaDnevnogRedaRequest tocka)
         {
             try
