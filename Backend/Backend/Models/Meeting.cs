@@ -9,7 +9,6 @@ namespace Backend.Models
     {
         public int meetingId { get; set; }
         public string naslov { get; set; }
-        public string opis { get; set; }
         public string mjesto { get; set; }
         public DateTime? vrijeme { get; set; }
         public string status { get; set; }
@@ -18,11 +17,10 @@ namespace Backend.Models
         public string sazetak { get; set; }
         public List<TockaDnevnogReda> tockeDnevnogReda { get; set; }
 
-        public Meeting(int meetingId, string naslov, string opis, string mjesto, DateTime? vrijeme, string status, int zgradaId, int kreatorId, string sazetak)
+        public Meeting(int meetingId, string naslov, string mjesto, DateTime? vrijeme, string status, int zgradaId, int kreatorId, string sazetak)
         {
             this.meetingId = meetingId;
             this.naslov = naslov;
-            this.opis = opis;
             this.mjesto = mjesto;
             this.vrijeme = vrijeme;
             this.status = status;
@@ -51,7 +49,7 @@ namespace Backend.Models
                     int zgradaId = reader.GetInt32(6);
                     int kreatorId = reader.GetInt32(7);
 
-                    meetings.Add(new Meeting(id, naslov, sazetak, mjesto, vrijeme, status, zgradaId, kreatorId, sazetak));
+                    meetings.Add(new Meeting(id, naslov, mjesto, vrijeme, status, zgradaId, kreatorId, sazetak));
                 }
                 reader.Close();
             }
@@ -99,7 +97,7 @@ namespace Backend.Models
                     int zgradaId = reader.GetInt32(6);
                     int kreatorId = reader.GetInt32(7);
 
-                    meeting = new Meeting(id, naslov, sazetak, mjesto, vrijeme, status, zgradaId, kreatorId, sazetak);
+                    meeting = new Meeting(id, naslov, mjesto, vrijeme, status, zgradaId, kreatorId, sazetak);
                 }
                 reader.Close();
             }

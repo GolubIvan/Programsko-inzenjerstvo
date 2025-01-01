@@ -2,6 +2,7 @@ using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Backend.Controllers
 {
@@ -28,8 +29,16 @@ namespace Backend.Controllers
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             List<KeyValuePair<Backend.Models.Zgrada, string>> zgrade = Backend.Models.Racun.getUserData(email);
-
-            string uloga = Backend.Models.User.getRole(email, buildingId);
+            string uloga = "",address = "";
+            foreach (var zgrada in zgrade)
+            {
+                if (zgrada.Key.zgradaId == buildingId)
+                {
+                    uloga = zgrada.Value;
+                    address = zgrada.Key.address;
+                    break;
+                }
+            }
             if (uloga == "") { return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." }); }
 
             List<Backend.Models.Meeting> meetings = Backend.Models.Meeting.getMeetingsForBuilding(buildingId);
@@ -43,7 +52,6 @@ namespace Backend.Controllers
             {
                 meetingId = meeting.meetingId,
                 naslov = meeting.naslov,
-                opis = meeting.opis,
                 mjesto = meeting.mjesto,
                 vrijeme = meeting.vrijeme,
                 status = meeting.status,
@@ -57,7 +65,7 @@ namespace Backend.Controllers
             }).ToList();
 
 
-            return Ok(new { buildingId = buildingId, role = uloga, meetings = modifiedMeetings });
+            return Ok(new { buildingId = buildingId, address = address, role = uloga, meetings = modifiedMeetings });
         }
     }
 }
