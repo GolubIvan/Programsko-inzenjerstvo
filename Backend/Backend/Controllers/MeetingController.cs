@@ -98,8 +98,7 @@ namespace Backend.Controllers
             }
             if (meeting.status != "Planiran") { return BadRequest(new { error = "Invalid change", message = "Meeting has to be Objavljen." }); }
 
-
-            if (meeting.vrijeme > DateTime.Now) { return BadRequest(new { error = "Invalid change", message = "Meeting cannot be done before its planned date." }); }
+            if (meeting.vrijeme < DateTime.Now) { return BadRequest(new { error = "Invalid change", message = "Meeting cannot be done before its planned date." }); }
 
             if(Backend.Models.Meeting.changeMeetingState("Objavljen",meetingId) != true) { return StatusCode(500, new { error = "Changing failed", message = "Failed to change the meeting state." }); }
 
