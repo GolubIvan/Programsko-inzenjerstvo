@@ -17,6 +17,8 @@ export interface IMeeting {
   kreatorId: Number;
   sazetak: string;
   tockeDnevnogReda: ITocka[];
+  sudjelovanje: Boolean;
+  brojSudionika: number;
 }
 
 export interface ITocka {
