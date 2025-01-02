@@ -341,14 +341,14 @@ namespace Backend.Models
                 return false;
             }
         }
-        public List<Meeting> getMeetings(Status status, int zgradaId)
+        public static List<Meeting> getMeetings(int idZgrade, Status statusZgrada)
         {
             List<Meeting> meetings = new List<Meeting>();
             var conn = Database.GetConnection();
             using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status", conn))
             {
-                cmd.Parameters.AddWithValue("zgradaId", zgradaId);
-                cmd.Parameters.AddWithValue("status", status.ToString());
+                cmd.Parameters.AddWithValue("zgradaId", idZgrade);
+                cmd.Parameters.AddWithValue("status", statusZgrada.ToString());
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
