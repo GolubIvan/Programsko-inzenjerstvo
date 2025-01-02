@@ -57,7 +57,7 @@ export function MeetingDisplay({ meeting }: IMeetingProps) {
         </Heading>
       </CardBody>
       <CardBody>
-        <Heading>Opis:</Heading>
+        <Heading>Sažetak:</Heading>
         <CardDescription fontSize="1rem">{meeting.sazetak}</CardDescription>
       </CardBody>
       <CardBody>
@@ -73,6 +73,7 @@ export function MeetingDisplay({ meeting }: IMeetingProps) {
           <CgPin /> {meeting.mjesto}
         </Flex>
       </CardBody>
+
       <CardBody gap="10px">
         <Heading>{"Točke dnevnog reda:"}</Heading>
         {meeting.tockeDnevnogReda.map((tocka, index) => (

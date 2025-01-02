@@ -25,7 +25,7 @@ import { CgPin, CgCalendarDates } from "react-icons/cg";
 import { BiEdit } from "react-icons/bi";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
-import { deleteMutator } from "@/fetchers/mutators";
+import { deleteMutator, postMutator } from "@/fetchers/mutators";
 import useSWR, { useSWRConfig } from "swr";
 import { IMeetingFetch } from "@/app/(auth)/building/[zgradaId]/page";
 interface IMeetingSummaryCard {
@@ -62,6 +62,16 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
   }
 
   const [hovered, setHovered] = useState(false);
+
+  const { trigger: trigger_objavi } = useSWRMutation(
+    swrKeys.objaviMeeting(`${meeting.meetingId}`),
+    postMutator,
+    {
+      onSuccess: async (data) => {
+        await mutate(swrKeys.building(`${meeting.zgradaId}`));
+      },
+    }
+  );
   return (
     <>
       <Card.Root
@@ -102,14 +112,24 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                     Uredi
                   </MenuItem>
                   {meeting.status == "Planiran" && (
-                    <MenuItem
-                      value="Izbrisi"
-                      onClick={async () => {
-                        await trigger();
-                      }}
-                    >
-                      Izbriši
-                    </MenuItem>
+                    <>
+                      <MenuItem
+                        value="Izbrisi"
+                        onClick={async () => {
+                          await trigger();
+                        }}
+                      >
+                        Izbriši
+                      </MenuItem>
+                      <MenuItem
+                        value="Objavi"
+                        onClick={async () => {
+                          await trigger_objavi();
+                        }}
+                      >
+                        Objavi
+                      </MenuItem>
+                    </>
                   )}
                 </MenuContent>
               </MenuRoot>

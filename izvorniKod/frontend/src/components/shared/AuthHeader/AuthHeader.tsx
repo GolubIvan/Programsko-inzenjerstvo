@@ -14,9 +14,9 @@ interface IAuthHeaderProps {
 export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
   const { mutate } = useSWR(swrKeys.me);
   const router = useRouter();
-  const logOut = () => {
+  const logOut = async () => {
     localStorage.setItem("loginInfo", "");
-    mutate(null);
+    await mutate(null);
     router.push("/");
   };
 
