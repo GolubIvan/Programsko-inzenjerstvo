@@ -75,7 +75,7 @@ namespace Backend.Controllers
 
 
         [HttpPost("objavljen/{meetingId}")]
-        public IActionResult ObavljenMeeting(int meetingId)
+        public IActionResult ObjavljenMeeting(int meetingId)
         {
             string token = Request.Headers["token"].ToString() ?? "";
 
@@ -118,7 +118,7 @@ namespace Backend.Controllers
 
 
         [HttpPost("obavljen/{meetingId}")]
-        public IActionResult ObjavljenMeeting(int meetingId)
+        public IActionResult ObavljenMeeting(int meetingId)
         {
             string token = Request.Headers["token"].ToString() ?? "";
 
@@ -305,7 +305,7 @@ namespace Backend.Controllers
             
         }
 
-        [HttpPost("arhiviran/{meetingId}")]
+        [HttpPost("arhiviraj/{meetingId}")]
         public IActionResult ArhiviranMeeting(int meetingId)
         {
             string token = Request.Headers["token"].ToString() ?? "";
@@ -324,13 +324,16 @@ namespace Backend.Controllers
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
 
-            if (uloga != "Predstavnik")
-            {
+            if(uloga == "") { 
+                return Unauthorized(new { error = "Invalid role", message = "The user role does not exist for the building." }); 
+            }
+            if (uloga != "Predstavnik"){
                 return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
             }
-            if (meeting.status != "Obavljen") { return BadRequest(new { error = "Invalid change", message = "Meeting has to be Obavljen." }); }
-            if (meeting.status == "Arhiviran") { return BadRequest(new { error = "Invalid change", message = "Meeting is already Arhiviran." }); }
 
+            if (meeting.status == "Arhiviran") { return BadRequest(new { error = "Invalid change", message = "Meeting is already Arhiviran." }); }
+            if (meeting.status != "Obavljen") { return BadRequest(new { error = "Invalid change", message = "Meeting has to be Obavljen." }); }
+            
             if (Backend.Models.Meeting.changeMeetingState("Arhiviran", meetingId) != true) { return StatusCode(500, new { error = "Changing failed", message = "Failed to change the meeting state." }); }
 
             string subject = "eZgrada obavijest o sastanku";
@@ -341,8 +344,32 @@ namespace Backend.Controllers
                 Console.WriteLine(korisnikEmail);
                 Backend.Models.MailSender.SendEmail(korisnikEmail, subject, body);
             }
-            
+
             return Ok(new { message = "Meeting has been changed to Arhiviran." });
         }
+        [HttpGet("arhivirani")]
+        public IActionResult GetArhiviraniMeetings()
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+
+            if (token == "undefined" || token == "")
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            var lista = Backend.Models.Racun.getUserData(email);
+
+            List<Meeting> meetings = new List<Meeting>();
+            foreach (var zgrada in lista)
+            {
+                List<Meeting> temp = Backend.Models.Meeting.getMeetings(zgrada.Key.zgradaId, Backend.Models.Status.Arhiviran);
+                foreach (var meeting in temp)
+                {
+                    meetings.Add(meeting);
+                }
+            }
+            return Ok(new { meetings = meetings });
+        }        
     }
 }

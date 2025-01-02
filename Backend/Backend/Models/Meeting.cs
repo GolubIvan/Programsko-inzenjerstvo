@@ -126,6 +126,7 @@ namespace Backend.Models
 
             return meeting;
         }
+
         public static bool changeMeetingState(string status,int meetingId)
         {
             try
@@ -339,6 +340,32 @@ namespace Backend.Models
                 Console.WriteLine("Error deleting tocka: " + ex.Message);
                 return false;
             }
+        }
+        public List<Meeting> getMeetings(Status status, int zgradaId)
+        {
+            List<Meeting> meetings = new List<Meeting>();
+            var conn = Database.GetConnection();
+            using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status", conn))
+            {
+                cmd.Parameters.AddWithValue("zgradaId", zgradaId);
+                cmd.Parameters.AddWithValue("status", status.ToString());
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string? sazetak = reader.IsDBNull(0) ? null : reader.GetString(0);
+                    DateTime vrijeme = reader.GetDateTime(1);
+                    string mjesto = reader.GetString(2);
+                    string status = reader.GetString(3);
+                    int id = reader.GetInt32(4);
+                    string naslov = reader.GetString(5);
+                    int zgradaId = reader.GetInt32(6);
+                    int kreatorId = reader.GetInt32(7);
+
+                    meetings.Add(new Meeting(id, naslov, mjesto, vrijeme, status, zgradaId, kreatorId, sazetak));
+                }
+                reader.Close();
+            }
+            return meetings;
         }
     }
 }
