@@ -21,11 +21,11 @@ import {
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CgPin, CgCalendarDates } from "react-icons/cg";
+import { CgPin, CgCalendarDates, CgUsbC, CgUser } from "react-icons/cg";
 import { BiEdit } from "react-icons/bi";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
-import { deleteMutator } from "@/fetchers/mutators";
+import { deleteMutator, postMutator } from "@/fetchers/mutators";
 import useSWR, { useSWRConfig } from "swr";
 import { IMeetingFetch } from "@/app/(auth)/building/[zgradaId]/page";
 interface IMeetingSummaryCard {
@@ -61,7 +61,47 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
       col = "yellow";
   }
 
+  let dolaznost_tekst;
+  if (meeting.status == "Objavljen") {
+    if (meeting.brojSudionika == 0)
+      dolaznost_tekst = "Još nema potvrđenih dolazaka.";
+    else {
+      if (meeting.brojSudionika % 10 == 1)
+        dolaznost_tekst = `${meeting.brojSudionika} sudionik dolazi`;
+      else dolaznost_tekst = `${meeting.brojSudionika} sudionika dolaze`;
+    }
+  }
+  if (meeting.status == "Obavljen" || meeting.status == "Arhiviran") {
+    if (meeting.brojSudionika == 0) dolaznost_tekst = "Nije bilo sudionika.";
+    else {
+      if (meeting.brojSudionika % 10 == 1)
+        dolaznost_tekst = `${meeting.brojSudionika} sudionik`;
+      else dolaznost_tekst = `${meeting.brojSudionika} sudionika`;
+    }
+  }
+
   const [hovered, setHovered] = useState(false);
+
+  const { trigger: trigger_join = trigger } = useSWRMutation(
+    swrKeys.joinMeeting(`${meeting.meetingId}`),
+    postMutator,
+    {
+      onSuccess: async (data) => {
+        await mutate(swrKeys.building(`${meeting.zgradaId}`));
+      },
+    }
+  );
+
+  const { trigger: trigger_leave = trigger } = useSWRMutation(
+    swrKeys.leaveMeeting(`${meeting.meetingId}`),
+    postMutator,
+    {
+      onSuccess: async (data) => {
+        await mutate(swrKeys.building(`${meeting.zgradaId}`));
+      },
+    }
+  );
+
   return (
     <>
       <Card.Root
@@ -148,6 +188,11 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
             <Flex direction="row" gap="5%" alignItems="center">
               <CgPin /> {meeting.mjesto}
             </Flex>
+            {meeting.status != "Planiran" && (
+              <Flex direction="row" gap="5%" alignItems="center">
+                <CgUser /> {dolaznost_tekst}
+              </Flex>
+            )}
           </Box>
         </CardBody>
         <CardFooter
@@ -163,8 +208,23 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
             <Circle background={col} size="15px" />
             <Text textAlign="center">{meeting.status}</Text>
           </Flex>
-          {meeting.status == "Objavljen" && (
-            <Button>Potvrdite svoj dolazak</Button>
+          {meeting.status == "Objavljen" && meeting.sudjelovanje && (
+            <Button
+              onClick={async () => {
+                await trigger_leave();
+              }}
+            >
+              Otkažite svoj dolazak
+            </Button>
+          )}
+          {meeting.status == "Objavljen" && !meeting.sudjelovanje && (
+            <Button
+              onClick={async () => {
+                await trigger_join();
+              }}
+            >
+              Potvrdite svoj dolazak
+            </Button>
           )}
         </CardFooter>
       </Card.Root>
