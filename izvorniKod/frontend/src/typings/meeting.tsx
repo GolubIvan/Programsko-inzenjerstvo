@@ -10,7 +10,6 @@ export interface IMeetingSummary {
 export interface IMeeting {
   meetingId: Number;
   naslov: string;
-  opis: string;
   mjesto: string;
   vrijeme: Date;
   status: "Obavljen" | "Objavljen" | "Planiran" | "Arhiviran";
