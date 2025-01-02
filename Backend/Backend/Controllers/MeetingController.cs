@@ -304,5 +304,45 @@ namespace Backend.Controllers
             }
             
         }
+
+        [HttpPost("arhiviran/{meetingId}")]
+        public IActionResult ArhiviranMeeting(int meetingId)
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+
+            if (token == "undefined" || token == "")
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            Backend.Models.Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+            if (meeting == null)
+            {
+                return NotFound(new { error = "Meeting not found", message = "Meeting with the specified ID not found." });
+            }
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+
+            if (uloga != "Predstavnik")
+            {
+                return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
+            }
+            if (meeting.status != "Obavljen") { return BadRequest(new { error = "Invalid change", message = "Meeting has to be Obavljen." }); }
+            if (meeting.status == "Arhiviran") { return BadRequest(new { error = "Invalid change", message = "Meeting is already Arhiviran." }); }
+
+            if (Backend.Models.Meeting.changeMeetingState("Arhiviran", meetingId) != true) { return StatusCode(500, new { error = "Changing failed", message = "Failed to change the meeting state." }); }
+
+            string subject = "eZgrada obavijest o sastanku";
+            string body = "Sastanak \"" + meeting.naslov + "\" je arhiviran u tvojoj zgradi!";
+            List<string> emails = Backend.Models.User.getKorisniciForZgrada(meeting.zgradaId);
+
+            foreach(string korisnikEmail in emails){
+                Console.WriteLine(korisnikEmail);
+                Backend.Models.MailSender.SendEmail(korisnikEmail, subject, body);
+            }
+            
+            return Ok(new { message = "Meeting has been changed to Arhiviran." });
+        }
     }
 }
