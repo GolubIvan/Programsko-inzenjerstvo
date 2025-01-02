@@ -345,25 +345,41 @@ namespace Backend.Models
         {
             List<Meeting> meetings = new List<Meeting>();
             var conn = Database.GetConnection();
-            using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status", conn))
+            // using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status", conn))
+            // {
+            //     cmd.Parameters.AddWithValue("zgradaId", idZgrade);
+            //     cmd.Parameters.AddWithValue("status", statusZgrada.ToString());
+            //     var reader = cmd.ExecuteReader();
+            //     while (reader.Read())
+            //     {
+            //         string? sazetak = reader.IsDBNull(0) ? null : reader.GetString(0);
+            //         DateTime vrijeme = reader.GetDateTime(1);
+            //         string mjesto = reader.GetString(2);
+            //         string status = reader.GetString(3);
+            //         int id = reader.GetInt32(4);
+            //         string naslov = reader.GetString(5);
+            //         int zgradaId = reader.GetInt32(6);
+            //         int kreatorId = reader.GetInt32(7);
+
+            //         meetings.Add(new Meeting(id, naslov, mjesto, vrijeme, status, zgradaId, kreatorId, sazetak));
+            //     }
+            //     reader.Close();
+            // }
+            List<int> meetingIds = new List<int>();
+            using (var cmd = new NpgsqlCommand("SELECT sastanakId FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status", conn))
             {
                 cmd.Parameters.AddWithValue("zgradaId", idZgrade);
                 cmd.Parameters.AddWithValue("status", statusZgrada.ToString());
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    string? sazetak = reader.IsDBNull(0) ? null : reader.GetString(0);
-                    DateTime vrijeme = reader.GetDateTime(1);
-                    string mjesto = reader.GetString(2);
-                    string status = reader.GetString(3);
-                    int id = reader.GetInt32(4);
-                    string naslov = reader.GetString(5);
-                    int zgradaId = reader.GetInt32(6);
-                    int kreatorId = reader.GetInt32(7);
-
-                    meetings.Add(new Meeting(id, naslov, mjesto, vrijeme, status, zgradaId, kreatorId, sazetak));
+                    meetingIds.Add(reader.GetInt32(0));
                 }
                 reader.Close();
+            }
+            foreach(int meetingId in meetingIds)
+            {
+                meetings.Add(getMeeting(meetingId));
             }
             return meetings;
         }
