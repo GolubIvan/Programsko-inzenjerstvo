@@ -15,4 +15,10 @@ export const swrKeys = {
   deleteMeeting: (id: string) => {
     return `${backend}/meetings/delete/${id}`;
   },
+  joinMeeting: (id: string) => {
+    return `${backend}/meetings/join/${id}`
+  },
+  leaveMeeting: (id: string) => {
+    return `${backend}/meetings/leave/${id}`
+  }
 };
