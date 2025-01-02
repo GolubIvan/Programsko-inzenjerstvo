@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/menu";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CgPin, CgCalendarDates } from "react-icons/cg";
 import { BiEdit } from "react-icons/bi";
 import { TockaDnevnogReda } from "../TockaDnevnogReda/TockaDnevnogReda";
@@ -36,7 +36,6 @@ import useSWRMutation from "swr/mutation";
 
 interface IMeetingForm {
   naslov: string;
-  opis: string;
   mjesto: string;
   vrijeme: Date;
   status: "Obavljen" | "Objavljen" | "Planiran" | "Arhiviran";
@@ -49,16 +48,18 @@ interface ITockaForm {
   imeTocke: string;
   imaPravniUcinak: Boolean;
   sazetak?: string;
-  stanjeZakljucka?: "Izglasan";
+  stanjeZakljucka?: undefined;
   url?: string;
 }
 
 export function CreateMeetingForm() {
+  const tockaUrl = useRef<HTMLInputElement>(null);
+  const tockaIme = useRef<HTMLInputElement>(null);
+  const tockaBool = useRef<HTMLInputElement>(null);
   const params = useParams();
   const router = useRouter();
   const [newMeeting, setNewMeeting] = useState<IMeetingForm>({
     naslov: "",
-    opis: "",
     mjesto: "",
     vrijeme: new Date(),
     sazetak: "",
@@ -70,38 +71,62 @@ export function CreateMeetingForm() {
   const [newTocka, setNewTocka] = useState<ITockaForm>({
     imeTocke: "",
     imaPravniUcinak: false,
-    sazetak: "",
+    sazetak: undefined,
     url: "",
-    stanjeZakljucka: "Izglasan",
+    stanjeZakljucka: undefined,
   });
   const {
     register,
     handleSubmit,
-    control,
-    getValues,
-    formState: { isSubmitting },
-    watch,
     reset,
     setError,
     setValue,
+    formState: { errors },
   } = useForm<IMeetingForm>({
     defaultValues: newMeeting,
   });
   setValue("status", "Planiran");
   setValue("zgradaId", newMeeting.zgradaId);
   const dodajTocku = (data: ITockaForm) => {
+    if (data.imeTocke == "") {
+      setError("root", { message: "Ime točke je obavezno" });
+      return;
+    }
+    setError("root", { message: "" });
     const tock = { ...data };
     setNewMeeting((prev) => ({
       ...prev,
       tockeDnevnogReda: [...prev.tockeDnevnogReda, tock],
     }));
+    if (tockaUrl.current != null) {
+      tockaUrl.current.value = "";
+    }
+    if (tockaIme.current != null) {
+      tockaIme.current.value = "";
+    }
+    if (tockaBool.current != null && tockaBool.current.checked) {
+      tockaBool.current.click();
+    }
+    setNewTocka({
+      imeTocke: "",
+      imaPravniUcinak: false,
+      sazetak: undefined,
+      url: "",
+      stanjeZakljucka: undefined,
+    });
   };
   useEffect(() => {
     console.log(newMeeting); // This will log the updated state
     setValue("tockeDnevnogReda", newMeeting.tockeDnevnogReda);
   }, [newMeeting]);
   const createForm = async (data: IMeetingForm) => {
-    console.log(data);
+    console.log("lol");
+    if (data.tockeDnevnogReda.length == 0) {
+      setError("root", {
+        message: "Potrebno je dodati barem jednu tocku dnevnoga reda",
+      });
+      return;
+    }
     await trigger(data);
   };
 
@@ -111,11 +136,7 @@ export function CreateMeetingForm() {
       reset();
       router.push(`/building/${params.zgradaId}`);
     },
-    onError: async (error: { message: string }) => {
-      setError("sazetak", { message: error.message });
-    },
   });
-
   return (
     <CardRoot
       margin="3%"
@@ -129,10 +150,15 @@ export function CreateMeetingForm() {
           <Input
             type="text"
             placeholder="Naslov sastanka"
-            {...register("naslov", { required: true })}
+            {...register("naslov", { required: "Naslov sastanka je obavezan" })}
             size="2xl"
           />
         </Flex>
+        {errors.naslov?.message && (
+          <Text color="red" fontSize="xl">
+            {errors.naslov.message}
+          </Text>
+        )}
       </CardTitle>
       <CardBody>
         <Heading
@@ -149,18 +175,6 @@ export function CreateMeetingForm() {
         </Heading>
       </CardBody>
       <CardBody>
-        <Heading>Opis:</Heading>
-        <CardDescription fontSize="1rem">
-          {" "}
-          <Input
-            type="text"
-            placeholder="Opis sastanka"
-            {...register("opis", { required: true })}
-            size="lg"
-          />
-        </CardDescription>
-      </CardBody>
-      <CardBody>
         <Heading>Vrijeme i mjesto:</Heading>
         <Flex direction="column" gap="5%">
           <Flex direction="row" gap="5px" alignItems="center">
@@ -169,30 +183,48 @@ export function CreateMeetingForm() {
               type="datetime-local"
               width="200px"
               size="lg"
-              {...register("vrijeme", { required: true })}
+              {...register("vrijeme", {
+                required: "Vrijeme sastanka je obavezno",
+              })}
             />
           </Flex>
         </Flex>
+        {errors.vrijeme?.message && (
+          <Text color="red" fontSize="lg">
+            {errors.vrijeme.message}
+          </Text>
+        )}
         <Flex direction="row" gap="5px" alignItems="center">
           <CgPin />{" "}
           <Input
             placeholder="Mjesto"
-            {...register("mjesto", { required: true })}
+            {...register("mjesto", { required: "Mjesto sastanka je obavezno" })}
             width="200px"
           />
         </Flex>
+        {errors.mjesto?.message && (
+          <Text color="red" fontSize="lg">
+            {errors.mjesto.message}
+          </Text>
+        )}
       </CardBody>
       <CardBody>
         <Heading>Sažetak:</Heading>
         <CardDescription fontSize="1rem">
-          {" "}
           <Input
             type="text"
             placeholder="Sažetak sastanka"
-            {...register("sazetak", { required: true })}
+            {...register("sazetak", {
+              required: "Sažetak sastanka je obavezan",
+            })}
             size="lg"
           />
         </CardDescription>
+        {errors.sazetak?.message && (
+          <Text color="red" fontSize="xl">
+            {errors.sazetak.message}
+          </Text>
+        )}
       </CardBody>
       <CardBody gap="10px">
         <Heading>{"Točke dnevnog reda:"}</Heading>
@@ -215,6 +247,7 @@ export function CreateMeetingForm() {
         <Input
           placeholder="Ime točke dnevnog reda"
           type=""
+          ref={tockaIme}
           onChange={(e) => {
             let tempT = newTocka;
             tempT.imeTocke = e.target.value;
@@ -232,6 +265,7 @@ export function CreateMeetingForm() {
           <Flex gap="10px">
             <Input
               type="url"
+              ref={tockaUrl}
               placeholder="Poveznica na diskusiju (opcionalno)"
               onChange={(e) => {
                 let tempT = newTocka;
@@ -242,6 +276,7 @@ export function CreateMeetingForm() {
             />
             <Checkbox
               variant="subtle"
+              ref={tockaBool}
               onChange={(e) => {
                 let tempT = newTocka;
                 tempT.imaPravniUcinak = (e.target as HTMLInputElement).checked;
@@ -260,6 +295,11 @@ export function CreateMeetingForm() {
             {"Dodaj točku"}
           </Button>
         </Flex>
+        {errors.root?.message && (
+          <Text color="red" fontSize="xl">
+            {errors.root.message}
+          </Text>
+        )}
       </CardBody>
       <Button type="submit"> {"Kreiraj sastanak"} </Button>
     </CardRoot>

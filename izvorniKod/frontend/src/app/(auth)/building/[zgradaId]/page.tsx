@@ -12,7 +12,7 @@ import { Router } from "next/router";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
-interface IMeetingFetch {
+export interface IMeetingFetch {
   buildingId: Number;
   address: string;
   role: "Administrator" | "Predstavnik" | "Suvlasnik";

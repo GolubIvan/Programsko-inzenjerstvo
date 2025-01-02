@@ -26,6 +26,8 @@ import { BiEdit } from "react-icons/bi";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
 import { deleteMutator } from "@/fetchers/mutators";
+import useSWR, { useSWRConfig } from "swr";
+import { IMeetingFetch } from "@/app/(auth)/building/[zgradaId]/page";
 interface IMeetingSummaryCard {
   role: "Administrator" | "Predstavnik" | "Suvlasnik";
   meeting: IMeeting;
@@ -35,9 +37,15 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
   const router = useRouter();
   const date = new Date(meeting.vrijeme);
   let col;
+  const { mutate } = useSWRConfig();
   const { trigger } = useSWRMutation(
     swrKeys.deleteMeeting(`${meeting.meetingId}`),
-    deleteMutator
+    deleteMutator,
+    {
+      onSuccess: async (data) => {
+        await mutate(swrKeys.building(`${meeting.zgradaId}`));
+      },
+    }
   );
   switch (meeting.status) {
     case "Obavljen":
@@ -93,15 +101,16 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                   >
                     Uredi
                   </MenuItem>
-                  <MenuItem
-                    value="Izbrisi"
-                    onClick={async () => {
-                      console.log(meeting.meetingId);
-                      await trigger();
-                    }}
-                  >
-                    Izbriši
-                  </MenuItem>
+                  {meeting.status == "Planiran" && (
+                    <MenuItem
+                      value="Izbrisi"
+                      onClick={async () => {
+                        await trigger();
+                      }}
+                    >
+                      Izbriši
+                    </MenuItem>
+                  )}
                 </MenuContent>
               </MenuRoot>
             )}
@@ -123,7 +132,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
             flexDir="column"
             gap="10px"
           >
-            <CardDescription>{meeting.opis}</CardDescription>
+            <CardDescription>{meeting.sazetak}</CardDescription>
 
             <Flex direction="column" gap="5%">
               <Flex direction="row" gap="5%" alignItems="center">

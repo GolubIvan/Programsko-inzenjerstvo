@@ -58,7 +58,7 @@ export function MeetingDisplay({ meeting }: IMeetingProps) {
       </CardBody>
       <CardBody>
         <Heading>Opis:</Heading>
-        <CardDescription fontSize="1rem">{meeting.opis}</CardDescription>
+        <CardDescription fontSize="1rem">{meeting.sazetak}</CardDescription>
       </CardBody>
       <CardBody>
         <Heading>Vrijeme i mjesto:</Heading>
