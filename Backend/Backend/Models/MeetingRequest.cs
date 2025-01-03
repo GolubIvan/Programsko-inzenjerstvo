@@ -5,8 +5,8 @@ namespace Backend.Models
     public class MeetingRequest
     {
         public string Naslov { get; set; }
-        public string Opis { get; set; }
         public string Mjesto { get; set; }
+        public string Opis { get; set; }
         public DateTime? Vrijeme { get; set; }
         public string Status { get; set; }
         public int ZgradaId { get; set; }
@@ -58,11 +58,11 @@ namespace Backend.Models
             {
                 using (var cmd = new NpgsqlCommand(insertAgendaItemQuery, conn))
                 {
-                    cmd.Parameters.AddWithValue("@ImeTocke", tocka.ImeTocke);
-                    cmd.Parameters.AddWithValue("@ImaPravniUcinak", tocka.ImaPravniUcinak);
-                    cmd.Parameters.AddWithValue("@SazetakRasprave", tocka.Sazetak ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@StanjeZakljucka", tocka.StanjeZakljucka ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@LinkNaDiskusiju", tocka.Url ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ImeTocke", tocka.imeTocke);
+                    cmd.Parameters.AddWithValue("@ImaPravniUcinak", tocka.imaPravniUcinak);
+                    cmd.Parameters.AddWithValue("@SazetakRasprave", tocka.sazetak ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@StanjeZakljucka", tocka.stanjeZakljucka ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@LinkNaDiskusiju", tocka.url ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@SastanakID", sastanakId);
 
                     cmd.ExecuteNonQuery();
@@ -105,11 +105,11 @@ namespace Backend.Models
             foreach (var tocka in meetingRequest.TockeDnevnogReda)
             {
                 using (var cmd = new NpgsqlCommand(insertAgendaItemQuery, conn)){
-                    cmd.Parameters.AddWithValue("@ImeTocke", tocka.ImeTocke);
-                    cmd.Parameters.AddWithValue("@ImaPravniUcinak", tocka.ImaPravniUcinak);
-                    cmd.Parameters.AddWithValue("@SazetakRasprave", tocka.Sazetak ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@StanjeZakljucka", tocka.StanjeZakljucka ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@LinkNaDiskusiju", tocka.Url ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ImeTocke", tocka.imeTocke);
+                    cmd.Parameters.AddWithValue("@ImaPravniUcinak", tocka.imaPravniUcinak);
+                    cmd.Parameters.AddWithValue("@SazetakRasprave", tocka.sazetak ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@StanjeZakljucka", tocka.stanjeZakljucka ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@LinkNaDiskusiju", tocka.url ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@SastanakID", meetingId);
 
                     cmd.ExecuteNonQuery();

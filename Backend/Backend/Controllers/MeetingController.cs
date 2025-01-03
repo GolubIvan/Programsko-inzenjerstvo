@@ -96,7 +96,7 @@ namespace Backend.Controllers
             var meetingRequestElement = root.GetProperty("meetingRequest");
 
             meetingRequest.Naslov = meetingRequestElement.GetProperty("naslov").GetString();
-            meetingRequest.Opis = meetingRequestElement.GetProperty("opis").GetString();
+            //meetingRequest.Opis = meetingRequestElement.GetProperty("opis").GetString();
             meetingRequest.Sazetak = meetingRequestElement.GetProperty("sazetak").GetString();
             meetingRequest.Vrijeme = meetingRequestElement.GetProperty("vrijeme").GetDateTime();
             meetingRequest.Mjesto = meetingRequestElement.GetProperty("mjesto").GetString();
@@ -416,7 +416,7 @@ namespace Backend.Controllers
             }
             int creatorId = Backend.Models.Racun.getID(email);
 
-            if (meeting.status != "Objavljen" && meeting.status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran or Objavljen." }); }
+            if (meeting.status != "Obavljen" && meeting.status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran or Objavljen." }); }
             
             Backend.Models.Meeting.deleteTockeDnevnogReda(meetingId);
             foreach (var tocka in tocke){

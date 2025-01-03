@@ -314,11 +314,11 @@ namespace Backend.Models
 
                     using (var cmd = new NpgsqlCommand("INSERT INTO tocka_dnevnog_reda (imetocke, imapravniucinak, sazetakrasprave, stanjezakljucka, linknadiskusiju, sastanakid) VALUES (@imetocke, @imapravniucinak, @sazetakrasprave, @stanjezakljucka, @linknadiskusiju, @sastanakid)", conn))
                     {
-                        cmd.Parameters.AddWithValue("imetocke", tocka.ImeTocke);
-                        cmd.Parameters.AddWithValue("imapravniucinak", tocka.ImaPravniUcinak);
-                        cmd.Parameters.AddWithValue("sazetakrasprave", tocka.Sazetak ?? (object)DBNull.Value);
-                        cmd.Parameters.AddWithValue("stanjezakljucka", tocka.StanjeZakljucka ?? (object)DBNull.Value);
-                        cmd.Parameters.AddWithValue("linknadiskusiju", tocka.Url ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("imetocke", tocka.imeTocke);
+                        cmd.Parameters.AddWithValue("imapravniucinak", tocka.imaPravniUcinak);
+                        cmd.Parameters.AddWithValue("sazetakrasprave", tocka.sazetak ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("stanjezakljucka", tocka.stanjeZakljucka ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("linknadiskusiju", tocka.url ?? (object)DBNull.Value);
                         cmd.Parameters.AddWithValue("sastanakid", meetingId);
                         int rowsAffected = cmd.ExecuteNonQuery();
 

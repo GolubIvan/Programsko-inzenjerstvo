@@ -2,15 +2,15 @@
 {
     public class TockaDnevnogRedaRequest
     {
-        public string ImeTocke { get; set; }
-        public bool ImaPravniUcinak { get; set; }
-        public string Sazetak { get; set; }
-        public string StanjeZakljucka { get; set; }
-        public string Url { get; set; }
+        public string imeTocke { get; set; }
+        public bool imaPravniUcinak { get; set; }
+        public string sazetak { get; set; }
+        public string stanjeZakljucka { get; set; }
+        public string url { get; set; }
 
         public override string ToString()
         {
-            return $"Ime tocke: {ImeTocke}, Ima pravni ucinak: {ImaPravniUcinak}, Sazetak: {Sazetak}, Stanje zakljucka: {StanjeZakljucka}, Url: {Url}";
+            return $"Ime tocke: {imeTocke}, Ima pravni ucinak: {imaPravniUcinak}, Sazetak: {sazetak}, Stanje zakljucka: {stanjeZakljucka}, Url: {url}";
         }
 
     }
