@@ -32,7 +32,7 @@ import { useForm } from "react-hook-form";
 import { Radio, RadioGroup } from "@/components/ui/radio";
 import { Checkbox } from "@/components/ui/checkbox";
 import { swrKeys } from "@/typings/swrKeys";
-import { createMutator } from "@/fetchers/mutators";
+import { createMutator, putMutator } from "@/fetchers/mutators";
 import useSWRMutation from "swr/mutation";
 
 interface IMeetingForm {
@@ -145,7 +145,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
   });
   const { trigger: trigger2 } = useSWRMutation(
     swrKeys.updateMeeting(`${meeting?.meetingId}`),
-    createMutator,
+    putMutator,
     {
       onSuccess: async (data) => {
         console.log(data);
@@ -335,7 +335,9 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
             </Text>
           )}
         </CardBody>
-        <Button type="submit"> {"Pohrani promjene"} </Button>
+        <Button type="submit">
+          {meeting ? "Pohrani promjene" : "Kreiraj sastanak"}
+        </Button>
       </CardRoot>
     </>
   );

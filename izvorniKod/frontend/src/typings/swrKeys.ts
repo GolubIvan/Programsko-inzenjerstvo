@@ -25,6 +25,6 @@ export const swrKeys = {
     return `${backend}/meetings/leave/${id}`;
   },
   updateMeeting: (id: string) => {
-    return `${backend}/meetings/updateTocka/${id}`;
+    return `${backend}/meetings/${id}`;
   },
 };
