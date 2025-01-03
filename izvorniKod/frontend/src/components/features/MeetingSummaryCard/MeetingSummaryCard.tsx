@@ -145,7 +145,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                     value="Uredi"
                     onClick={() => {
                       router.push(
-                        `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}`
+                        `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}/edit`
                       );
                     }}
                   >

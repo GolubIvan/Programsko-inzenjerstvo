@@ -13,6 +13,7 @@ import {
   CardRoot,
   Heading,
   Input,
+  IconButton,
 } from "@chakra-ui/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +26,7 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CgPin, CgCalendarDates } from "react-icons/cg";
-import { BiEdit } from "react-icons/bi";
+import { BiChevronLeft, BiEdit } from "react-icons/bi";
 import { TockaDnevnogReda } from "../TockaDnevnogReda/TockaDnevnogReda";
 import { useForm } from "react-hook-form";
 import { Radio, RadioGroup } from "@/components/ui/radio";
@@ -154,170 +155,188 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     }
   );
   return (
-    <CardRoot
-      margin="3%"
-      marginBottom="0"
-      padding="10px"
-      as="form"
-      onSubmit={handleSubmit(createForm)}
-    >
-      <CardTitle borderBottom="1px solid black">
-        <Flex flexDirection="row" alignItems="center">
-          <Input
-            type="text"
-            placeholder="Naslov sastanka"
-            {...register("naslov", { required: "Naslov sastanka je obavezan" })}
-            size="2xl"
-          />
-        </Flex>
-        {errors.naslov?.message && (
-          <Text color="red" fontSize="xl">
-            {errors.naslov.message}
-          </Text>
-        )}
-      </CardTitle>
-      <CardBody>
-        <Heading
-          display="flex"
-          alignItems="center"
-          alignContent="center"
-          flexDirection="row"
-          gap="10px"
-        >
-          Status sastanka:
-          <Text textAlign="center" color={"red"} fontWeight="bold">
-            {newMeeting.status}
-          </Text>
-        </Heading>
-      </CardBody>
-      <CardBody>
-        <Heading>Vrijeme i mjesto:</Heading>
-        <Flex direction="column" gap="5%">
-          <Flex direction="row" gap="5px" alignItems="center">
-            <CgCalendarDates />
+    <>
+      <IconButton
+        bg="gray.300"
+        variant="ghost"
+        onClick={() => {
+          router.push(`/building/${Number(params.zgradaId)}`);
+        }}
+      >
+        <BiChevronLeft />
+        <Text>{"Natrag na popis sastanka"}</Text>
+      </IconButton>
+      <CardRoot
+        margin="3%"
+        marginBottom="0"
+        padding="10px"
+        as="form"
+        onSubmit={handleSubmit(createForm)}
+      >
+        <CardTitle borderBottom="1px solid black">
+          <Flex flexDirection="row" alignItems="center">
             <Input
-              type="datetime-local"
-              width="200px"
-              size="lg"
-              {...register("vrijeme", {
-                required: "Vrijeme sastanka je obavezno",
+              type="text"
+              placeholder="Naslov sastanka"
+              {...register("naslov", {
+                required: "Naslov sastanka je obavezan",
               })}
+              size="2xl"
             />
           </Flex>
-        </Flex>
-        {errors.vrijeme?.message && (
-          <Text color="red" fontSize="lg">
-            {errors.vrijeme.message}
-          </Text>
-        )}
-        <Flex direction="row" gap="5px" alignItems="center">
-          <CgPin />{" "}
-          <Input
-            placeholder="Mjesto"
-            {...register("mjesto", { required: "Mjesto sastanka je obavezno" })}
-            width="200px"
-          />
-        </Flex>
-        {errors.mjesto?.message && (
-          <Text color="red" fontSize="lg">
-            {errors.mjesto.message}
-          </Text>
-        )}
-      </CardBody>
-      <CardBody>
-        <Heading>Sažetak:</Heading>
-        <CardDescription fontSize="1rem">
-          <Input
-            type="text"
-            placeholder="Sažetak sastanka"
-            {...register("sazetak", {
-              required: "Sažetak sastanka je obavezan",
-            })}
-            size="lg"
-          />
-        </CardDescription>
-        {errors.sazetak?.message && (
-          <Text color="red" fontSize="xl">
-            {errors.sazetak.message}
-          </Text>
-        )}
-      </CardBody>
-      <CardBody gap="10px">
-        <Heading>{"Točke dnevnog reda:"}</Heading>
-        {newMeeting.tockeDnevnogReda.map((tocka, index) => (
-          <TockaDnevnogReda
-            key={index}
-            tocka={{
-              id: 0,
-              imeTocke: tocka.imeTocke,
-              imaPravniUcinak: tocka.imaPravniUcinak,
-              url: tocka.url,
-              sastanakId: 0,
-            }}
-            rbr={index + 1}
-          />
-        ))}
-      </CardBody>
-      <CardBody gap="10px">
-        <Heading>{"Nova točka dnevnog reda:"}</Heading>
-        <Input
-          placeholder="Ime točke dnevnog reda"
-          type=""
-          ref={tockaIme}
-          onChange={(e) => {
-            let tempT = newTocka;
-            tempT.imeTocke = e.target.value;
-            setNewTocka(tempT);
-          }}
-        />
-        <Flex
-          direction="row"
-          gap="30px"
-          alignItems="center"
-          width="100%"
-          justifyContent="space-between"
-          wrap="wrap"
-        >
-          <Flex gap="10px">
-            <Input
-              type="url"
-              ref={tockaUrl}
-              placeholder="Poveznica na diskusiju (opcionalno)"
-              onChange={(e) => {
-                let tempT = newTocka;
-                tempT.url = e.target.value;
-                setNewTocka(tempT);
-              }}
-              width="400px"
-            />
-            <Checkbox
-              variant="subtle"
-              ref={tockaBool}
-              onChange={(e) => {
-                let tempT = newTocka;
-                tempT.imaPravniUcinak = (e.target as HTMLInputElement).checked;
-                setNewTocka(tempT);
-              }}
-            >
-              {"Ima pravni učinak"}
-            </Checkbox>
-          </Flex>
-          <Button
-            width="100px"
-            color="white"
-            bg="black"
-            onClick={() => dodajTocku(newTocka)}
+          {errors.naslov?.message && (
+            <Text color="red" fontSize="xl">
+              {errors.naslov.message}
+            </Text>
+          )}
+        </CardTitle>
+        <CardBody>
+          <Heading
+            display="flex"
+            alignItems="center"
+            alignContent="center"
+            flexDirection="row"
+            gap="10px"
           >
-            {"Dodaj točku"}
-          </Button>
-        </Flex>
-        {errors.root?.message && (
-          <Text color="red" fontSize="xl">
-            {errors.root.message}
-          </Text>
-        )}
-      </CardBody>
-      <Button type="submit"> {"Pohrani promjene"} </Button>
-    </CardRoot>
+            Status sastanka:
+            <Text textAlign="center" color={"red"} fontWeight="bold">
+              {newMeeting.status}
+            </Text>
+          </Heading>
+        </CardBody>
+        <CardBody>
+          <Heading>Vrijeme i mjesto:</Heading>
+          <Flex direction="column" gap="5%">
+            <Flex direction="row" gap="5px" alignItems="center">
+              <CgCalendarDates />
+              <Input
+                type="datetime-local"
+                width="200px"
+                size="lg"
+                {...register("vrijeme", {
+                  required: "Vrijeme sastanka je obavezno",
+                })}
+              />
+            </Flex>
+          </Flex>
+          {errors.vrijeme?.message && (
+            <Text color="red" fontSize="lg">
+              {errors.vrijeme.message}
+            </Text>
+          )}
+          <Flex direction="row" gap="5px" alignItems="center">
+            <CgPin />{" "}
+            <Input
+              placeholder="Mjesto"
+              {...register("mjesto", {
+                required: "Mjesto sastanka je obavezno",
+              })}
+              width="200px"
+            />
+          </Flex>
+          {errors.mjesto?.message && (
+            <Text color="red" fontSize="lg">
+              {errors.mjesto.message}
+            </Text>
+          )}
+        </CardBody>
+        <CardBody>
+          <Heading>Sažetak:</Heading>
+          <CardDescription fontSize="1rem">
+            <Input
+              type="text"
+              placeholder="Sažetak sastanka"
+              {...register("sazetak", {
+                required: "Sažetak sastanka je obavezan",
+              })}
+              size="lg"
+            />
+          </CardDescription>
+          {errors.sazetak?.message && (
+            <Text color="red" fontSize="xl">
+              {errors.sazetak.message}
+            </Text>
+          )}
+        </CardBody>
+        <CardBody gap="10px">
+          <Heading>{"Točke dnevnog reda:"}</Heading>
+          {newMeeting.tockeDnevnogReda.map((tocka, index) => (
+            <TockaDnevnogReda
+              key={index}
+              tocka={{
+                id: 0,
+                imeTocke: tocka.imeTocke,
+                imaPravniUcinak: tocka.imaPravniUcinak,
+                url: tocka.url,
+                sastanakId: 0,
+              }}
+              rbr={index + 1}
+            />
+          ))}
+        </CardBody>
+        <CardBody gap="10px">
+          <Heading>{"Nova točka dnevnog reda:"}</Heading>
+          <Input
+            placeholder="Ime točke dnevnog reda"
+            type=""
+            ref={tockaIme}
+            onChange={(e) => {
+              let tempT = newTocka;
+              tempT.imeTocke = e.target.value;
+              setNewTocka(tempT);
+            }}
+          />
+          <Flex
+            direction="row"
+            gap="30px"
+            alignItems="center"
+            width="100%"
+            justifyContent="space-between"
+            wrap="wrap"
+          >
+            <Flex gap="10px">
+              <Input
+                type="url"
+                ref={tockaUrl}
+                placeholder="Poveznica na diskusiju (opcionalno)"
+                onChange={(e) => {
+                  let tempT = newTocka;
+                  tempT.url = e.target.value;
+                  setNewTocka(tempT);
+                }}
+                width="400px"
+              />
+              <Checkbox
+                variant="subtle"
+                ref={tockaBool}
+                onChange={(e) => {
+                  let tempT = newTocka;
+                  tempT.imaPravniUcinak = (
+                    e.target as HTMLInputElement
+                  ).checked;
+                  setNewTocka(tempT);
+                }}
+              >
+                {"Ima pravni učinak"}
+              </Checkbox>
+            </Flex>
+            <Button
+              width="100px"
+              color="white"
+              bg="black"
+              onClick={() => dodajTocku(newTocka)}
+            >
+              {"Dodaj točku"}
+            </Button>
+          </Flex>
+          {errors.root?.message && (
+            <Text color="red" fontSize="xl">
+              {errors.root.message}
+            </Text>
+          )}
+        </CardBody>
+        <Button type="submit"> {"Pohrani promjene"} </Button>
+      </CardRoot>
+    </>
   );
 }
