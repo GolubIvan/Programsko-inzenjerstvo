@@ -383,5 +383,19 @@ namespace Backend.Models
             }
             return meetings;
         }
+
+        public static bool deleteTockeDnevnogReda(int meetingId)
+        {
+            var conn = Database.GetConnection();
+
+            using (var cmd = new NpgsqlCommand("DELETE FROM tocka_dnevnog_reda WHERE sastanakid = @meetingId", conn))
+            {
+                cmd.Parameters.AddWithValue("meetingId", meetingId);
+                int rowsAffected = cmd.ExecuteNonQuery();
+                Console.WriteLine("Izbrisao ukupno " + rowsAffected + " tocaka dnevnog reda");
+            }
+
+            return true;
+        }
     }
 }

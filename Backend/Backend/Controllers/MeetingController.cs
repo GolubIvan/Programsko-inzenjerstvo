@@ -1,11 +1,13 @@
 using Backend.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace Backend.Controllers
 {
@@ -67,10 +69,75 @@ namespace Backend.Controllers
                 MeetingRequest.AddMeeting(meetingRequest, creatorId);
                 return Ok(new { message = "Meeting has been added." });
             }
-            catch (Exception ex) { 
-                return BadRequest(new { error = "Invalid data"});
+            catch (Exception ex) {
+                Console.WriteLine(ex);
+                return BadRequest(new { error = "Invalid data", message = "Failed to add the meeting." });
             }
             
+        }
+        [HttpPut("{meetingId}")]
+        public async Task<IActionResult> UpdateMeeting(int meetingId)
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+            MeetingRequest meetingRequest = new MeetingRequest();
+            if (string.IsNullOrEmpty(token) || token == "undefined")
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            string body;
+            using (StreamReader reader = new StreamReader(Request.Body))
+            {
+                body = await reader.ReadToEndAsync();
+                Console.WriteLine("Evo ga: " + body);
+            }
+            var jsonDocument = JsonDocument.Parse(body);
+            var root = jsonDocument.RootElement;
+            var meetingRequestElement = root.GetProperty("meetingRequest");
+
+            meetingRequest.Naslov = meetingRequestElement.GetProperty("naslov").GetString();
+            meetingRequest.Opis = meetingRequestElement.GetProperty("opis").GetString();
+            meetingRequest.Sazetak = meetingRequestElement.GetProperty("sazetak").GetString();
+            meetingRequest.Vrijeme = meetingRequestElement.GetProperty("vrijeme").GetDateTime();
+            meetingRequest.Mjesto = meetingRequestElement.GetProperty("mjesto").GetString();
+            meetingRequest.Status = meetingRequestElement.GetProperty("status").GetString();
+            meetingRequest.ZgradaId = meetingRequestElement.GetProperty("zgradaId").GetInt32();
+            if (!meetingRequestElement.TryGetProperty("tockeDnevnogReda", out JsonElement tockeElement) || tockeElement.ValueKind != JsonValueKind.Array)
+            {
+                return BadRequest(new { error = "Invalid data", message = "Tocke is missing or not an array." });
+            }
+            Console.WriteLine("Element: " + tockeElement.GetRawText());
+            var tocke = JsonSerializer.Deserialize<List<TockaDnevnogRedaRequest>>(tockeElement.GetRawText());
+            foreach (var tocka in tocke)
+            {
+                Console.WriteLine(tocka);
+            }
+            meetingRequest.TockeDnevnogReda = tocke;
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+
+            if (meeting == null)
+            {
+                return BadRequest(new { error = "Leaving failed", message = "Meeting doesn't exist." });
+            }
+
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+
+            if (uloga != "Predstavnik")
+            {
+                return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
+            }
+
+            int creatorId = Backend.Models.Racun.getID(email);
+
+            if (meeting.status != "Objavljen" && meeting.status != "Planiran")
+            {
+                return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran or Objavljen." });
+            }
+            MeetingRequest.UpdateMeeting(meetingRequest, meetingId);
+
+            return Ok(new { message = "Tocke have been updated." });
         }
 
 
@@ -177,7 +244,7 @@ namespace Backend.Controllers
 
 
 
-        [HttpPost("delete/{meetingId}")]
+        [HttpDelete("delete/{meetingId}")]
         public IActionResult DeleteMeeting(int meetingId)
         {
             string token = Request.Headers["token"].ToString() ?? "";
@@ -264,18 +331,75 @@ namespace Backend.Controllers
             return Unauthorized(new { error = "Invalid role", message = "The user role does not exist for the building." });
         }
 
-        [HttpPost("addTocka/{meetingId}")]
-        public IActionResult CreateMeeting([FromBody] TockaDnevnogRedaRequest tocka, int meetingId)
-        {
+        // [HttpPost("addTocka/{meetingId}")]
+        // public IActionResult CreateMeeting([FromBody] TockaDnevnogRedaRequest tocka, int meetingId)
+        // {
             
-            string token = Request.Headers["token"].ToString() ?? "";
+        //     string token = Request.Headers["token"].ToString() ?? "";
        
+        //     if (token == "undefined" || token == "")        //postoji token
+        //     {
+        //         return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+        //     }
+
+        //     if (tocka == null)                     //postoji tocka
+        //     {
+        //         return BadRequest(new { error = "Invalid data", message = "Tocka dnevnog reda je prazna." });
+        //     }
+
+        //     string email = JWTGenerator.ParseGoogleJwtToken(token);
+        //     Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+        //     string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+
+        //     //Console.WriteLine(meetingRequest.Naslov);
+
+        //     if(uloga != "Predstavnik")                      //dobra rola
+        //     {
+        //         return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
+        //     }
+        //     int creatorId = Backend.Models.Racun.getID(email);
+
+        //     if (meeting.status != "Objavljen" && meeting.status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran." }); }
+
+        //     try
+        //     {
+        //         if(Meeting.addTockaDnevnogReda(meetingId, tocka)) return Ok(new { message = "Tocka has been added." });
+        //         else return BadRequest(new { error = "Invalid data"});
+        //     }
+        //     catch (Exception ex) { 
+        //         return BadRequest(new { error = "Invalid data"});
+        //     }
+            
+        // }
+
+        [HttpPut("updateTocka/{meetingId}")]
+        public async Task<IActionResult> UpdateMeetings(int meetingId)
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+            string body;
+            using (StreamReader reader = new StreamReader(Request.Body))
+            {
+                body = await reader.ReadToEndAsync();
+                Console.WriteLine("Evo ga: " + body);
+            }
+            var jsonDocument = JsonDocument.Parse(body);
+            var root = jsonDocument.RootElement;
+
+            if (!root.TryGetProperty("tockeDnevnogReda", out JsonElement tockeElement) || tockeElement.ValueKind != JsonValueKind.Array)
+            {
+                return BadRequest(new { error = "Invalid data", message = "Tocke is missing or not an array." });
+            }
+
+            var tocke = JsonSerializer.Deserialize<List<TockaDnevnogRedaRequest>>(tockeElement.GetRawText());
+
+            Console.WriteLine("Evo ga: " + body);
+
             if (token == "undefined" || token == "")        //postoji token
             {
                 return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
 
-            if (tocka == null)                     //postoji tocka
+            if (tocke == null)                     //postoji tocka
             {
                 return BadRequest(new { error = "Invalid data", message = "Tocka dnevnog reda je prazna." });
             }
@@ -292,17 +416,16 @@ namespace Backend.Controllers
             }
             int creatorId = Backend.Models.Racun.getID(email);
 
-            if (meeting.status != "Objavljen" && meeting.status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran." }); }
-
-            try
-            {
-                if(Meeting.addTockaDnevnogReda(meetingId, tocka)) return Ok(new { message = "Tocka has been added." });
-                else return BadRequest(new { error = "Invalid data"});
-            }
-            catch (Exception ex) { 
-                return BadRequest(new { error = "Invalid data"});
+            if (meeting.status != "Objavljen" && meeting.status != "Planiran")  { return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran or Objavljen." }); }
+            
+            Backend.Models.Meeting.deleteTockeDnevnogReda(meetingId);
+            foreach (var tocka in tocke){
+                Console.WriteLine("Bla:" + tocka);
+                if(!Backend.Models.Meeting.addTockaDnevnogReda(meetingId, tocka)) 
+                    return BadRequest(new { error = "Invalid data"});
             }
             
+            return Ok(new { message = "Tocke have been updated." });
         }
 
         [HttpPost("arhiviraj/{meetingId}")]
@@ -319,6 +442,10 @@ namespace Backend.Controllers
             if (meeting == null)
             {
                 return NotFound(new { error = "Meeting not found", message = "Meeting with the specified ID not found." });
+            }
+
+            foreach(var tocka in meeting.tockeDnevnogReda){
+                if(tocka.imaPravniUcinak == true && tocka.stanjeZakljucka != "Izglasan") { return BadRequest(new { error = "Invalid change", message = "Tocke with pravni ucinak have to be Izglasan." }); }
             }
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
