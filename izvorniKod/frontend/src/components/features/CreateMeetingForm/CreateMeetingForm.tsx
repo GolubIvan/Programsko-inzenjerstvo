@@ -48,26 +48,30 @@ interface ITockaForm {
   imeTocke: string;
   imaPravniUcinak: Boolean;
   sazetak?: string;
-  stanjeZakljucka?: undefined;
+  stanjeZakljucka?: "Izglasan";
   url?: string;
 }
 
-export function CreateMeetingForm() {
+interface ICreateMeetingFormProps {
+  meeting?: IMeeting;
+}
+
+export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
   const tockaUrl = useRef<HTMLInputElement>(null);
   const tockaIme = useRef<HTMLInputElement>(null);
   const tockaBool = useRef<HTMLInputElement>(null);
   const params = useParams();
   const router = useRouter();
-  const [newMeeting, setNewMeeting] = useState<IMeetingForm>({
-    naslov: "",
-    mjesto: "",
-    vrijeme: new Date(),
-    sazetak: "",
-    zgradaId: Number(params.zgradaId),
-    status: "Planiran",
-    tockeDnevnogReda: [],
-  });
 
+  const [newMeeting, setNewMeeting] = useState<IMeetingForm>({
+    naslov: meeting ? meeting.naslov : "",
+    mjesto: meeting ? meeting.mjesto : "",
+    vrijeme: meeting ? meeting.vrijeme : new Date(),
+    sazetak: meeting ? meeting.sazetak : "",
+    zgradaId: meeting ? meeting.zgradaId : Number(params.zgradaId),
+    status: meeting ? meeting.status : "Planiran",
+    tockeDnevnogReda: meeting ? meeting.tockeDnevnogReda : [],
+  });
   const [newTocka, setNewTocka] = useState<ITockaForm>({
     imeTocke: "",
     imaPravniUcinak: false,
@@ -127,7 +131,8 @@ export function CreateMeetingForm() {
       });
       return;
     }
-    await trigger(data);
+    if (meeting) await trigger2(data);
+    else await trigger(data);
   };
 
   const { trigger } = useSWRMutation(swrKeys.createMeeting, createMutator, {
@@ -137,6 +142,17 @@ export function CreateMeetingForm() {
       router.push(`/building/${params.zgradaId}`);
     },
   });
+  const { trigger: trigger2 } = useSWRMutation(
+    swrKeys.updateMeeting(`${meeting?.meetingId}`),
+    createMutator,
+    {
+      onSuccess: async (data) => {
+        console.log(data);
+        reset();
+        router.push(`/building/${params.zgradaId}`);
+      },
+    }
+  );
   return (
     <CardRoot
       margin="3%"
@@ -301,7 +317,7 @@ export function CreateMeetingForm() {
           </Text>
         )}
       </CardBody>
-      <Button type="submit"> {"Kreiraj sastanak"} </Button>
+      <Button type="submit"> {"Pohrani promjene"} </Button>
     </CardRoot>
   );
 }
