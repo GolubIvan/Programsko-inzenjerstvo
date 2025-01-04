@@ -22,12 +22,12 @@ export const swrKeys = {
     return `${backend}/meetings/obavljen/${id}`;
   },
   joinMeeting: (id: string) => {
-    return `${backend}/meetings/join/${id}`
+    return `${backend}/meetings/join/${id}`;
   },
   leaveMeeting: (id: string) => {
-    return `${backend}/meetings/leave/${id}`
+    return `${backend}/meetings/leave/${id}`;
   },
-  updateTocke: (id: string) => {
-    return `${backend}/meetings/${id}`
-  }
+  updateMeeting: (id: string) => {
+    return `${backend}/meetings/${id}`;
+  },
 };

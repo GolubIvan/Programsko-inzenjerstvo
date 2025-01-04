@@ -45,22 +45,28 @@ export async function createMutator<T>(url: string, { arg }: { arg: T }) {
 }
 
 export async function postMutator<T>(url: string, { arg }: { arg: T }) {
-  return await authFetcher<{ review: User }>(url, {
+  return await authFetcher(url, {
     method: "POST",
     body: JSON.stringify(arg),
   });
 }
 
 export async function deleteMutator<T>(url: string, { arg }: { arg: T }) {
-  console.log("lol");
-  return await authFetcher<{ review: User }>(url, {
+  return await authFetcher(url, {
     method: "DELETE",
     body: JSON.stringify(arg),
   });
 }
 
+export async function putMutator<T>(url: string, { arg }: { arg: T }) {
+  return await authFetcher(url, {
+    method: "PUT",
+    body: JSON.stringify(arg),
+  });
+}
+
 export async function patchMutator<T>(url: string, { arg }: { arg: T }) {
-  return await authFetcher<{ review: User }>(url, {
+  return await authFetcher(url, {
     method: "PATCH",
     body: JSON.stringify(arg),
   });

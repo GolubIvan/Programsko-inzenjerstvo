@@ -156,19 +156,16 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                   <BiEdit size="25px" />
                 </MenuTrigger>
                 <MenuContent>
-                  {(meeting.status == "Planiran" ||
-                    meeting.status == "Obavljen") && (
-                    <MenuItem
-                      value="Uredi"
-                      onClick={() => {
-                        router.push(
-                          `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}/edit`
-                        );
-                      }}
-                    >
-                      Uredi
-                    </MenuItem>
-                  )}
+                  <MenuItem
+                    value="Uredi"
+                    onClick={() => {
+                      router.push(
+                        `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}/edit`
+                      );
+                    }}
+                  >
+                    Uredi
+                  </MenuItem>
                   {meeting.status == "Planiran" && (
                     <>
                       <MenuItem
