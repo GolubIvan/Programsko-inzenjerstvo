@@ -23,8 +23,13 @@ export function TockaDnevnogReda({ tocka, rbr }: ITockaProps) {
         </Flex>
 
         <Text>{tocka.sazetak}</Text>
-        {tocka.stanjeZakljucka && (
+        {tocka.stanjeZakljucka == "Izglasan" && (
           <Text fontWeight="bold" color="green">
+            {tocka.stanjeZakljucka}
+          </Text>
+        )}
+        {tocka.stanjeZakljucka == "Odbijen" && (
+          <Text fontWeight="bold" color="red">
             {tocka.stanjeZakljucka}
           </Text>
         )}

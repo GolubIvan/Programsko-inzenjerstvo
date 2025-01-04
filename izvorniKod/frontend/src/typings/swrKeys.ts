@@ -18,10 +18,16 @@ export const swrKeys = {
   objaviMeeting: (id: string) => {
     return `${backend}/meetings/objavljen/${id}`;
   },
+  obaviMeeting: (id: string) => {
+    return `${backend}/meetings/obavljen/${id}`;
+  },
   joinMeeting: (id: string) => {
-    return `${backend}/meetings/join/${id}`
+    return `${backend}/meetings/join/${id}`;
   },
   leaveMeeting: (id: string) => {
-    return `${backend}/meetings/leave/${id}`
-  }
+    return `${backend}/meetings/leave/${id}`;
+  },
+  updateMeeting: (id: string) => {
+    return `${backend}/meetings/${id}`;
+  },
 };

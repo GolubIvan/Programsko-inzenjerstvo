@@ -1,4 +1,5 @@
 "use client";
+import { BackToMeetingListButton } from "@/components/features/BackToMeetingListButton/BackToMeetingListButton";
 import { MeetingDisplay } from "@/components/features/MeetingDisplay/MeetingDisplay";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 import { authFetcher } from "@/fetchers/fetcher";
@@ -34,6 +35,7 @@ export default function MeetingPage() {
   return (
     <Flex flexDirection="column" height="100vh">
       <AuthHeader canLogout={true} title=" " />
+      <BackToMeetingListButton />
       <MeetingDisplay meeting={data?.meeting} />
     </Flex>
   );
