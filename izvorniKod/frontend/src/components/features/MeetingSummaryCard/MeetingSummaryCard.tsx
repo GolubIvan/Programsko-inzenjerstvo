@@ -112,6 +112,21 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
     }
   );
 
+  const [obavljenError, setObavljenError] = useState("");
+
+  const { trigger: trigger_obavi = trigger } = useSWRMutation(
+    swrKeys.obaviMeeting(`${meeting.meetingId}`),
+    postMutator,
+    {
+      onSuccess: async (data) => {
+        await mutate(swrKeys.building(`${meeting.zgradaId}`));
+      },
+      onError: async (err) => {
+        setObavljenError(err.message);
+      },
+    }
+  );
+
   return (
     <>
       <Card.Root
@@ -170,6 +185,23 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                         Objavi
                       </MenuItem>
                     </>
+                  )}
+                  {meeting.status == "Objavljen" && (
+                    <MenuItem
+                      value="Obavi"
+                      onClick={async () => {
+                        const now = new Date();
+                        if (now < date) {
+                          setObavljenError(
+                            "Nije moguće prebaciti sastanak u stanje 'Obavljen' prije isteka vremena."
+                          );
+                          return;
+                        }
+                        await trigger_obavi();
+                      }}
+                    >
+                      Označi kao "Obavljen"
+                    </MenuItem>
                   )}
                 </MenuContent>
               </MenuRoot>
@@ -246,6 +278,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
               Potvrdite svoj dolazak
             </Button>
           )}
+          {obavljenError != "" && <Text color="red">{obavljenError}</Text>}
         </CardFooter>
       </Card.Root>
     </>

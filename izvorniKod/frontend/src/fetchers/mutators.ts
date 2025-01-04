@@ -71,3 +71,11 @@ export async function patchMutator<T>(url: string, { arg }: { arg: T }) {
     body: JSON.stringify(arg),
   });
 }
+
+export async function putMutator<T>(url: string, { arg }: { arg: T }) {
+  return await authFetcher<{ review: User }>(url, {
+    method: "PUT",
+    body: JSON.stringify(arg),
+  });
+}
+
