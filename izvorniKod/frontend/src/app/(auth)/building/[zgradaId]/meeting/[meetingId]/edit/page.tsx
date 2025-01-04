@@ -1,4 +1,5 @@
 "use client";
+import { BackToMeetingListButton } from "@/components/features/BackToMeetingListButton/BackToMeetingListButton";
 import { CreateMeetingForm } from "@/components/features/CreateMeetingForm/CreateMeetingForm";
 import { EditObavljeniModule } from "@/components/features/EditObavljeniModule/EditObavljeniModule";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
@@ -35,6 +36,7 @@ export default function EditMeetingPage() {
   return (
     <Flex flexDirection="column" height="100vh">
       <AuthHeader canLogout={true} title=" " />
+      <BackToMeetingListButton />
       {data.meeting.status == "Planiran" && (
         <CreateMeetingForm meeting={data.meeting} />
       )}

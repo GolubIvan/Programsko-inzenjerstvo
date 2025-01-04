@@ -17,12 +17,15 @@ import { useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
 import { postMutator, putMutator } from "@/fetchers/mutators";
+import { useParams, useRouter } from "next/navigation";
 
 interface IEditObavljeniProps {
   meeting: IMeeting;
 }
 
 export function EditObavljeniModule({ meeting }: IEditObavljeniProps) {
+  const router = useRouter();
+  const params = useParams();
   const date = new Date(meeting.vrijeme);
   let col = "";
   switch (meeting.status) {
@@ -78,7 +81,12 @@ export function EditObavljeniModule({ meeting }: IEditObavljeniProps) {
 
   const { trigger } = useSWRMutation(
     swrKeys.updateMeeting(`${meeting.meetingId}`),
-    putMutator
+    putMutator,
+    {
+      onSuccess: () => {
+        router.push(`/building/${Number(params.zgradaId)}`);
+      },
+    }
   );
 
   const spremiPromjene = async () => {

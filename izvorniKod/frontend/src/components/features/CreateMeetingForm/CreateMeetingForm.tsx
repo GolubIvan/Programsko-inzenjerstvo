@@ -34,6 +34,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { swrKeys } from "@/typings/swrKeys";
 import { createMutator, putMutator } from "@/fetchers/mutators";
 import useSWRMutation from "swr/mutation";
+import { BackToMeetingListButton } from "../BackToMeetingListButton/BackToMeetingListButton";
 
 interface IMeetingForm {
   naslov: string;
@@ -179,16 +180,6 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
   );
   return (
     <>
-      <IconButton
-        bg="gray.300"
-        variant="ghost"
-        onClick={() => {
-          router.push(`/building/${Number(params.zgradaId)}`);
-        }}
-      >
-        <BiChevronLeft />
-        <Text>{"Natrag na popis sastanka"}</Text>
-      </IconButton>
       <CardRoot
         margin="3%"
         marginBottom="0"

@@ -28,6 +28,7 @@ import { swrKeys } from "@/typings/swrKeys";
 import { deleteMutator, postMutator } from "@/fetchers/mutators";
 import useSWR, { useSWRConfig } from "swr";
 import { IMeetingFetch } from "@/app/(auth)/building/[zgradaId]/page";
+import MeetingPage from "@/app/(auth)/building/[zgradaId]/create/page";
 interface IMeetingSummaryCard {
   role: "Administrator" | "Predstavnik" | "Suvlasnik";
   meeting: IMeeting;
@@ -156,16 +157,19 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                   <BiEdit size="25px" />
                 </MenuTrigger>
                 <MenuContent>
-                  <MenuItem
-                    value="Uredi"
-                    onClick={() => {
-                      router.push(
-                        `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}/edit`
-                      );
-                    }}
-                  >
-                    Uredi
-                  </MenuItem>
+                  {(meeting.status == "Planiran" ||
+                    meeting.status == "Obavljen") && (
+                    <MenuItem
+                      value="Uredi"
+                      onClick={() => {
+                        router.push(
+                          `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}/edit`
+                        );
+                      }}
+                    >
+                      Uredi
+                    </MenuItem>
+                  )}
                   {meeting.status == "Planiran" && (
                     <>
                       <MenuItem
