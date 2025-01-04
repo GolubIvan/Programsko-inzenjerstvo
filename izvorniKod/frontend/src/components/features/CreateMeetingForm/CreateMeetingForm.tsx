@@ -71,7 +71,15 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     sazetak: meeting ? meeting.sazetak : "",
     zgradaId: meeting ? meeting.zgradaId : Number(params.zgradaId),
     status: meeting ? meeting.status : "Planiran",
-    tockeDnevnogReda: meeting ? meeting.tockeDnevnogReda : [],
+    tockeDnevnogReda: meeting
+      ? meeting.tockeDnevnogReda.map((tocka, index) => {
+          return {
+            imeTocke: tocka.imeTocke,
+            imaPravniUcinak: tocka.imaPravniUcinak,
+            url: tocka.url,
+          };
+        })
+      : [],
   });
   const [newTocka, setNewTocka] = useState<ITockaForm>({
     imeTocke: "",
@@ -132,8 +140,23 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
       });
       return;
     }
-    if (meeting) await trigger2(data);
-    else await trigger(data);
+    if (meeting) {
+      let temp = meeting;
+      temp.naslov = data.naslov;
+      temp.vrijeme = data.vrijeme;
+      temp.mjesto = data.mjesto;
+      temp.sazetak = data.sazetak;
+      temp.tockeDnevnogReda = data.tockeDnevnogReda.map((tocka) => {
+        return {
+          id: 0,
+          sastanakId: meeting.meetingId,
+          imeTocke: tocka.imeTocke,
+          imaPravniUcinak: tocka.imaPravniUcinak,
+          url: tocka.url,
+        };
+      });
+      await trigger2({ meetingRequest: temp });
+    } else await trigger(data);
   };
 
   const { trigger } = useSWRMutation(swrKeys.createMeeting, createMutator, {

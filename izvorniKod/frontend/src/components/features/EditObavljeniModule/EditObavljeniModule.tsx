@@ -77,7 +77,7 @@ export function EditObavljeniModule({ meeting }: IEditObavljeniProps) {
   };
 
   const { trigger } = useSWRMutation(
-    swrKeys.updateTocke(`${meeting.meetingId}`),
+    swrKeys.updateMeeting(`${meeting.meetingId}`),
     putMutator
   );
 

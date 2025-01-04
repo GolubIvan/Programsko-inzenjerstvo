@@ -1,5 +1,6 @@
 "use client";
 import { CreateMeetingForm } from "@/components/features/CreateMeetingForm/CreateMeetingForm";
+import { EditObavljeniModule } from "@/components/features/EditObavljeniModule/EditObavljeniModule";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 import { authFetcher } from "@/fetchers/fetcher";
 import { IMeeting } from "@/typings/meeting";
@@ -36,6 +37,9 @@ export default function EditMeetingPage() {
       <AuthHeader canLogout={true} title=" " />
       {data.meeting.status == "Planiran" && (
         <CreateMeetingForm meeting={data.meeting} />
+      )}
+      {data.meeting.status == "Obavljen" && (
+        <EditObavljeniModule meeting={data.meeting} />
       )}
     </Flex>
   );
