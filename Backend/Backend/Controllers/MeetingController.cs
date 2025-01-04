@@ -131,9 +131,9 @@ namespace Backend.Controllers
 
             int creatorId = Backend.Models.Racun.getID(email);
 
-            if (meeting.status != "Objavljen" && meeting.status != "Planiran")
+            if (meeting.status != "Obavljen" && meeting.status != "Planiran")
             {
-                return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran or Objavljen." });
+                return BadRequest(new { error = "Invalid data", message = "Meeting has to be Planiran or Obavljen." });
             }
             MeetingRequest.UpdateMeeting(meetingRequest, meetingId);
 
