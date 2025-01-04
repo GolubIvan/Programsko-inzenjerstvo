@@ -22,11 +22,11 @@ export interface IMeeting {
 }
 
 export interface ITocka {
-  id: Number;
+  id: number;
   imeTocke: string;
   imaPravniUcinak: Boolean;
   sazetak?: string;
-  stanjeZakljucka?: "Izglasan";
+  stanjeZakljucka?: "Izglasan" | "Odbijen";
   url?: string;
   sastanakId: Number;
 }
