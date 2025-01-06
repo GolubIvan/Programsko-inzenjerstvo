@@ -445,7 +445,7 @@ namespace Backend.Controllers
             }
 
             foreach(var tocka in meeting.tockeDnevnogReda){
-                if(tocka.imaPravniUcinak == true && (tocka.stanjeZakljucka != "Izglasan" || tocka.stanjeZakljucka != "Odbijen")) { return BadRequest(new { error = "Invalid change", message = "Tocke with pravni ucinak have to be Izglasan or Odbijen." }); }
+                if(tocka.imaPravniUcinak == true && tocka.stanjeZakljucka != "Izglasan" && tocka.stanjeZakljucka != "Odbijen") { return BadRequest(new { error = "Invalid change", message = "Tocke with pravni ucinak have to be Izglasan or Odbijen." }); }
             }
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);

@@ -15,7 +15,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CheckUser([FromBody] Backend.Models.LoginRequest loginRequest)
+        public async Task<IActionResult> CheckUser()
         {
             string token = Request.Headers["token"].ToString() ?? "";
             if (token == "undefined" || token == "")        
@@ -23,10 +23,6 @@ namespace Backend.Controllers
                 return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
 
-            if (loginRequest == null)                     
-            {
-                return BadRequest(new { error = "Invalid data", message = "Log in data required." });
-            }
             //Console.WriteLine(token);
             _logger.LogInformation("Checking user with token: {Token}", token);
             
