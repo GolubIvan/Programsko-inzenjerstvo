@@ -6,7 +6,7 @@ import { LuPaperclip } from "react-icons/lu";
 
 interface ITockaProps {
   tocka: ITocka;
-  rbr: Number;
+  rbr: number;
 }
 export function TockaDnevnogReda({ tocka, rbr }: ITockaProps) {
   return (

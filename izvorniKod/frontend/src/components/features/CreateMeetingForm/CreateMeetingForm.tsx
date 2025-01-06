@@ -41,14 +41,14 @@ interface IMeetingForm {
   mjesto: string;
   vrijeme: Date;
   status: "Obavljen" | "Objavljen" | "Planiran" | "Arhiviran";
-  zgradaId: Number;
+  zgradaId: number;
   sazetak: string;
   tockeDnevnogReda: ITockaForm[];
 }
 
 interface ITockaForm {
   imeTocke: string;
-  imaPravniUcinak: Boolean;
+  imaPravniUcinak: boolean;
   sazetak?: string;
   stanjeZakljucka?: "Izglasan";
   url?: string;
@@ -142,7 +142,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
       return;
     }
     if (meeting) {
-      let temp = meeting;
+      const temp = meeting;
       temp.naslov = data.naslov;
       temp.vrijeme = data.vrijeme;
       temp.mjesto = data.mjesto;
@@ -295,7 +295,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
             type=""
             ref={tockaIme}
             onChange={(e) => {
-              let tempT = newTocka;
+              const tempT = newTocka;
               tempT.imeTocke = e.target.value;
               setNewTocka(tempT);
             }}
@@ -314,7 +314,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                 ref={tockaUrl}
                 placeholder="Poveznica na diskusiju (opcionalno)"
                 onChange={(e) => {
-                  let tempT = newTocka;
+                  const tempT = newTocka;
                   tempT.url = e.target.value;
                   setNewTocka(tempT);
                 }}
@@ -324,7 +324,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                 variant="subtle"
                 ref={tockaBool}
                 onChange={(e) => {
-                  let tempT = newTocka;
+                  const tempT = newTocka;
                   tempT.imaPravniUcinak = (
                     e.target as HTMLInputElement
                   ).checked;

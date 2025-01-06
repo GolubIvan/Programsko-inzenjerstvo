@@ -8,25 +8,25 @@ export interface IMeetingSummary {
 }
 
 export interface IMeeting {
-  meetingId: Number;
+  meetingId: number;
   naslov: string;
   mjesto: string;
   vrijeme: Date;
   status: "Obavljen" | "Objavljen" | "Planiran" | "Arhiviran";
-  zgradaId: Number;
-  kreatorId: Number;
+  zgradaId: number;
+  kreatorId: number;
   sazetak: string;
   tockeDnevnogReda: ITocka[];
-  sudjelovanje: Boolean;
+  sudjelovanje: boolean;
   brojSudionika: number;
 }
 
 export interface ITocka {
   id: number;
   imeTocke: string;
-  imaPravniUcinak: Boolean;
+  imaPravniUcinak: boolean;
   sazetak?: string;
   stanjeZakljucka?: "Izglasan" | "Odbijen";
   url?: string;
-  sastanakId: Number;
+  sastanakId: number;
 }

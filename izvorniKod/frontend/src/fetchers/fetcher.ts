@@ -25,15 +25,6 @@ export async function authFetcher<T>(
     }
     if (response.status !== 204) {
       data = await response.json();
-      if (data.podaci) {
-        data.podaci = data.podaci.map((item: any) => ({
-          zgrada: {
-            address: item.key.address,
-            zgradaId: item.key.zgradaId,
-          },
-          uloga: item.value,
-        }));
-      }
     }
   } catch (error) {
     throw error;

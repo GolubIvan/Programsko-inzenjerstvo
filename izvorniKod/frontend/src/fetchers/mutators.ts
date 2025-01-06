@@ -28,7 +28,7 @@ export async function createMutator<T>(url: string, { arg }: { arg: T }) {
   console.log(url);
   console.log(JSON.stringify(arg));
   const value = localStorage.getItem("loginInfo");
-  let authInfo = value ? JSON.parse(value) : {};
+  const authInfo = value ? JSON.parse(value) : {};
   const response = await fetch(url, {
     method: "POST",
     headers: {

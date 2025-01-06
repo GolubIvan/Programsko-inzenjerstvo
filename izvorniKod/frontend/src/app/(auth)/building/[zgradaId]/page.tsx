@@ -13,7 +13,7 @@ import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 export interface IMeetingFetch {
-  buildingId: Number;
+  buildingId: number;
   address: string;
   role: "Administrator" | "Predstavnik" | "Suvlasnik";
   meetings: Array<IMeeting>;
@@ -22,7 +22,7 @@ export interface IMeetingFetch {
 export default function ZgradaPage() {
   const params = useParams();
   const router = useRouter();
-  let id = params.zgradaId as string;
+  const id = params.zgradaId as string;
   const { data, isLoading, error, mutate } = useSWR(
     swrKeys.building(`${id}`),
     authFetcher<IMeetingFetch>

@@ -18,7 +18,7 @@ interface IMeetingProps {
 export default function EditMeetingPage() {
   const params = useParams();
   const router = useRouter();
-  let id = params.meetingId as string;
+  const id = params.meetingId as string;
   console.log(id);
   const { data, isLoading, error } = useSWR(
     swrKeys.meeting(`${id}`),

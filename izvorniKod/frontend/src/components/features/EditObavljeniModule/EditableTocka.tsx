@@ -6,7 +6,7 @@ import { LuPaperclip } from "react-icons/lu";
 
 interface ITockaProps {
   tocka: ITocka;
-  rbr: Number;
+  rbr: number;
   updateStanjeZakljucka: (stanje: "Izglasan" | "Odbijen", rbr: number) => void;
   updateTekstZakljucka: (tekst: string, rbr: number) => void;
 }
@@ -29,7 +29,7 @@ export function EditableTocka({
 
   useEffect(() => {
     updateTekstZakljucka(tocka.sazetak || "", tocka.id);
-  }, [null]);
+  }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     updateTekstZakljucka(e.target.value, tocka.id);

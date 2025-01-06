@@ -214,7 +214,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                         await trigger_obavi();
                       }}
                     >
-                      Označi kao "Obavljen"
+                      {'Označi kao "Obavljen"'}
                     </MenuItem>
                   )}
                   {meeting.status == "Obavljen" && (
