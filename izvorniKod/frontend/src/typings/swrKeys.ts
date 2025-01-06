@@ -30,4 +30,7 @@ export const swrKeys = {
   updateMeeting: (id: string) => {
     return `${backend}/meetings/${id}`;
   },
+  arhivirajMeeting: (id: string) => {
+    return `${backend}/meetings/arhiviraj/${id}`;
+  },
 };

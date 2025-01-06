@@ -93,6 +93,15 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
     }
   );
 
+  const { trigger: trigger_arhiviraj } = useSWRMutation(
+    swrKeys.arhivirajMeeting(`${meeting.meetingId}`),
+    postMutator,
+    {
+      onSuccess: async (data) => {
+        await mutate(swrKeys.building(`${meeting.zgradaId}`));
+      },
+    }
+  );
   const { trigger: trigger_join = trigger } = useSWRMutation(
     swrKeys.joinMeeting(`${meeting.meetingId}`),
     postMutator,
@@ -114,6 +123,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
   );
 
   const [obavljenError, setObavljenError] = useState("");
+  const [arhiviranError, setArhiviranError] = useState("");
 
   const { trigger: trigger_obavi = trigger } = useSWRMutation(
     swrKeys.obaviMeeting(`${meeting.meetingId}`),
@@ -207,6 +217,39 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                       Označi kao "Obavljen"
                     </MenuItem>
                   )}
+                  {meeting.status == "Obavljen" && (
+                    <MenuItem
+                      value="Arhiviraj"
+                      onClick={async () => {
+                        for (
+                          let i = 0;
+                          i < meeting.tockeDnevnogReda.length;
+                          i++
+                        ) {
+                          if (
+                            meeting.tockeDnevnogReda[i].imaPravniUcinak &&
+                            !meeting.tockeDnevnogReda[i].sazetak
+                          ) {
+                            setArhiviranError(
+                              "Sve točke dnevnog reda s pravnim učinkom moraju imati zaključak"
+                            );
+                            return;
+                          } else if (
+                            meeting.tockeDnevnogReda[i].imaPravniUcinak &&
+                            !meeting.tockeDnevnogReda[i].stanjeZakljucka
+                          ) {
+                            setArhiviranError(
+                              "Sve točke dnevnog reda s pravnim učinkom moraju imati status zaključka kao Izglasan ili Odbijen"
+                            );
+                            return;
+                          }
+                        }
+                        await trigger_arhiviraj();
+                      }}
+                    >
+                      Arhiviraj
+                    </MenuItem>
+                  )}
                 </MenuContent>
               </MenuRoot>
             )}
@@ -283,6 +326,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
             </Button>
           )}
           {obavljenError != "" && <Text color="red">{obavljenError}</Text>}
+          {arhiviranError != "" && <Text color="Red">{arhiviranError}</Text>}
         </CardFooter>
       </Card.Root>
     </>

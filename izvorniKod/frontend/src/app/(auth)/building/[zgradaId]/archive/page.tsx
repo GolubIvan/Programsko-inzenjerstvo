@@ -68,13 +68,14 @@ export default function ZgradaPage() {
           <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
             {archivedMeetings?.length != 0 &&
               data?.meetings.map((meeting, ind) => {
-                return (
-                  <MeetingSummaryCard
-                    key={ind}
-                    meeting={meeting}
-                    role={data.role}
-                  />
-                );
+                if (meeting.status == "Arhiviran")
+                  return (
+                    <MeetingSummaryCard
+                      key={ind}
+                      meeting={meeting}
+                      role={data.role}
+                    />
+                  );
               })}
             {archivedMeetings?.length == 0 && (
               <Text>Još nema arhiviranih sastanaka za ovu zgradu.</Text>

@@ -84,13 +84,14 @@ export default function ZgradaPage() {
           <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
             {activeMeetings?.length != 0 &&
               data?.meetings.map((meeting, ind) => {
-                return (
-                  <MeetingSummaryCard
-                    key={ind}
-                    meeting={meeting}
-                    role={data.role}
-                  />
-                );
+                if (meeting.status != "Arhiviran")
+                  return (
+                    <MeetingSummaryCard
+                      key={ind}
+                      meeting={meeting}
+                      role={data.role}
+                    />
+                  );
               })}
             {activeMeetings?.length == 0 && (
               <Text>Još nema sastanaka za ovu zgradu.</Text>
