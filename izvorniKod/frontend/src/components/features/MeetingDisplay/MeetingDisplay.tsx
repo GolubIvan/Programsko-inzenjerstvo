@@ -51,7 +51,12 @@ export function MeetingDisplay({ meeting }: IMeetingProps) {
           gap="10px"
         >
           Status sastanka:
-          <Text textAlign="center" color={col} fontWeight="bold">
+          <Text
+            textAlign="center"
+            color={col}
+            fontWeight="bold"
+            bg={meeting.status == "Arhiviran" ? "gray.700" : "white"}
+          >
             {meeting.status}
           </Text>
         </Heading>
