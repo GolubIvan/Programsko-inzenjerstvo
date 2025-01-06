@@ -1,0 +1,61 @@
+# Baza podataka
+Sustav koristi relacijsku bazu podataka PostgreSQL. Baza podataka sastoji se od pet entiteta:
+Zgrada, Korisnik, Account, Sastanak i Tocka_Dnevog_Reda.  
+
+## Opis tablica
+### Zgrada
+Entitet Zgrada sadržava informacije o zgradi. Sastoji se od dva atributa: **zgradaID**, koji je identifikacijski ključ zgrade te **adresaZgrade**. Ovaj entitet identifikacijski je povezan s entitetom Account, koji identifikacijski ovisi o entitetu Zgrada preko atributa zgradaID. Veza je Many-to-One.
+| **Atribut**            | **Tip**        |    **Opis**                      |
+|------------------------|----------------|----------------------------------|
+| **zgradaID**           | `INT`          | Identifikacijski ključ zgrade    |
+| **adresaZgrade**       | `VARCHAR`      | Adresa zgrade                    |
+
+### Korisnik
+Entitet Korisnik sadržava informacije o korisniku. Sastoji se od atributa **userID** - identifikacijski ključ korisnika, **eMail** - adresa e-pošte korisnika, **imeKorisnika** - korisničko ime korisnika te **lozinke**. Ovaj entitet isto je identifikacijski povezan sa slabim entitetom Account i to preko atributa userID. Ta veza je isto tako Many-to-One.
+| **Atribut**            | **Tip**        |    **Opis**                      |
+|------------------------|----------------|----------------------------------|
+| **userID**             | `INT`          | Identifikacijski ključ korisnika |
+| **eMail**              | `VARCHAR`      | Adresa e-pošte korisnika         |
+| **imeKorisnika**       | `VARCHAR`      | Korisničko ime korisnika         |
+| **lozinka**            | `VARCHAR`      | Lozinka korisnika                |
+
+### Account
+Entitet Account sadržava već ranije spomenute atribute **zgradaID** i **userID** te atribut **role**. Role predstavlja ulogu korisnika u određenoj zgradi koje mogu biti _Administrator_, _Predstavnik_ i _Suvlasnik_. Osim što u vezama s entitetima Zgrada i Korisnik, entitet Account je u dvostrukoj vezi s entitetom Sastanak. Jedna veza je Many-to-Many, a druga je Many-to-One.
+| **Atribut**            | **Tip**        |    **Opis**                      |
+|------------------------|----------------|----------------------------------|
+| **userID**             | `INT`          | Identifikacijski ključ korisnika |
+| **zgradaID**           | `INT`          | Identifikacijski ključ zgrade    |
+| **role**               | `VARCHAR`      | Uloga korisnika u zgradi         |
+
+### Sastanak
+Entitet Sastanak sadržava informacije o sastancima koje organiziraju predstavnici. Sadrži sljedeće atribute: **sastanakID** - identifikacijski ključ sastanka, **sazetakNamjereSastanka**, **vrijemeSastanka**, **mjestoSastanka**, **statusSastanka**, **naslovSastanka**, **zgradaID** i **kreatorID**. StatusSastanka predstavlja u kojem stanju se nalazi Sastanak. Stanja u kojima se sastanak može nalaziti su _Planiran_, _Objavljen_, _Obavljen_ i _Arhiviran_. Atribut zgradaID predstavlja zgradu u kojoj se kreira sastanak, a kreatorID je identifikacijski ključ predstavnika zgrade koji izrađuje sastanak. Entitet Sastanak je u dvostrukoj vezi s entitetom Account (jedna Many-to-Many, jedna Many-to-One) i u identifikacijskoj vezi sa slabim entitetom Tocka_Dnevnog_Reda preko atributa sastanakID. Ta veza je Many-to-One.
+| **Atribut**            | **Tip**        |    **Opis**                      |
+|------------------------|----------------|----------------------------------|
+| **sastanakID**         | `INT`          | Identifikacijski ključ sastanka  |
+| **sazetakNamjereSastanka**| `VARCHAR`      | Sažetak namjere sastanka       |
+| **vrijemeSastanka**       | `TIMESTAMP`      | Vrijeme održavanja sastanka   |
+| **mjestoSastanka**            | `VARCHAR`      | Mjesto održavanja sastanka  |
+| **statusSastanka** | `VARCHAR` | Stanje u kojem se sastanak nalazi |
+| **naslovSastanka** | `VARCHAR` | Naslov sastanka |
+| **zgradaID** | `INT` | Identifikacijski ključ zgrade u kojoj je sastanak |
+| **kreatorID** | `INT` | Identifikacijski ključ korisnika koji je kreirao sastanak |
+
+### Sudjelovanje
+Tablica Sudjelovanje posljedično je nastao spajanjem entiteta Account i Sastanak Many-to-Many vezom, a u sebi sadrži atribute zgradaID, userID i sastanakID.
+| **Atribut**            | **Tip**        |    **Opis**                      |
+|------------------------|----------------|----------------------------------|
+| **userID**             | `INT`          | Identifikacijski ključ korisnika |
+| **zgradaID**              | `INT`      | Identifikacijski ključ zgrade sastanka |
+| **sastanakID**       | `INT`      | Identifikacijski ključ sastanka |
+
+### Tocka_Dnevnog_Reda
+Entitet Tocka_Dnevnog_Reda sadržava informacije o svakoj točki dnevnog reda nekog sastanka. Sadrži atribute **TDR_ID** - identifikacijski ključ točke dnevnog reda, **imeTocke**, **imaPravniUcinak**, **sazetakRasprave**, **stanjeZakljucka**, **linkNaDiskusiju** i atribut **sastanakID**, koji predstavlja identifikacijski ključ sastanka u kojem se stvara točka dnevnog reda. Atribut imaPravniUcinak tipa je boolean te ukoliko zaključak ima pravni učinak bit će TRUE, inače FALSE. Ukoliko je vrijednost TRUE, onda će atribut stanjeZakljucka imati vrijednost _Izglasan_ ili _Odbijen_, a atribut sazetakRasprave ce biti NULL. U suprotnom, sazetakRasprave ce sadržavati kratak zakljucak rasprave, a a stanjeZakljucka će biti NULL. Atribut linkNaDiskusiju sadržavat će poveznicu na diskusiju iz aplikacije StanBlog ukoliko postoji, a ako ne postoji bit će NULL. Ovaj entitet je u Many-to-One vezi s entitetom Sastanak preko atributa sastanakID.
+| **Atribut**            | **Tip**        |    **Opis**                      |
+|------------------------|----------------|----------------------------------|
+| **TDR_ID**             | `INT`          | Identifikacijski ključ točke dnevnog reda |
+| **imeTocke**              | `VARCHAR`      | Ime točke dnevnog reda        |
+| **imaPravniUcinak**       | `BOOLEAN`  | Provjera je li zaključak ima pravni učinak   |
+| **sazetakRasprave**    | `VARCHAR`      | Sažetak zaključka i rasprave        |
+| **stanjeZakljucka** | `VARCHAR` | Stanje zaključka, može biti Izglasan ili Odbijen ili nedefinirano |
+| **linkNaDiskusiju** | `VARCHAR` | Poveznica na diskusiju iz aplikacije StanBlog |
+| **sastanakID** | `INT` | identifikacijski ključ sastanka točke dnevnog reda |

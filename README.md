@@ -7,15 +7,24 @@
 > 
 > Zašto ovaj dokument? Samo manji dio timova je do sada propoznao potrebu (a i meni je lakše pratiti Vaš rad).  
 
+# Upute za korištenje aplikacije
+URL na aplikaciju:
+https://ezgrada-h2gu.onrender.com/<br>
+Login:<br>
+* admin: ana@gmail.com, lozinka: lozinka123<br>
+* ostali korisnik: ivan@gmail.com, lozinka: ludalozinka<br>
+## Kreiranje korisnika:<br>
+Moguće je prijaviti nove korisnike (pa i napraviti račun sa svojim Google Accountom), jedino je važno da ulica bude neka od sljedećih:<br>
+* Ulica Kralja Tomislava 10<br>
+* Ulica Ivana Meštrovića 15<br>
+* Ulica Nikole Tesle 3 <br>
+
 # Opis projekta
-Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
+Ovaj projekt je rezultat timskog rada u sklopu projektnog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
-Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije »Zato što je to bio zadatak i nismo imali ideje za drugo.«). Koji problem rješavate?
-> Obzirom da je ovo zadani projekt navedite i što želite/jeste novo  naučili.
 
-Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevne dogovore i organiziciju suživota u stambenim objektima. Prestavnici stanara i suvlasnici bit će u mogućnosti brzo i jednostavno kreirati i najaviti sastanke stanara koji će olakšati svakodnevni život. Problemi od jednostavnih točaka dnevnog reda pa sve do riješavanja većih nedoumica od sada je jednostavno uz sve pogodnosti koje nudi naša aplikacija. O sastancima pojedine zgrade upravljati će administrator, a sastanci će biti vidljivi svim sadašnjim i budućim suvlasnicima i administratorima stambenog objekta.
+Cilj eZgrade jest kreirati jedinstvenu web-aplikaciju koja olakšava svakodnevne dogovore i organizaciju suživota u stambenim objektima. Predstavnici stanara i suvlasnici bit će u mogućnosti brzo i jednostavno kreirati i najaviti sastanke stanara koji će olakšati svakodnevni život. Problemi od jednostavnih točaka dnevnog reda pa sve do rješavanja većih nedoumica od sada je jednostavno uz sve pogodnosti koje nudi naša aplikacija. O sastancima pojedine zgrade upravljat će administrator, a sastanci će biti vidljivi svim sadašnjim i budućim suvlasnicima te administratorima stambenog objekta.
 
-> Dobro izrađen opis omogućuje vam da pokažete svoj rad drugim programerima, kao i potencijalnim poslodavcima. Ne samo da prvi dojam na stranici opisa često razlikuje dobar projekt od lošeg projekta već i predstavlja dobru praksu koju morate savladati.
 
 # Funkcijski zahtjevi
 > Aplikacija mora omogućiti predstavniku kreiranje novog sastanka.<br />
@@ -37,7 +46,7 @@ Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevn
 > Aplikacija mora omogućiti administratoru kreiranje profila predstavnika i suvlasnika.<br />
 > Aplikacija za svaki profil omogućuje kreiranje korisničkog imena, lozinke i e-mail adrese.<br />
 > Aplikacija mora korisnicima omogućiti promjenu lozinke koristeći prethodnu lozinku.<br />
-> Aplikacija realizira aplikacijsko sučelje koje će koristiti aplikacija StanBlog, a preko kojegje moguće kreirati sastanak kriran iz specifične diskusije.<br />
+> Aplikacija realizira aplikacijsko sučelje koje će koristiti aplikacija StanBlog, a preko kojeg je moguće kreirati sastanak kreiran iz specifične diskusije.<br />
 > Proces registracije i prijave bit će pojednostavljen korištenjem vanjskih servisa za autentifikaciju.<br />
 
 # Nefunkcijski zahtjevi
@@ -52,14 +61,12 @@ Cilj eZgrade jest kreiraiti jedinstvenu web-aplikaciju koja olakšava svakodnevn
 > Dizajn - Figma <br />
 > Frontend - React <br />
 > Backend - .Net Core <br />
-> Development -  <br />
+> Deployment - Render <br />
 > Baze podataka - PostgreSQL <br />
-> Testiranje - <br />
-> Dokumentacija -  <br />
 
 
 # Članovi tima 
-> Ivan Gulubić ivan.golubic@fer.unizg.hr - Voditelj projekta <br />
+> Ivan Golubić ivan.golubic@fer.unizg.hr - Voditelj projekta <br />
 > Marin Rossini marin.rossini@fer.unizg.hr <br />
 > Sara Lazarušić sara.lazarusic@fer.unizg.hr <br />
 > Kristian Lovey kristian.lovey@fer.unizg.hr <br />

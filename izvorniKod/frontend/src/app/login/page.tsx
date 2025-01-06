@@ -18,17 +18,7 @@ export default function LoginPage() {
   //console.log("Ovi podaci", data);
   return (
     <>
-      <AuthRedirect
-        to={"/create"}
-        condition={"isLoggedIn"}
-        role={"Administrator"}
-      />
-      <AuthRedirect
-        to={"/home"}
-        condition={"isLoggedIn"}
-        role={"Predstavnik"}
-      />
-      <AuthRedirect to={"/home"} condition={"isLoggedIn"} role={"Suvlasnik"} />
+      <AuthRedirect to={"/home"} condition={"isLoggedIn"} />
       <Flex height="100vh">
         <Flex direction="column" width="100%" alignItems="center">
           <AuthHeader canLogout={false} />

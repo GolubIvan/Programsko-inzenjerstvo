@@ -8,14 +8,15 @@ import { useRouter } from "next/navigation";
 
 interface IAuthHeaderProps {
   canLogout: boolean;
+  title?: string;
 }
 
-export const AuthHeader = ({ canLogout }: IAuthHeaderProps) => {
+export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
   const { mutate } = useSWR(swrKeys.me);
   const router = useRouter();
-  const logOut = () => {
+  const logOut = async () => {
     localStorage.setItem("loginInfo", "");
-    mutate(null);
+    await mutate(null);
     router.push("/");
   };
 
@@ -34,7 +35,7 @@ export const AuthHeader = ({ canLogout }: IAuthHeaderProps) => {
           justifyContent="space-between"
           height="100%"
           alignItems="center"
-          width="30%"
+          width="60%"
         >
           <Image
             src={logoImage.src}
@@ -42,9 +43,16 @@ export const AuthHeader = ({ canLogout }: IAuthHeaderProps) => {
             objectFit="cover"
             height={"80%"}
           />
-          <Heading color="white" fontSize="xx-large">
-            eZgrada
-          </Heading>
+          {title && (
+            <Heading color="white" fontSize="xx-large">
+              {title}
+            </Heading>
+          )}
+          {!title && (
+            <Heading color="white" fontSize="xx-large">
+              eZgrada
+            </Heading>
+          )}
         </Flex>
         {canLogout && (
           <Text color="white" onClick={logOut} cursor="pointer">
