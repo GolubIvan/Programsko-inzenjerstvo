@@ -234,6 +234,14 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                               "Sve točke dnevnog reda s pravnim učinkom moraju imati zaključak"
                             );
                             return;
+                          } else if (
+                            meeting.tockeDnevnogReda[i].imaPravniUcinak &&
+                            !meeting.tockeDnevnogReda[i].stanjeZakljucka
+                          ) {
+                            setArhiviranError(
+                              "Sve točke dnevnog reda s pravnim učinkom moraju imati status zaključka kao Izglasan ili Odbijen"
+                            );
+                            return;
                           }
                         }
                         await trigger_arhiviraj();
