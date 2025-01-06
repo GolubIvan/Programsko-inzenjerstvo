@@ -32,6 +32,7 @@ public class JWTGenerator
             signingCredentials: credentials);
 
         var tokenHandler = new JwtSecurityTokenHandler();
+        Console.WriteLine(tokenHandler.WriteToken(jwtToken));
         return tokenHandler.WriteToken(jwtToken);
     }
 
@@ -71,6 +72,10 @@ public class JWTGenerator
         catch (SecurityTokenException)
         {
             // Ako validacija nije uspjesna (ili ako je expired)
+            return "";
+        }
+        catch (Exception) //ako je dan invalid string
+        {
             return "";
         }
     }

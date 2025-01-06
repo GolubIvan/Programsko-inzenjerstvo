@@ -17,19 +17,36 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> CheckUser([FromBody] Backend.Models.LoginRequest loginRequest)
         {
-            var token = Request.Headers["token"];
-            if (token == "undefined") {
-                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." }); 
+            string token = Request.Headers["token"].ToString() ?? "";
+            if (token == "undefined" || token == "")        
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            if (loginRequest == null)                     
+            {
+                return BadRequest(new { error = "Invalid data", message = "Log in data required." });
             }
             //Console.WriteLine(token);
             _logger.LogInformation("Checking user with token: {Token}", token);
             
             string email = JWTGenerator.ParseGoogleJwtToken(token);
-            List<int> zgrade = Backend.Models.Racun.getUserData(email);
+            List<KeyValuePair<Backend.Models.Zgrada, string>> zgrade = Backend.Models.Racun.getUserData(email);
             
-            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." }); 
+            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
 
-            return Ok(new { email = email });
+            bool isAdmin = false;
+
+            for (int i = 0; i < zgrade.Count; i++)
+            {
+                if (zgrade[i].Value == "Administrator")
+                {
+                    isAdmin = true;
+                    break; 
+                }
+            }
+
+            return Ok(new { email = email, admin = isAdmin,podaci = zgrade });
 
         }
     }
