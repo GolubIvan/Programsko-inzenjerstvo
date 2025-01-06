@@ -11,7 +11,7 @@ import { Router } from "next/router";
 import useSWR from "swr";
 
 interface IMeetingFetch {
-  buildingId: Number;
+  buildingId: number;
   address: string;
   role: "Administrator" | "Predstavnik" | "Suvlasnik";
   meetings: Array<IMeeting>;
@@ -20,7 +20,7 @@ interface IMeetingFetch {
 export default function ZgradaPage() {
   const params = useParams();
   const router = useRouter();
-  let id = params.zgradaId as string;
+  const id = params.zgradaId as string;
   const { data, isLoading, error } = useSWR(
     swrKeys.building(`${id}`),
     authFetcher<IMeetingFetch>

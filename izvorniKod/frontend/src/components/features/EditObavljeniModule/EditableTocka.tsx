@@ -6,7 +6,7 @@ import { LuPaperclip } from "react-icons/lu";
 
 interface ITockaProps {
   tocka: ITocka;
-  rbr: Number;
+  rbr: number;
   updateStanjeZakljucka: (stanje: "Izglasan" | "Odbijen", rbr: number) => void;
   updateTekstZakljucka: (tekst: string, rbr: number) => void;
 }
