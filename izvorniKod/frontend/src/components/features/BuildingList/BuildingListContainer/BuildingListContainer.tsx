@@ -1,5 +1,5 @@
 "use client";
-import { authFetcher, fetcher } from "@/fetchers/fetcher";
+import { authFetcher } from "@/fetchers/fetcher";
 import { swrKeys } from "@/typings/swrKeys";
 import { Podaci, Zgrada } from "@/typings/user";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";

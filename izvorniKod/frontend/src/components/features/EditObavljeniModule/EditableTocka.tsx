@@ -29,7 +29,7 @@ export function EditableTocka({
 
   useEffect(() => {
     updateTekstZakljucka(tocka.sazetak || "", tocka.id);
-  }, [null]);
+  }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     updateTekstZakljucka(e.target.value, tocka.id);

@@ -4,8 +4,8 @@ export interface Zgrada {
 }
 
 export interface Podaci {
-  zgrada: Zgrada;
-  uloga: string;
+  key: Zgrada;
+  value: string;
 }
 
 export interface User {

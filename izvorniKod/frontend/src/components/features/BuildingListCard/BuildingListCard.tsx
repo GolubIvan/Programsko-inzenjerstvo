@@ -29,7 +29,7 @@ export const BuildingListCard = ({
       bg="gray.300"
       variant="elevated"
     >
-      <Card.Header fontSize="xl">{podatak.zgrada.address}</Card.Header>
+      <Card.Header fontSize="xl">{podatak.key.address}</Card.Header>
       <Card.Body>
         <Flex
           direction="row"
@@ -38,15 +38,15 @@ export const BuildingListCard = ({
           fontSize="large"
         >
           <Text
-            color={podatak.uloga == "Predstavnik" ? "red.500" : "black"}
+            color={podatak.value == "Predstavnik" ? "red.500" : "black"}
             textDecor="underline"
           >
-            {podatak.uloga}
+            {podatak.value}
           </Text>
           <Button
             bgColor="gray.600"
             _hover={{ bgColor: "green.600" }}
-            onClick={() => checkoutBuilding(podatak.zgrada.zgradaId)}
+            onClick={() => checkoutBuilding(podatak.key.zgradaId)}
           >
             Enter
           </Button>
