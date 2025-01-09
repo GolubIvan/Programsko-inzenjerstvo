@@ -37,6 +37,25 @@ namespace Backend.Models
                     }
                 }
 
+                // Provjera postoji li zgrada. Ako ne, dodajemo ju
+                using (var cmd = new NpgsqlCommand("SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address", conn))
+                {
+                    cmd.Parameters.AddWithValue("address", address);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            reader.Close();
+                            using (var insertCmd = new NpgsqlCommand("INSERT INTO zgrada (adresaZgrade) VALUES (@address)", conn))
+                            {
+                                insertCmd.Parameters.AddWithValue("address", address);
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+
                 // Dodavanje korisnika
                 using (var cmd = new NpgsqlCommand("" +
                     "INSERT INTO korisnik (email, lozinka, imeKorisnika) VALUES (@email, @password, @name);" +
