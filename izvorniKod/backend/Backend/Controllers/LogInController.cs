@@ -22,7 +22,7 @@ namespace Backend.Controllers
             var email = loginRequest.Email;
             Console.WriteLine("Email:" + email);
 
-            if(!Backend.Models.Racun.checkPassword(email, password)) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." });
+            if(!Backend.Models.Racun.checkPassword(email, password)) return Unauthorized(new { error = "Invalidd credentials", message = "The username or password you entered is incorrect." });
             
             List<KeyValuePair<Backend.Models.Zgrada, string>> zgrade_uloge = Backend.Models.Racun.getUserData(email);
             if(zgrade_uloge.Count == 0) return Unauthorized(new { error = "Invalid credentials", message = "The username or password you entered is incorrect." }); 

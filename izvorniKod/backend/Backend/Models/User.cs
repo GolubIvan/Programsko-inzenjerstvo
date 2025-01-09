@@ -69,5 +69,18 @@ namespace Backend.Models
             
             return emails;
         }
+
+        public static bool changePassword(string email, string newPassword){
+            var conn = Database.GetConnection();
+            using (var cmd = new NpgsqlCommand("UPDATE korisnik SET lozinka = @newPassword WHERE email = @email", conn))
+            {
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                cmd.Parameters.AddWithValue("newPassword", hashedPassword);
+                cmd.Parameters.AddWithValue("email", email);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+        }
     }
 }
