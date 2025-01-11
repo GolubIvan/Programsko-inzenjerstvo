@@ -66,6 +66,7 @@ namespace Backend.Models
                 }
                 reader.Close();
             }
+
             return zgrade_uloge;
         }
         public static int getID(string email)

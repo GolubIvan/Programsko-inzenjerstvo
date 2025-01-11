@@ -266,43 +266,40 @@ namespace Backend.Models
         {
             try
             {
-                using (var conn = Database.GetConnection())
-                {
+                var conn = Database.GetConnection();
                     using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND userid = @userid AND sastanakid = @meetingid", conn))
                     {
                         cmd.Parameters.AddWithValue("zgradaid", zgradaId);
                         cmd.Parameters.AddWithValue("userid", userId);
                         cmd.Parameters.AddWithValue("meetingid", meetingId);
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count > 0;
-                    }
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count>0;
                 }
+                
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error checking sudjelovanje: " + ex.Message);
+                Console.WriteLine("Error deleting meeting: " + ex.Message);
                 return false;
             }
         }
-
-        public static int checkSudioniciCount(int zgradaId, int meetingId)
+        public static int checkSudioniciCount(int zgradaId,int meetingId)
         {
             try
             {
-                using (var conn = Database.GetConnection())
+                var conn = Database.GetConnection();
+                using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND sastanakid = @meetingid", conn))
                 {
-                    using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND sastanakid = @meetingid", conn))
-                    {
-                        cmd.Parameters.AddWithValue("zgradaid", zgradaId);
-                        cmd.Parameters.AddWithValue("meetingid", meetingId);
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count;
-                    }
+                    cmd.Parameters.AddWithValue("zgradaid", zgradaId);
+                    cmd.Parameters.AddWithValue("meetingid", meetingId);
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count;
                 }
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error checking sudionici count: " + ex.Message);
+                Console.WriteLine("Error deleting meeting: " + ex.Message);
                 return -1;
             }
         }
