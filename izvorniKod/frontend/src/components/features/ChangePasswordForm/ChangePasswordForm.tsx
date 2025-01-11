@@ -47,7 +47,7 @@ export function ChangePasswordForm() {
 
   const onCreate = async (data: IChangeForm) => {
     console.log(data);
-    await trigger({ password: data.password });
+    await trigger(data.password);
   };
 
   const { trigger } = useSWRMutation(

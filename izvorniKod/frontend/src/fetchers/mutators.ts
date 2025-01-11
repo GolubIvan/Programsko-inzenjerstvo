@@ -53,7 +53,7 @@ export async function postMutator<T>(url: string, { arg }: { arg: T }) {
 
 export async function changePasswordMutator<T>(
   url: string,
-  { arg }: { arg: T }
+  { arg }: { arg: string }
 ) {
   console.log(arg);
   console.log(url);
@@ -66,7 +66,7 @@ export async function changePasswordMutator<T>(
       Accept: "application/json",
       "Content-Type": "application/json",
       token: authInfo.token,
-      password: JSON.stringify(arg),
+      password: arg,
     },
   });
   if (!response.ok) {
