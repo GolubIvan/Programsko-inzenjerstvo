@@ -2,6 +2,7 @@
 
 import { MeetingSummaryCard } from "@/components/features/MeetingSummaryCard/MeetingSummaryCard";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
+import AuthRedirect from "@/components/shared/AuthRedirect/AuthRedirect";
 import { authFetcher } from "@/fetchers/fetcher";
 import { IMeeting } from "@/typings/meeting";
 import { swrKeys } from "@/typings/swrKeys";
@@ -45,44 +46,47 @@ export default function ZgradaPage() {
   );
 
   return (
-    <Flex direction="column" height="100vh">
-      <AuthHeader canLogout={true} title={data?.address} />
-      <Flex padding="5%" paddingTop="2vh">
-        <Flex direction="column" width="100%" paddingTop="0" gap="10px">
-          <Flex
-            direction="row"
-            justifyContent="space-between"
-            marginBottom="5vh"
-            gap="10px"
-            wrap="wrap"
-          >
-            <Button
-              background="gray.300"
-              color="black"
-              onClick={returnFunction}
+    <>
+      <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />
+      <Flex direction="column" height="100vh">
+        <AuthHeader canLogout={true} title={data?.address} />
+        <Flex padding="5%" paddingTop="2vh">
+          <Flex direction="column" width="100%" paddingTop="0" gap="10px">
+            <Flex
+              direction="row"
+              justifyContent="space-between"
+              marginBottom="5vh"
+              gap="10px"
+              wrap="wrap"
             >
-              Povratak na popis sastanaka
-            </Button>
-          </Flex>
-          <Heading fontSize="2rem">Vaši arhivirani sastanci...</Heading>
-          <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
-            {archivedMeetings?.length != 0 &&
-              data?.meetings.map((meeting, ind) => {
-                if (meeting.status == "Arhiviran")
-                  return (
-                    <MeetingSummaryCard
-                      key={ind}
-                      meeting={meeting}
-                      role={data.role}
-                    />
-                  );
-              })}
-            {archivedMeetings?.length == 0 && (
-              <Text>Još nema arhiviranih sastanaka za ovu zgradu.</Text>
-            )}
+              <Button
+                background="gray.300"
+                color="black"
+                onClick={returnFunction}
+              >
+                Povratak na popis sastanaka
+              </Button>
+            </Flex>
+            <Heading fontSize="2rem">Vaši arhivirani sastanci...</Heading>
+            <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
+              {archivedMeetings?.length != 0 &&
+                data?.meetings.map((meeting, ind) => {
+                  if (meeting.status == "Arhiviran")
+                    return (
+                      <MeetingSummaryCard
+                        key={ind}
+                        meeting={meeting}
+                        role={data.role}
+                      />
+                    );
+                })}
+              {archivedMeetings?.length == 0 && (
+                <Text>Još nema arhiviranih sastanaka za ovu zgradu.</Text>
+              )}
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 }

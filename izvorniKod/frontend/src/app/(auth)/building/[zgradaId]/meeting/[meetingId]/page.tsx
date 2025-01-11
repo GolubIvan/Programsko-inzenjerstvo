@@ -2,6 +2,7 @@
 import { BackToMeetingListButton } from "@/components/features/BackToMeetingListButton/BackToMeetingListButton";
 import { MeetingDisplay } from "@/components/features/MeetingDisplay/MeetingDisplay";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
+import AuthRedirect from "@/components/shared/AuthRedirect/AuthRedirect";
 import { authFetcher } from "@/fetchers/fetcher";
 import { IMeeting } from "@/typings/meeting";
 import { swrKeys } from "@/typings/swrKeys";
@@ -33,10 +34,14 @@ export default function MeetingPage() {
   }
   console.log("DATA", data);
   return (
-    <Flex flexDirection="column" height="100vh">
-      <AuthHeader canLogout={true} title=" " />
-      <BackToMeetingListButton />
-      <MeetingDisplay meeting={data?.meeting} />
-    </Flex>
+    <>
+      <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />
+
+      <Flex flexDirection="column" height="100vh">
+        <AuthHeader canLogout={true} title=" " />
+        <BackToMeetingListButton />
+        <MeetingDisplay meeting={data?.meeting} />
+      </Flex>
+    </>
   );
 }
