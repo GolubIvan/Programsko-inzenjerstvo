@@ -33,27 +33,25 @@ namespace Backend.Models
         {
             string role = "";
 
-            var conn = Database.GetConnection();
-            
-
-        using (var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik ON account.userid = korisnik.userid WHERE zgradaid = @zgradaId AND email = @email FOR UPDATE", conn))
+            using (var conn = Database.GetConnection())
+            using (var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik ON account.userid = korisnik.userid WHERE zgradaid = @zgradaId AND email = @email FOR UPDATE", conn))
             { 
-            cmd.Parameters.AddWithValue("zgradaId", zgradaId);
-            cmd.Parameters.AddWithValue("email", email);          
+                cmd.Parameters.AddWithValue("zgradaId", zgradaId);
+                cmd.Parameters.AddWithValue("email", email);          
 
-            using (var reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                 if (reader.Read())role = reader.GetString(0);
+                    if (reader.Read()) role = reader.GetString(0);
                 }
             }        
 
             return role;
         }
 
-        public static List<string> getKorisniciForZgrada(int zgradaId){
-                
+        public static List<string> getKorisniciForZgrada(int zgradaId)
+        {
             List<string> emails = new List<string>();
-            var conn = Database.GetConnection();
+            using (var conn = Database.GetConnection())
             using (var cmd = new NpgsqlCommand("SELECT email FROM account NATURAL JOIN korisnik WHERE zgradaid = @zgradaId FOR UPDATE", conn))
             {
                 cmd.Parameters.AddWithValue("zgradaId", zgradaId);
@@ -61,7 +59,6 @@ namespace Backend.Models
                 while (reader.Read())
                 {
                     string email = reader.GetString(0);
-
                     emails.Add(email);
                 }
                 reader.Close();
@@ -70,8 +67,9 @@ namespace Backend.Models
             return emails;
         }
 
-        public static bool changePassword(string email, string newPassword){
-            var conn = Database.GetConnection();
+        public static bool changePassword(string email, string newPassword)
+        {
+            using (var conn = Database.GetConnection())
             using (var cmd = new NpgsqlCommand("UPDATE korisnik SET lozinka = @newPassword WHERE email = @email", conn))
             {
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);

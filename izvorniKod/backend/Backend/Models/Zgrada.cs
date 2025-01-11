@@ -19,19 +19,19 @@ namespace Backend.Models
         public static List<Zgrada> getAllBuildings()
         {
             List<Zgrada> zgrade = new List<Zgrada>();
-            var conn = Database.GetConnection();
-            using (var cmd = new NpgsqlCommand("SELECT * FROM zgrada FOR UPDATE", conn))
+            using (var conn = Database.GetConnection())
             {
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                zgrade.Add(new Zgrada(reader.GetString(1), reader.GetInt32(0)));
-            }
-            reader.Close();
+                using (var cmd = new NpgsqlCommand("SELECT * FROM zgrada FOR UPDATE", conn))
+                {
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        zgrade.Add(new Zgrada(reader.GetString(1), reader.GetInt32(0)));
+                    }
+                    reader.Close();
+                }
             }
             return zgrade;
         }
     }
-
-    
 }

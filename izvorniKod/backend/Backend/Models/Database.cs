@@ -16,11 +16,8 @@ public static class Database
 
     public static NpgsqlConnection GetConnection()
     {
-        if (connection == null)
-        {
             connection = new NpgsqlConnection(connString);
             connection.Open();
-        }
         return connection;
     }
 }

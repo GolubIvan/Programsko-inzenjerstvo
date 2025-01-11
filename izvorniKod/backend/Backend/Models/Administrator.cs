@@ -17,8 +17,8 @@ namespace Backend.Models
 
         public static Boolean addUser(string email, string name, string password, string role, string address)
         {
-            var conn = Database.GetConnection();
-            
+            using (var conn = Database.GetConnection())
+            {
                 // Provjera postoji li korisnik
                 using (var cmd = new NpgsqlCommand("SELECT userid FROM korisnik WHERE email = @email FOR UPDATE", conn))
                 {
@@ -70,7 +70,7 @@ namespace Backend.Models
                 }
 
                 return true;
+            }
         }
-
     }
 }
