@@ -87,7 +87,7 @@ namespace Backend.Controllers
 
             List<Backend.Models.Zgrada> zgrade = Backend.Models.Zgrada.getAllBuildings();
 
-            return Ok(zgrade);
+            return Ok(new { zgrade = zgrade });
         }
     }
 }
