@@ -1,10 +1,19 @@
 "use client";
 
-import { Flex, Heading, Image, Box, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Image,
+  Box,
+  Text,
+  Icon,
+  IconButton,
+} from "@chakra-ui/react";
 import logoImage from "../../../../public/logo.png";
 import { swrKeys } from "@/typings/swrKeys";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
+import { LuLock, LuPen } from "react-icons/lu";
 
 interface IAuthHeaderProps {
   canLogout: boolean;
@@ -55,9 +64,23 @@ export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
           )}
         </Flex>
         {canLogout && (
-          <Text color="white" onClick={logOut} cursor="pointer">
-            Log out
-          </Text>
+          <Flex alignItems="center" gap="20px">
+            <IconButton
+              background="transparent"
+              onClick={() => {
+                router.push("/account");
+              }}
+            >
+              <Flex gap="0">
+                <LuLock />
+                <LuPen />
+              </Flex>
+            </IconButton>
+
+            <Text color="white" onClick={logOut} cursor="pointer">
+              Log out
+            </Text>
+          </Flex>
         )}
       </Flex>
     </Box>

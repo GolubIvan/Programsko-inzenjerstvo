@@ -51,6 +51,30 @@ export async function postMutator<T>(url: string, { arg }: { arg: T }) {
   });
 }
 
+export async function changePasswordMutator<T>(
+  url: string,
+  { arg }: { arg: T }
+) {
+  console.log(arg);
+  console.log(url);
+  console.log(JSON.stringify(arg));
+  const value = localStorage.getItem("loginInfo");
+  const authInfo = value ? JSON.parse(value) : {};
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      token: authInfo.token,
+      password: JSON.stringify(arg),
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw error;
+  }
+}
+
 export async function deleteMutator<T>(url: string, { arg }: { arg: T }) {
   return await authFetcher(url, {
     method: "DELETE",
