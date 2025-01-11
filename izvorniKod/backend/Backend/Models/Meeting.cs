@@ -34,7 +34,7 @@ namespace Backend.Models
         {
             List<Meeting> meetings = new List<Meeting>();
             var conn = Database.GetConnection();
-            using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE zgradaID = @buildingId", conn))
+            using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE zgradaID = @buildingId FOR UPDATE", conn))
             {
                 cmd.Parameters.AddWithValue("buildingId", buildingId);
                 var reader = cmd.ExecuteReader();
@@ -55,7 +55,7 @@ namespace Backend.Models
             }
 
             foreach (var meet in meetings){
-                using (var cmd = new NpgsqlCommand("SELECT * FROM tocka_dnevnog_reda WHERE sastanakID = @meetingId", conn))
+                using (var cmd = new NpgsqlCommand("SELECT * FROM tocka_dnevnog_reda WHERE sastanakID = @meetingId FOR UPDATE", conn))
                 {
                     cmd.Parameters.AddWithValue("meetingId", meet.meetingId);
                     var reader = cmd.ExecuteReader();
@@ -82,7 +82,7 @@ namespace Backend.Models
         {
             Meeting meeting = null;
             var conn = Database.GetConnection();
-            using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE sastanakID = @meetingId", conn))
+            using (var cmd = new NpgsqlCommand("SELECT * FROM sastanak WHERE sastanakID = @meetingId FOR UPDATE", conn))
             {
                 cmd.Parameters.AddWithValue("meetingId", meetingId);
                 var reader = cmd.ExecuteReader();
@@ -102,7 +102,7 @@ namespace Backend.Models
                 reader.Close();
             }
 
-            using (var cmd = new NpgsqlCommand("SELECT * FROM tocka_dnevnog_reda WHERE sastanakID = @meetingId", conn))
+            using (var cmd = new NpgsqlCommand("SELECT * FROM tocka_dnevnog_reda WHERE sastanakID = @meetingId FOR UPDATE", conn))
             {
                 cmd.Parameters.AddWithValue("meetingId", meetingId);
                 var reader = cmd.ExecuteReader();
@@ -267,7 +267,7 @@ namespace Backend.Models
             try
             {
                 var conn = Database.GetConnection();
-                    using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND userid = @userid AND sastanakid = @meetingid", conn))
+                    using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND userid = @userid AND sastanakid = @meetingid FOR UPDATE", conn))
                     {
                         cmd.Parameters.AddWithValue("zgradaid", zgradaId);
                         cmd.Parameters.AddWithValue("userid", userId);
@@ -288,7 +288,7 @@ namespace Backend.Models
             try
             {
                 var conn = Database.GetConnection();
-                using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND sastanakid = @meetingid", conn))
+                using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND sastanakid = @meetingid FOR UPDATE", conn))
                 {
                     cmd.Parameters.AddWithValue("zgradaid", zgradaId);
                     cmd.Parameters.AddWithValue("meetingid", meetingId);
@@ -366,7 +366,7 @@ namespace Backend.Models
             //     reader.Close();
             // }
             List<int> meetingIds = new List<int>();
-            using (var cmd = new NpgsqlCommand("SELECT sastanakId FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status", conn))
+            using (var cmd = new NpgsqlCommand("SELECT sastanakId FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status FOR UPDATE", conn))
             {
                 cmd.Parameters.AddWithValue("zgradaId", idZgrade);
                 cmd.Parameters.AddWithValue("status", statusZgrada.ToString());

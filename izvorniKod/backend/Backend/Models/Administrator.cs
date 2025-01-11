@@ -20,7 +20,7 @@ namespace Backend.Models
             var conn = Database.GetConnection();
             
                 // Provjera postoji li korisnik
-                using (var cmd = new NpgsqlCommand("SELECT userid FROM korisnik WHERE email = @email", conn))
+                using (var cmd = new NpgsqlCommand("SELECT userid FROM korisnik WHERE email = @email FOR UPDATE", conn))
                 {
                     cmd.Parameters.AddWithValue("email", email);
                     Console.WriteLine("tu je: |" + email + "|");
@@ -38,7 +38,7 @@ namespace Backend.Models
                 }
 
                 // Provjera postoji li zgrada. Ako ne, dodajemo ju
-                using (var cmd = new NpgsqlCommand("SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address", conn))
+                using (var cmd = new NpgsqlCommand("SELECT zgradaId FROM zgrada WHERE adresaZgrade = @address FOR UPDATE", conn))
                 {
                     cmd.Parameters.AddWithValue("address", address);
 

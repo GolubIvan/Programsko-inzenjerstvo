@@ -20,7 +20,7 @@ namespace Backend.Models
         {
             List<Zgrada> zgrade = new List<Zgrada>();
             var conn = Database.GetConnection();
-            using (var cmd = new NpgsqlCommand("SELECT * FROM zgrada", conn))
+            using (var cmd = new NpgsqlCommand("SELECT * FROM zgrada FOR UPDATE", conn))
             {
             var reader = cmd.ExecuteReader();
             while (reader.Read())
