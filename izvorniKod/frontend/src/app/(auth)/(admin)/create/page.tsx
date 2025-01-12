@@ -9,6 +9,7 @@ import useSWR from "swr";
 
 export default function CreatePage() {
   const { data, isLoading, error } = useSWR(swrKeys.me, authFetcher);
+
   if (error) {
     if (error.status !== 401) return <Box>Something went wrong...</Box>;
   }

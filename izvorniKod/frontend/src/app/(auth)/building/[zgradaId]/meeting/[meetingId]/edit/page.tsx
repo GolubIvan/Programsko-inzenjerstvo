@@ -3,6 +3,7 @@ import { BackToMeetingListButton } from "@/components/features/BackToMeetingList
 import { CreateMeetingForm } from "@/components/features/CreateMeetingForm/CreateMeetingForm";
 import { EditObavljeniModule } from "@/components/features/EditObavljeniModule/EditObavljeniModule";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
+import AuthRedirect from "@/components/shared/AuthRedirect/AuthRedirect";
 import { authFetcher } from "@/fetchers/fetcher";
 import { IMeeting } from "@/typings/meeting";
 import { swrKeys } from "@/typings/swrKeys";
@@ -34,15 +35,19 @@ export default function EditMeetingPage() {
   }
   console.log("DATA", data);
   return (
-    <Flex flexDirection="column" height="100vh">
-      <AuthHeader canLogout={true} title=" " />
-      <BackToMeetingListButton />
-      {data.meeting.status == "Planiran" && (
-        <CreateMeetingForm meeting={data.meeting} />
-      )}
-      {data.meeting.status == "Obavljen" && (
-        <EditObavljeniModule meeting={data.meeting} />
-      )}
-    </Flex>
+    <>
+      <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />
+
+      <Flex flexDirection="column" height="100vh">
+        <AuthHeader canLogout={true} title=" " />
+        <BackToMeetingListButton />
+        {data.meeting.status == "Planiran" && (
+          <CreateMeetingForm meeting={data.meeting} />
+        )}
+        {data.meeting.status == "Obavljen" && (
+          <EditObavljeniModule meeting={data.meeting} />
+        )}
+      </Flex>
+    </>
   );
 }
