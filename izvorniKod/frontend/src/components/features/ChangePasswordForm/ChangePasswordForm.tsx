@@ -20,14 +20,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
-import {
-  changePasswordMutator,
-  createMutator,
-  postMutator,
-} from "@/fetchers/mutators";
+import { createMutator, postMutator } from "@/fetchers/mutators";
 import { useRouter } from "next/navigation";
 
 interface IChangeForm {
+  old_password: string;
   password: string;
   repeated_password: string;
 }
@@ -47,22 +44,23 @@ export function ChangePasswordForm() {
 
   const onCreate = async (data: IChangeForm) => {
     console.log(data);
-    await trigger(data.password);
+    try {
+      await trigger({
+        newPassword: data.password,
+        oldPassword: data.old_password,
+      });
+    } catch (err) {}
   };
 
-  const { trigger } = useSWRMutation(
-    swrKeys.changePassword,
-    changePasswordMutator,
-    {
-      onSuccess: async (data) => {
-        console.log(data);
-        router.push("/home");
-      },
-      onError: async (error: { message: string }) => {
-        setError("password", { message: error.message });
-      },
-    }
-  );
+  const { trigger } = useSWRMutation(swrKeys.changePassword, createMutator, {
+    onSuccess: async (data) => {
+      console.log(data);
+      router.push("/home");
+    },
+    onError: async (error: { message: string }) => {
+      setError("old_password", { message: error.message });
+    },
+  });
 
   const passwordRequirements = {
     required: "Unesite lozinku",
@@ -93,7 +91,17 @@ export function ChangePasswordForm() {
       <Heading textAlign="center" fontSize="x-large">
         Promjena lozinke
       </Heading>
-
+      <Field
+        label="Stara lozinka"
+        invalid={Boolean(errors?.old_password)}
+        errorText={errors?.old_password?.message}
+        disabled={isSubmitting}
+      >
+        <PasswordInput
+          {...register("old_password", passwordRequirements)}
+          required
+        />
+      </Field>
       <Field
         label="Nova lozinka"
         invalid={Boolean(errors?.password)}
