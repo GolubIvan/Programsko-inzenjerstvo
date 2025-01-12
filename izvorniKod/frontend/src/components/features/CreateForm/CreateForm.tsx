@@ -41,7 +41,7 @@ import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
 import { createMutator } from "@/fetchers/mutators";
 import { authFetcher } from "@/fetchers/fetcher";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { Certificate } from "crypto";
 
 interface ICreateForm {
@@ -77,6 +77,8 @@ export function CreateForm() {
     mode: "onChange",
   });
 
+  const { mutate } = useSWR(swrKeys.building(""));
+
   const onCreate = async (data: ICreateForm) => {
     if (!data.zgrada) {
       setError("zgrada", { message: "Odaberite adresu ili unesite novu" });
@@ -84,12 +86,16 @@ export function CreateForm() {
     }
     console.log(data);
     await trigger(data);
+    await mutate(null);
   };
 
   const { trigger } = useSWRMutation(swrKeys.createUser, createMutator, {
     onSuccess: async (data) => {
       console.log(data);
       reset();
+      setOther(false);
+      setSelectedAddress("");
+      setSomethingSelected(false);
     },
     onError: async (error: { message: string }) => {
       setError("zgrada", { message: error.message });
