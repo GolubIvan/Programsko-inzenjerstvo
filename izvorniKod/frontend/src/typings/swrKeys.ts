@@ -33,4 +33,5 @@ export const swrKeys = {
   arhivirajMeeting: (id: string) => {
     return `${backend}/meetings/arhiviraj/${id}`;
   },
+  changePassword: `${backend}/me/changePassword`,
 };
