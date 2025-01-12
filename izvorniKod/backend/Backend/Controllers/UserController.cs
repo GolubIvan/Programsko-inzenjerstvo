@@ -48,26 +48,33 @@ namespace Backend.Controllers
         }
 
         [HttpPost("changePassword")]
-        public async Task<IActionResult> ChangePassword()
+        public async Task<IActionResult> ChangePassword([FromBody] Backend.Models.ChangePasswordRequest request)
         {
-
             string token = Request.Headers["token"].ToString() ?? "";
             if (token == "undefined" || token == "")        
             {
-                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
 
-            string newPassword = Request.Headers["password"].ToString() ?? "";
-            if (newPassword == "undefined" || newPassword == "")        
+            if (request.newPassword == "undefined" || request.newPassword == "")        
             {
-                return Unauthorized(new { error = "Invalid password", message = "The user password is invalid or has expired." });
+            return Unauthorized(new { error = "Invalid password", message = "The user password is invalid or has expired." });
+            }
+
+            if (request.oldPassword == "undefined" || request.oldPassword == "")        
+            {
+            return Unauthorized(new { error = "Invalid password", message = "The user password is invalid or has expired." });
             }
 
             string email = JWTGenerator.ParseGoogleJwtToken(token);
             _logger.LogInformation("Changing password for user with email: {Email}", email);
 
-            if(!Backend.Models.User.changePassword(email, newPassword)){
-                return Unauthorized(new { error = "Error during password change", message = "An error occurred. The user might not exist." });
+            if(!Backend.Models.Racun.checkPassword(email, request.oldPassword)){
+            return Unauthorized(new { error = "Invalid password", message = "The user password is invalid." });
+            }
+
+            if(!Backend.Models.User.changePassword(email, request.newPassword)){
+            return Unauthorized(new { error = "Error during password change", message = "An error occurred. The user might not exist." });
             }
 
             return Ok(new { message = "Password changed successfully." });
