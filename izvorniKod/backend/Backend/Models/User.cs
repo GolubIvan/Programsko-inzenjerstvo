@@ -34,7 +34,7 @@ namespace Backend.Models
             string role = "";
 
             using (var conn = Database.GetConnection())
-            using (var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik ON account.userid = korisnik.userid WHERE zgradaid = @zgradaId AND email = @email FOR UPDATE", conn))
+            using (var cmd = new NpgsqlCommand("SELECT role FROM account JOIN korisnik ON account.userid = korisnik.userid WHERE zgradaid = @zgradaId AND email = @email", conn))
             { 
                 cmd.Parameters.AddWithValue("zgradaId", zgradaId);
                 cmd.Parameters.AddWithValue("email", email);          
@@ -52,7 +52,7 @@ namespace Backend.Models
         {
             List<string> emails = new List<string>();
             using (var conn = Database.GetConnection())
-            using (var cmd = new NpgsqlCommand("SELECT email FROM account NATURAL JOIN korisnik WHERE zgradaid = @zgradaId FOR UPDATE", conn))
+            using (var cmd = new NpgsqlCommand("SELECT email FROM account NATURAL JOIN korisnik WHERE zgradaid = @zgradaId", conn))
             {
                 cmd.Parameters.AddWithValue("zgradaId", zgradaId);
                 var reader = cmd.ExecuteReader();

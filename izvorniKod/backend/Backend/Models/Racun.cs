@@ -25,7 +25,7 @@ namespace Backend.Models
             string storedHash = "";
             using (var conn = Database.GetConnection())
             {
-            var cmd = new NpgsqlCommand("SELECT lozinka FROM korisnik WHERE email = @email FOR UPDATE", conn);
+            var cmd = new NpgsqlCommand("SELECT lozinka FROM korisnik WHERE email = @email", conn);
             cmd.Parameters.AddWithValue("email", email);
             var reader = cmd.ExecuteReader();
             if (reader.Read())
@@ -48,7 +48,7 @@ namespace Backend.Models
                 return zgrade_uloge;
             }
             using (var conn = Database.GetConnection()){
-                using (var cmd = new NpgsqlCommand("SELECT zgradaId, adresaZgrade, role FROM korisnik JOIN account NATURAL JOIN zgrada USING (userId) WHERE email = @email FOR UPDATE", conn))
+                using (var cmd = new NpgsqlCommand("SELECT zgradaId, adresaZgrade, role FROM korisnik JOIN account NATURAL JOIN zgrada USING (userId) WHERE email = @email", conn))
                 {
                     cmd.Parameters.AddWithValue("email", email);
                     var reader = cmd.ExecuteReader();
@@ -71,7 +71,7 @@ namespace Backend.Models
         {
             int id = -1;
             using (var conn = Database.GetConnection()){
-                using (var cmd = new NpgsqlCommand("SELECT userID FROM korisnik WHERE email = @email FOR UPDATE", conn))
+                using (var cmd = new NpgsqlCommand("SELECT userID FROM korisnik WHERE email = @email", conn))
                 {
                     cmd.Parameters.AddWithValue("email", email);
                     var reader = cmd.ExecuteReader();

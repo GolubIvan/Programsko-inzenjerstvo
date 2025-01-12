@@ -106,7 +106,7 @@ namespace Backend.Models
                     reader.Close();
                 }
 
-                using (var cmd = new NpgsqlCommand("SELECT * FROM tocka_dnevnog_reda WHERE sastanakID = @meetingId FOR UPDATE", conn))
+                using (var cmd = new NpgsqlCommand("SELECT * FROM tocka_dnevnog_reda WHERE sastanakID = @meetingId", conn))
                 {
                     cmd.Parameters.AddWithValue("meetingId", meetingId);
                     var reader = cmd.ExecuteReader();
@@ -278,7 +278,7 @@ namespace Backend.Models
             {
                 using (var conn = Database.GetConnection())
                 {
-                    using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND userid = @userid AND sastanakid = @meetingid FOR UPDATE", conn))
+                    using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND userid = @userid AND sastanakid = @meetingid", conn))
                     {
                         cmd.Parameters.AddWithValue("zgradaid", zgradaId);
                         cmd.Parameters.AddWithValue("userid", userId);
@@ -301,7 +301,7 @@ namespace Backend.Models
             {
                 using (var conn = Database.GetConnection())
                 {
-                    using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND sastanakid = @meetingid FOR UPDATE", conn))
+                    using (var cmd = new NpgsqlCommand("SELECT COUNT(*) FROM sudjelovanje WHERE zgradaid = @zgradaid AND sastanakid = @meetingid", conn))
                     {
                         cmd.Parameters.AddWithValue("zgradaid", zgradaId);
                         cmd.Parameters.AddWithValue("meetingid", meetingId);
@@ -382,7 +382,7 @@ namespace Backend.Models
                 //     reader.Close();
                 // }
                 List<int> meetingIds = new List<int>();
-                using (var cmd = new NpgsqlCommand("SELECT sastanakId FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status FOR UPDATE", conn))
+                using (var cmd = new NpgsqlCommand("SELECT sastanakId FROM sastanak WHERE zgradaID = @zgradaId AND statussastanka = @status", conn))
                 {
                     cmd.Parameters.AddWithValue("zgradaId", idZgrade);
                     cmd.Parameters.AddWithValue("status", statusZgrada.ToString());
