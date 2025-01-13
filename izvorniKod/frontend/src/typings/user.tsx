@@ -9,5 +9,7 @@ export interface Podaci {
 }
 
 export interface User {
+  admin: boolean;
+  email: string;
   podaci: Podaci[];
 }
