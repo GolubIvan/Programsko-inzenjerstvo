@@ -15,7 +15,7 @@ export default function BuildingsListPage() {
   if (error) {
     if (error.status !== 401) return <Box>Something went wrong...</Box>;
   }
-  if (isLoading) {
+  if (isLoading || !data) {
     return <Box>Loading...</Box>;
   } else {
     console.log(data);

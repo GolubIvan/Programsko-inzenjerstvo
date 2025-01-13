@@ -31,7 +31,7 @@ export default function ZgradaPage() {
     if (error.status !== 401)
       return <Box>No meetings found for the specified building.</Box>;
   }
-  if (isLoading) {
+  if (isLoading || !data) {
     return <Box>Loading...</Box>;
   }
   console.log(data?.meetings.length);
