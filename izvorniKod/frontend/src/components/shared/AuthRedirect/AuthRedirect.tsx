@@ -33,7 +33,7 @@ export default function AuthRedirect({ to, condition, role }: IAuthRedirect) {
       if (data.admin && role == "Administrator") route.push(to);
       if (!role) route.push(to);
     }
-  }, [data, isLoading, to, condition, route]);
+  }, [data, isLoading, to, condition, role, route]);
 
   return null;
 }

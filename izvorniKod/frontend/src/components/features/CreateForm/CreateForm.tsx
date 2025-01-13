@@ -59,7 +59,7 @@ interface IZgrada {
 }
 
 export function CreateForm() {
-  let { data, isLoading, error } = useSWR<{ zgrade: Array<IZgrada> }>(
+  const { data, isLoading, error } = useSWR<{ zgrade: Array<IZgrada> }>(
     swrKeys.building(""),
     authFetcher
   );
@@ -236,7 +236,8 @@ export function CreateForm() {
                   value={zgr.address}
                   key={zgr.zgradaId}
                   onClick={() => {
-                    setOther(false), setSelectedAddress(zgr.address);
+                    setOther(false);
+                    setSelectedAddress(zgr.address);
                     setValue("zgrada", zgr.address);
                     setSomethingSelected(true);
                   }}
