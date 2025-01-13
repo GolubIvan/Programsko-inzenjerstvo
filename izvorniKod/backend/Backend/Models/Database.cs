@@ -12,16 +12,12 @@ public static class Database
 
     //lokalna baza
     //private static readonly string connString = "Host=localhost;Username=postgres;Password=baze;Database=eZgrada";
-
     private static NpgsqlConnection? connection;
 
     public static NpgsqlConnection GetConnection()
     {
-        if (connection == null)
-        {
             connection = new NpgsqlConnection(connString);
             connection.Open();
-        }
         return connection;
     }
 }

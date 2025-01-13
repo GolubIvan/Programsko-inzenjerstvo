@@ -23,22 +23,23 @@ namespace Backend.Models
             this.sastanakId = sastanakId;
         }
 
-
         public static bool changeZakljucak(Meeting meeting)
         {
             try
             {
-                var conn = Database.GetConnection();
-                string updateTocka = "UPDATE tocka_dnevnog_reda SET stanjezakljucka = @stanje WHERE tdr_id = @tdr_id";
-                foreach (var tocka in meeting.tockeDnevnogReda)
+                using (var conn = Database.GetConnection())
                 {
-                    using (var cmd = new NpgsqlCommand(updateTocka, conn))
+                    string updateTocka = "UPDATE tocka_dnevnog_reda SET stanjezakljucka = @stanje WHERE tdr_id = @tdr_id";
+                    foreach (var tocka in meeting.tockeDnevnogReda)
                     {
-                        if(tocka.stanjeZakljucka != null)
+                        using (var cmd = new NpgsqlCommand(updateTocka, conn))
                         {
-                            cmd.Parameters.AddWithValue("stanje",tocka.stanjeZakljucka);
-                            cmd.Parameters.AddWithValue("tdr_id", tocka.id);
-                            cmd.ExecuteNonQuery();
+                            if (tocka.stanjeZakljucka != null)
+                            {
+                                cmd.Parameters.AddWithValue("stanje", tocka.stanjeZakljucka);
+                                cmd.Parameters.AddWithValue("tdr_id", tocka.id);
+                                cmd.ExecuteNonQuery();
+                            }
                         }
                     }
                 }

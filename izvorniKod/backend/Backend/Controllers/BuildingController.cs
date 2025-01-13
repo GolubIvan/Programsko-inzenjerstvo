@@ -67,5 +67,27 @@ namespace Backend.Controllers
 
             return Ok(new { buildingId = buildingId, address = address, role = uloga, meetings = modifiedMeetings });
         }
+
+        [HttpGet]
+        public IActionResult GetAllBuildings()
+        {
+            var token = Request.Headers["token"];
+            if (token == "undefined")
+            {
+            return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+            _logger.LogInformation("Checking user with token: {Token}", token);
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+
+            if (email == null)
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            List<Backend.Models.Zgrada> zgrade = Backend.Models.Zgrada.getAllBuildings();
+
+            return Ok(new { zgrade = zgrade });
+        }
     }
 }
