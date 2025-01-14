@@ -1,8 +1,8 @@
-using Npgsql;
+﻿using Npgsql;
 
 namespace Backend.Models
 {
-    public class MeetingRequest
+    public class MeetingRequestAPI
     {
         public string Naslov { get; set; }
         public string Mjesto { get; set; }
@@ -15,18 +15,22 @@ namespace Backend.Models
 
         public override string ToString()
         {
-            return $"Naslov: {Naslov}, Opis: {Opis}, Mjesto: {Mjesto}, Vrijeme: {Vrijeme}, Status: {Status}, ZgradaId: {ZgradaId}, Sazetak: {Sazetak}, TockeDnevnogReda: {string.Join(", ", TockeDnevnogReda)}";
+            return $"Naslov: {Naslov}, Opis: {Opis}, Mjesto: {Mjesto}, Vrijeme: {Vrijeme}, Status: {Status}, Sazetak: {Sazetak}, TockeDnevnogReda: {string.Join(", ", TockeDnevnogReda)}";
         }
-        public int getZgradaId(){
-            using(var conn = Database.GetConnection()){
+        public int getZgradaId()
+        {
+            int zgradaId = -1;
+            using (var conn = Database.GetConnection())
+            {
                 var cmd = new NpgsqlCommand("SELECT zgrada_id FROM zgrada WHERE adresa = @adresa", conn);
                 cmd.Parameters.AddWithValue("adresa", Adresa);
                 var reader = cmd.ExecuteReader();
-                if(reader.Read() == false){
+                if (reader.Read() == false)
+                {
                     reader.Close();
                     return -1;
                 }
-                int zgradaId = reader.GetInt32(0);
+                zgradaId = reader.GetInt32(0);
                 reader.Close();
             }
             return zgradaId;

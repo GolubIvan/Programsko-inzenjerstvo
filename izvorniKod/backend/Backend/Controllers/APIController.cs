@@ -7,8 +7,15 @@ using Newtonsoft.Json;
 namespace Backend.Controllers
 {
     [Route("api")]
-    public static class APIController : Controller
+
+    public class APIController : Controller
     {
+        private readonly ILogger<APIController> _logger;
+
+        public APIController(ILogger<APIController> logger)
+        {
+            _logger = logger;
+        }
         [HttpPost("")]
         public IActionResult Test([FromBody] MeetingRequestAPI meetingRequest)
         {
@@ -17,7 +24,7 @@ namespace Backend.Controllers
             if(apiKeyGet == null || apiKeyGet != apiKey)
                 return Unauthorized(new { error = "Invalid API key", message = "The API key is invalid or has expired." });
 
-            if (meetingRequest == null)                     //postoji meeting
+            if (meetingRequest == null)                     
             {
                 return BadRequest(new { error = "Invalid data", message = "Meeting data required." });
             }
@@ -33,18 +40,18 @@ namespace Backend.Controllers
             foreach (var tocka in meetingRequest.TockeDnevnogReda)
             {
                 TockaDnevnogRedaRequest tockaDobar = new TockaDnevnogRedaRequest();
-                tockaDobar.ImeTocke = tocka.ImeTocke;
-                tockaDobar.ImaPravniUcinak = tocka.ImaPravniUcinak;
-                tockaDobar.SazetakRasprave = tocka.SazetakRasprave;
-                tockaDobar.StanjeZakljucka = tocka.StanjeZakljucka;
-                tockaDobar.LinkNaDiskusiju = tocka.LinkNaDiskusiju;
+                tockaDobar.imeTocke = tocka.imeTocke;
+                tockaDobar.imaPravniUcinak = tocka.imaPravniUcinak;
+                tockaDobar.sazetak = tocka.sazetak;
+                tockaDobar.stanjeZakljucka = tocka.stanjeZakljucka;
+                tockaDobar.url = tocka.url;
                 meetingRequestDobar.TockeDnevnogReda.Add(tockaDobar);
             }
 
             try
             {
                 MeetingRequest.AddMeeting(meetingRequestDobar, 0);
-                return Created(new { message = "Meeting has been added." });
+                return Created();
             }
             catch (Exception ex) {
                 Console.WriteLine(ex);
