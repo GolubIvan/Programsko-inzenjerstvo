@@ -46,7 +46,7 @@ export const LoginForm = () => {
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
       console.log("info: ", loginInfo);
 
-      await mutate(data);
+      await mutate(null);
       /* if (loginInfo.role == "Administrator") router.push("/create");
       else router.push("/home"); */
     },
