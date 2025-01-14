@@ -21,7 +21,7 @@ export default function AuthRedirect({ to, condition, role }: IAuthRedirect) {
   const { data, isLoading } = useSWR(swrKeys.me, authFetcher<User>);
 
   useEffect(() => {
-    if (isLoading || !data) return;
+    if (isLoading) return;
     console.log(data);
     console.log(condition);
     if (!data && condition == "isLoggedOut") {
