@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Xml;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Backend.Controllers
 {
@@ -16,8 +17,8 @@ namespace Backend.Controllers
         {
             _logger = logger;
         }
-        [HttpPost("")]
-        public IActionResult Test([FromBody] MeetingRequestAPI meetingRequest)
+        [HttpPost("/create")]
+        public IActionResult apiCreate([FromBody] MeetingRequestAPI meetingRequest)
         {
             string apiKeyGet = Request.Headers["apiKey"].ToString() ?? "";
             string apiKey = "nas_api_key";
@@ -34,7 +35,7 @@ namespace Backend.Controllers
             meetingRequestDobar.Opis = meetingRequest.Opis;
             meetingRequestDobar.Vrijeme = meetingRequest.Vrijeme;
             meetingRequestDobar.Status = meetingRequest.Status;
-            meetingRequestDobar.ZgradaId = meetingRequest.getZgradaId();
+            meetingRequestDobar.ZgradaId = 0;
             meetingRequestDobar.Sazetak = meetingRequest.Sazetak;
             meetingRequestDobar.TockeDnevnogReda = new List<TockaDnevnogRedaRequest>();
             foreach (var tocka in meetingRequest.TockeDnevnogReda)
@@ -57,6 +58,35 @@ namespace Backend.Controllers
                 Console.WriteLine(ex);
                 return BadRequest(new { error = "Invalid data", message = "Failed to add the meeting." });
             }
+        }
+        [HttpGet("/diskusije")]
+        public IActionResult dobiDiskusije(string keyword)
+        {
+            string url = "https://njihovLink.com/api/endpoint";
+            string apiKey = "njihov_api_key";
+
+            string token = Request.Headers["token"].ToString() ?? "";
+
+            if (token == "undefined" || token == "")       
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+            if (keyword == null)                         
+            {
+                return BadRequest(new { error = "Invalid data", message = "Meeting data required." });
+            }
+
+            var jsonData = "{ }";
+            using HttpClient client = new HttpClient();
+
+            client.DefaultRequestHeaders.Add("Authorization", apiKey);
+            client.DefaultRequestHeaders.Add("Naslov-diskusije", keyword);
+
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+
+
+            return Ok();
         }
     }
 }
