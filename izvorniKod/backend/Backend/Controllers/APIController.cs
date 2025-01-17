@@ -97,14 +97,14 @@ namespace Backend.Controllers
                 var jsonResponse = JsonConvert.DeserializeObject<JObject>(responseData);
                 if (jsonResponse == null)
                 {
-                    return NoContent(); 
+                    return Ok(new { diskusije = new string[] { } });
                 }
                 var foundNaslovi = jsonResponse["foundNaslovi"] as JArray;
                 var siteLink = jsonResponse["siteLink"]?.ToString();
 
                 if (foundNaslovi == null || !foundNaslovi.Any())
                 {
-                    return NoContent(); 
+                    return Ok(new { diskusije = new string[] { } });
                 }
 
                 var diskusije = foundNaslovi
