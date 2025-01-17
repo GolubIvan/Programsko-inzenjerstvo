@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Xml;
 using Newtonsoft.Json;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Backend.Controllers
 {
@@ -21,7 +22,7 @@ namespace Backend.Controllers
         public IActionResult apiCreate([FromBody] MeetingRequestAPI meetingRequest)
         {
             string apiKeyGet = Request.Headers["apiKey"].ToString() ?? "";
-            string apiKey = "nas_api_key";
+            string apiKey = "c92cd177-4267-4e7e-871c-3f68c7f1acfd";
             if(apiKeyGet == null || apiKeyGet != apiKey)
                 return Unauthorized(new { error = "Invalid API key", message = "The API key is invalid or has expired." });
 
@@ -60,7 +61,7 @@ namespace Backend.Controllers
             }
         }
         [HttpGet("/diskusije")]
-        public IActionResult dobiDiskusije(string keyword)
+        public async Task<IActionResult> dobiDiskusijeAsync(string zgrada,string keyword)
         {
             string url = "https://njihovLink.com/api/endpoint";
             string apiKey = "njihov_api_key";
@@ -73,20 +74,58 @@ namespace Backend.Controllers
             }
             if (keyword == null)                         
             {
-                return BadRequest(new { error = "Invalid data", message = "Meeting data required." });
+                return BadRequest(new { error = "Invalid data", message = "Keyword required." });
             }
+            if (zgrada == null)
+            {
+                return BadRequest(new { error = "Invalid data", message = "Keyword required." });
+            }
+            try
+            {
+                using HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Authorization", apiKey);
+                client.DefaultRequestHeaders.Add("Naslov-diskusije", keyword);
+                client.DefaultRequestHeaders.Add("Zgrada", zgrada);
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return StatusCode((int)response.StatusCode, new { error = "API Error", message = "Failed to fetch data from external API." });
+                }
 
-            var jsonData = "{ }";
-            using HttpClient client = new HttpClient();
+                string responseData = await response.Content.ReadAsStringAsync();
 
-            client.DefaultRequestHeaders.Add("Authorization", apiKey);
-            client.DefaultRequestHeaders.Add("Naslov-diskusije", keyword);
+                var jsonResponse = JsonConvert.DeserializeObject<JObject>(responseData);
+                if (jsonResponse == null)
+                {
+                    return NoContent(); 
+                }
+                var foundNaslovi = jsonResponse["foundNaslovi"] as JArray;
+                var siteLink = jsonResponse["siteLink"]?.ToString();
 
-            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                if (foundNaslovi == null || !foundNaslovi.Any())
+                {
+                    return NoContent(); 
+                }
 
+                var diskusije = foundNaslovi
+                    .Distinct()
+                    .Select(naslov => new Diskusija
+                    {
+                        Naslov = naslov.ToString(),
+                        Link = $"{siteLink}&naslov={Uri.EscapeDataString(naslov.ToString())}"
+                    })
+                    .ToList();
 
-
-            return Ok();
+                return Ok(diskusije);
+            }
+            catch (HttpRequestException httpEx)
+            {
+                return StatusCode(500, new { error = "Request Error", message = httpEx.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "Internal Server Error", message = ex.Message });
+            }
         }
     }
 }
