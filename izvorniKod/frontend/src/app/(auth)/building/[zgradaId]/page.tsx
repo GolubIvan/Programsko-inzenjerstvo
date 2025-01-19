@@ -84,7 +84,13 @@ export default function ZgradaPage() {
               </Flex>
             </Flex>
             <Heading fontSize="2rem">Vaši aktivni sastanci...</Heading>
-            <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              width="100%"
+              gap="15px"
+              alignItems={{ base: "center", md: "flex-start" }}
+              flexWrap="wrap"
+            >
               {activeMeetings?.length != 0 &&
                 data?.meetings.map((meeting, ind) => {
                   if (meeting.status != "Arhiviran")

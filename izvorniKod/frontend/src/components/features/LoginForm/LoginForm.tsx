@@ -92,7 +92,7 @@ export const LoginForm = () => {
         alignItems="center"
         as="form"
         height="100%"
-        width="50%"
+        width={{ base: "70%", md: "50%" }}
         gapY="10px"
         onSubmit={handleSubmit(onCreate)}
       >

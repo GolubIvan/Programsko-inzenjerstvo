@@ -21,7 +21,11 @@ export default function CreatePage() {
       <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />
       <AuthRedirect to="/home" condition="isLoggedIn" role="Predstavnik" />
       <AuthRedirect to="/home" condition="isLoggedIn" role="Suvlasnik" />
-      <Flex margin="auto" width="50%" marginTop="50px">
+      <Flex
+        margin="auto"
+        width={{ base: "80%", md: "60%", lg: "50%" }}
+        marginTop="50px"
+      >
         <CreateForm />
       </Flex>
     </>

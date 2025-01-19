@@ -160,7 +160,7 @@ export function CreateForm() {
       backgroundColor="gray.100"
       borderRadius="10px"
     >
-      <Heading textAlign="center" fontSize="x-large">
+      <Heading textAlign="center" fontSize="x-large" paddingBottom="10px">
         Kreiranje novih korisnika
       </Heading>
       <Field
@@ -270,7 +270,7 @@ export function CreateForm() {
       <Field>
         <RadioGroup
           display="flex"
-          flexDirection="row"
+          flexDirection={{ base: "column", md: "row" }}
           width="100%"
           padding="7px"
           gap="10px"
@@ -280,7 +280,11 @@ export function CreateForm() {
           disabled={isSubmitting}
           {...register("role")}
         >
-          <HStack>
+          <HStack
+            display="flex"
+            flexDirection={{ base: "column", sm: "row" }}
+            alignItems={{ base: "flex-start" }}
+          >
             <Radio value="Suvlasnik" {...register("role")}>
               Suvlasnik
             </Radio>
