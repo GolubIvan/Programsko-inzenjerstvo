@@ -66,7 +66,6 @@ public class JWTGenerator
                     return claim.Value;
                 }
             }
-
             return "";
         }
         catch (SecurityTokenException)
