@@ -34,4 +34,7 @@ export const swrKeys = {
     return `${backend}/meetings/arhiviraj/${id}`;
   },
   changePassword: `${backend}/me/changePassword`,
+  getDiscussion: (zgradaId: string, keyword: string) => {
+    return `${backend}/api/diskusije?zgrada=${zgradaId}&keyword=${keyword}`;
+  },
 };

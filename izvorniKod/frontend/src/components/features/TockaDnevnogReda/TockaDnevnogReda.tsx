@@ -42,9 +42,9 @@ export function TockaDnevnogReda({ tocka, rbr }: ITockaProps) {
             alignItems="center"
           >
             <LuPaperclip />
-            <Link href={"https://" + tocka.url}>
+            <Link href={tocka.url}>
               točka dnevnog reda motivirana ovom diskusijom{" "}
-            </Link>{" "}
+            </Link>
           </Text>
         )}
       </Flex>
