@@ -23,7 +23,7 @@ export const BuildingListCard = ({
   };
   return (
     <Card.Root
-      width="60%"
+      width={{ base: "80%", md: "60%" }}
       alignSelf="center"
       m="20px"
       bg="gray.300"
@@ -32,7 +32,7 @@ export const BuildingListCard = ({
       <Card.Header fontSize="xl">{podatak.key.address}</Card.Header>
       <Card.Body>
         <Flex
-          direction="row"
+          direction={{ base: "column", sm: "row" }}
           alignItems="center"
           justifyContent="space-between"
           fontSize="large"
