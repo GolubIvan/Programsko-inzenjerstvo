@@ -186,6 +186,14 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     }
   );
   const onSelectKeyword = async (keyword?: string) => {
+    if (!keyword || keyword == "") {
+      if (kljucnaRijecIme.current)
+        kljucnaRijecIme.current.style.borderColor = "red";
+      return;
+    } else {
+      if (kljucnaRijecIme.current)
+        kljucnaRijecIme.current.style.borderColor = "";
+    }
     console.log("Keyword", keyword);
     console.log(swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`));
     const data = await authFetcher<Discussion[]>(
