@@ -1,4 +1,5 @@
 "use client";
+import { BackToMeetingListButton } from "@/components/features/BackToMeetingListButton/BackToMeetingListButton";
 import { CreateMeetingForm } from "@/components/features/CreateMeetingForm/CreateMeetingForm";
 import { MeetingDisplay } from "@/components/features/MeetingDisplay/MeetingDisplay";
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
@@ -20,9 +21,9 @@ export default function MeetingPage() {
   return (
     <>
       <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />
-
       <Flex flexDirection="column" height="100vh">
         <AuthHeader canLogout={true} title=" " />
+        <BackToMeetingListButton />
         <CreateMeetingForm />
       </Flex>
     </>

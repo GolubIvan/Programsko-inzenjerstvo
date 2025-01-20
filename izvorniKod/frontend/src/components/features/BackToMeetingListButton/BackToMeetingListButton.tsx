@@ -9,6 +9,7 @@ export const BackToMeetingListButton = () => {
     <IconButton
       bg="gray.300"
       variant="ghost"
+      color="black"
       onClick={() => {
         router.push(`/building/${Number(params.zgradaId)}`);
       }}

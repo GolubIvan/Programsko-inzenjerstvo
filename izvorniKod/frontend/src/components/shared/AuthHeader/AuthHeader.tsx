@@ -14,6 +14,7 @@ import { swrKeys } from "@/typings/swrKeys";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { LuLock, LuPen } from "react-icons/lu";
+import Link from "next/link";
 
 interface IAuthHeaderProps {
   canLogout: boolean;
@@ -47,7 +48,9 @@ export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
         }
         width={{ base: "100%", md: "80%" }}
       >
-        <Image src={logoImage.src} alt="Naslovna slika showa" height="80px" />
+        <Link href="/home">
+          <Image src={logoImage.src} alt="Naslovna slika showa" height="80px" />
+        </Link>
 
         {title && (
           <Heading color="white" fontSize="xx-large">
@@ -64,6 +67,7 @@ export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
         <Flex alignItems="center" gap="20px">
           <IconButton
             background="transparent"
+            color="white"
             onClick={() => {
               router.push("/account");
             }}

@@ -29,7 +29,9 @@ export const BuildingListCard = ({
       bg="gray.300"
       variant="elevated"
     >
-      <Card.Header fontSize="xl">{podatak.key.address}</Card.Header>
+      <Card.Header fontSize="xl" color="black">
+        {podatak.key.address}
+      </Card.Header>
       <Card.Body>
         <Flex
           direction={{ base: "column", sm: "row" }}
