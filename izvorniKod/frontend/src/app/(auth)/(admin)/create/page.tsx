@@ -12,8 +12,9 @@ export default function CreatePage() {
 
   if (error) {
     if (error.status !== 401) return <Box>Something went wrong...</Box>;
+    else return <Box>Nemate pristup toj stranici.</Box>;
   }
-  if (isLoading) {
+  if (isLoading || !data) {
     return <Box>Loading...</Box>;
   }
   return (

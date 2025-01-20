@@ -22,6 +22,8 @@ import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
 import { createMutator, postMutator } from "@/fetchers/mutators";
 import { useRouter } from "next/navigation";
+import { BackToMeetingListButton } from "../BackToMeetingListButton/BackToMeetingListButton";
+import { BackToHomeButton } from "../BackToHomeButton/BackToHomeButton";
 
 interface IChangeForm {
   old_password: string;
@@ -79,53 +81,63 @@ export function ChangePasswordForm() {
   };
 
   return (
-    <Flex
-      as="form"
-      direction="column"
-      onSubmit={handleSubmit(onCreate)}
-      width="100%"
-      padding="20px"
-      backgroundColor="gray.100"
-      borderRadius="10px"
-    >
-      <Heading textAlign="center" fontSize="x-large">
-        Promjena lozinke
-      </Heading>
-      <Field
-        label="Stara lozinka"
-        invalid={Boolean(errors?.old_password)}
-        errorText={errors?.old_password?.message}
-        disabled={isSubmitting}
+    <Flex flexDir="column" gap="10px">
+      <BackToHomeButton />
+      <Flex
+        as="form"
+        direction="column"
+        onSubmit={handleSubmit(onCreate)}
+        width="100%"
+        padding="20px"
+        backgroundColor="gray.100"
+        borderRadius="10px"
+        color="black"
       >
-        <PasswordInput
-          {...register("old_password", passwordRequirements)}
-          required
-        />
-      </Field>
-      <Field
-        label="Nova lozinka"
-        invalid={Boolean(errors?.password)}
-        errorText={errors?.password?.message}
-        disabled={isSubmitting}
-      >
-        <PasswordInput
-          {...register("password", passwordRequirements)}
-          required
-        />
-      </Field>
-      <Field
-        label="Ponovljena nova lozinka"
-        invalid={Boolean(errors?.repeated_password)}
-        errorText={errors?.repeated_password?.message}
-        disabled={isSubmitting}
-      >
-        <PasswordInput
-          {...register("repeated_password", passwordConfirmationRequirements)}
-        />
-      </Field>
-      <Button mt="40px" type="submit" loading={isSubmitting}>
-        {"Promijeni lozinku"}
-      </Button>
+        <Heading textAlign="center" fontSize="x-large">
+          Promjena lozinke
+        </Heading>
+        <Field
+          label="Stara lozinka"
+          invalid={Boolean(errors?.old_password)}
+          errorText={errors?.old_password?.message}
+          disabled={isSubmitting}
+        >
+          <PasswordInput
+            {...register("old_password", passwordRequirements)}
+            required
+          />
+        </Field>
+        <Field
+          label="Nova lozinka"
+          invalid={Boolean(errors?.password)}
+          errorText={errors?.password?.message}
+          disabled={isSubmitting}
+        >
+          <PasswordInput
+            {...register("password", passwordRequirements)}
+            required
+          />
+        </Field>
+        <Field
+          label="Ponovljena nova lozinka"
+          invalid={Boolean(errors?.repeated_password)}
+          errorText={errors?.repeated_password?.message}
+          disabled={isSubmitting}
+        >
+          <PasswordInput
+            {...register("repeated_password", passwordConfirmationRequirements)}
+          />
+        </Field>
+        <Button
+          mt="40px"
+          type="submit"
+          bg="black"
+          color="white"
+          loading={isSubmitting}
+        >
+          {"Promijeni lozinku"}
+        </Button>
+      </Flex>
     </Flex>
   );
 }
