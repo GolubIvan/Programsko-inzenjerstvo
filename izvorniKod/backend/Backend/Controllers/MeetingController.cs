@@ -24,7 +24,28 @@ namespace Backend.Controllers
         [HttpGet("{meetingId}")]
         public IActionResult GetMeeting(int meetingId)
         {
+
+            string token = Request.Headers["token"].ToString() ?? "";
+
+
+            if (token == "undefined" || token == "")
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
             Backend.Models.Meeting meeting = Backend.Models.Meeting.getMeeting(meetingId);
+
+            if (meeting == null)
+            {
+                return NotFound(new { error = "Meeting not found", message = "Meeting with the specified ID not found." });
+            }
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            string uloga = Backend.Models.User.getRole(email, meeting.zgradaId);
+
+            if (uloga == "")
+            {
+                return Unauthorized(new { error = "Invalid role", message = "The user role is not high enough." });
+            }
+
 
             if (meeting == null)
             {
