@@ -37,8 +37,8 @@ export function EditableTocka({
   return (
     <Flex flexDirection="row">
       <Text width="30px"> {rbr.toString() + "."} </Text>
-      <Flex flexDir="column" width="100%">
-        <Flex flexDirection="row" gap="5px">
+      <Flex flexDir="column" width="100%" gap="10px">
+        <Flex flexDirection={{ base: "column", sm: "row" }} gap="5px">
           <Text fontWeight="bold">{tocka.imeTocke}</Text>
           {tocka.imaPravniUcinak && (
             <Text fontWeight="bold" fontStyle="italic" color="orange.600">
@@ -47,8 +47,12 @@ export function EditableTocka({
           )}
         </Flex>
 
-        <Flex flexDir="row" justifyContent="space-between" alignItems="center">
-          <Text width="170px" textAlign="center">
+        <Flex
+          flexDir={{ base: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems={{ base: "flex-start", sm: "center" }}
+        >
+          <Text width="170px" textAlign="left">
             {"Zaključak točke:"}
           </Text>
           <Input
@@ -59,31 +63,37 @@ export function EditableTocka({
           />
         </Flex>
         {tocka.imaPravniUcinak && (
-          <Flex flexDir="row" alignItems="center" gap="10px">
-            <Text width="150px" textAlign="center">
+          <Flex
+            flexDir={{ base: "column", sm: "row" }}
+            alignItems={{ base: "flex-start", sm: "center" }}
+            gap="10px"
+          >
+            <Text width="150px" textAlign="left">
               {"Stanje zaključka:"}
             </Text>
-            <Text
-              fontWeight={stanje == "Izglasan" ? "bold" : "normal"}
-              color="green"
-              onClick={() => {
-                setStanje("Izglasan");
-                updateStanjeZakljucka("Izglasan", tocka.id);
-              }}
-            >
-              Izglasan
-            </Text>
-            <Text> | </Text>
-            <Text
-              fontWeight={stanje == "Odbijen" ? "bold" : "normal"}
-              color="red.500"
-              onClick={() => {
-                setStanje("Odbijen");
-                updateStanjeZakljucka("Odbijen", tocka.id);
-              }}
-            >
-              Odbijen
-            </Text>
+            <Flex gap="5px">
+              <Text
+                fontWeight={stanje == "Izglasan" ? "bold" : "normal"}
+                color="green"
+                onClick={() => {
+                  setStanje("Izglasan");
+                  updateStanjeZakljucka("Izglasan", tocka.id);
+                }}
+              >
+                Izglasan
+              </Text>
+              <Text> | </Text>
+              <Text
+                fontWeight={stanje == "Odbijen" ? "bold" : "normal"}
+                color="red.500"
+                onClick={() => {
+                  setStanje("Odbijen");
+                  updateStanjeZakljucka("Odbijen", tocka.id);
+                }}
+              >
+                Odbijen
+              </Text>
+            </Flex>
           </Flex>
         )}
         {tocka.url && (

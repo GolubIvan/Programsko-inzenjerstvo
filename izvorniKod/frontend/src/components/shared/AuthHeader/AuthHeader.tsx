@@ -14,6 +14,7 @@ import { swrKeys } from "@/typings/swrKeys";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { LuLock, LuPen } from "react-icons/lu";
+import Link from "next/link";
 
 interface IAuthHeaderProps {
   canLogout: boolean;
@@ -30,59 +31,63 @@ export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
   };
 
   return (
-    <Box height="15%" width="100%">
+    <Flex
+      direction={{ base: "column", md: "row" }}
+      height="150px"
+      bg="orange.400"
+      alignItems="center"
+      justifyContent="space-between"
+      padding={{ base: "20px", md: "40px" }}
+      width="100%"
+    >
       <Flex
         direction="row"
-        bg="orange.400"
-        height="100%"
         alignItems="center"
-        justifyContent="space-between"
-        paddingX="40px"
+        gap={
+          canLogout ? { base: "20%", md: "40%" } : { base: "30%", md: "50%" }
+        }
+        width={{ base: "100%", md: "80%" }}
       >
-        <Flex
-          direction="row"
-          justifyContent="space-between"
-          height="100%"
-          alignItems="center"
-          width="60%"
-        >
-          <Image
-            src={logoImage.src}
-            alt="Naslovna slika showa"
-            objectFit="cover"
-            height={"80%"}
-          />
-          {title && (
-            <Heading color="white" fontSize="xx-large">
-              {title}
-            </Heading>
-          )}
-          {!title && (
-            <Heading color="white" fontSize="xx-large">
-              eZgrada
-            </Heading>
-          )}
-        </Flex>
-        {canLogout && (
-          <Flex alignItems="center" gap="20px">
-            <IconButton
-              background="transparent"
-              onClick={() => {
-                router.push("/account");
-              }}
-            >
-              <Flex gap="0">
-                <LuLock />
-                <LuPen />
-              </Flex>
-            </IconButton>
+        <Link href="/home">
+          <Image src={logoImage.src} alt="Naslovna slika showa" height="80px" />
+        </Link>
 
-            <Text color="white" onClick={logOut} cursor="pointer">
-              Log out
-            </Text>
-          </Flex>
+        {title && (
+          <Heading color="white" fontSize="xx-large">
+            {title}
+          </Heading>
+        )}
+        {!title && (
+          <Heading color="white" fontSize="xx-large">
+            eZgrada
+          </Heading>
         )}
       </Flex>
-    </Box>
+      {canLogout && (
+        <Flex alignItems="center" gap="20px">
+          <IconButton
+            background="transparent"
+            color="white"
+            onClick={() => {
+              router.push("/account");
+            }}
+          >
+            <Flex gap="0">
+              <LuLock />
+              <LuPen />
+            </Flex>
+          </IconButton>
+
+          <Text
+            color="white"
+            onClick={logOut}
+            cursor="pointer"
+            fontSize="large"
+          >
+            Log out
+          </Text>
+        </Flex>
+      )}
+    </Flex>
   );
 };

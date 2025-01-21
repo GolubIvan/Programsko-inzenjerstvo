@@ -29,6 +29,7 @@ export default function EditMeetingPage() {
     console.log(error.message);
     if (error.status !== 401)
       return <Box>No meetings found for the specified building.</Box>;
+    else return <Box>Nemate pristup toj stranici.</Box>;
   }
   if (isLoading || !data) {
     return <Box>Loading...</Box>;

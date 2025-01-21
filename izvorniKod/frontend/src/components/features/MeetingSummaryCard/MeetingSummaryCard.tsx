@@ -145,6 +145,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
         width="300px"
         borderRadius="20px"
         opacity={hovered ? "50%" : "100%"}
+        color="black"
       >
         <CardBody
           margin="3%"
@@ -271,7 +272,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
             flexDir="column"
             gap="10px"
           >
-            <CardDescription>{meeting.sazetak}</CardDescription>
+            <CardDescription color="black">{meeting.sazetak}</CardDescription>
 
             <Flex direction="column" gap="5%">
               <Flex direction="row" gap="5%" alignItems="center">

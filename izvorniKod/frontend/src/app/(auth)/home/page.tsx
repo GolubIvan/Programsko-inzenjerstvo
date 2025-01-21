@@ -14,6 +14,7 @@ export default function BuildingsListPage() {
   console.log(data);
   if (error) {
     if (error.status !== 401) return <Box>Something went wrong...</Box>;
+    else return <Box>Nemate pristup toj stranici.</Box>;
   }
   if (isLoading || !data) {
     return <Box>Loading...</Box>;

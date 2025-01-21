@@ -33,7 +33,7 @@ export function MeetingDisplay({ meeting }: IMeetingProps) {
       col = "red";
       break;
     case "Arhiviran":
-      col = "yellow";
+      col = "orange.500";
   }
   return (
     <CardRoot margin="3%" marginBottom="0" padding="10px">
@@ -51,12 +51,7 @@ export function MeetingDisplay({ meeting }: IMeetingProps) {
           gap="10px"
         >
           Status sastanka:
-          <Text
-            textAlign="center"
-            color={col}
-            fontWeight="bold"
-            bg={meeting.status == "Arhiviran" ? "gray.700" : "white"}
-          >
+          <Text textAlign="center" color={col} fontWeight="bold">
             {meeting.status}
           </Text>
         </Heading>

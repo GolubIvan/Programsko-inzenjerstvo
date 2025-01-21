@@ -30,6 +30,7 @@ export default function ZgradaPage() {
     console.log(error.message);
     if (error.status !== 401)
       return <Box>No meetings found for the specified building.</Box>;
+    else return <Box>Nemate pristup toj stranici.</Box>;
   }
   if (isLoading || !data) {
     return <Box>Loading...</Box>;
@@ -68,7 +69,13 @@ export default function ZgradaPage() {
               </Button>
             </Flex>
             <Heading fontSize="2rem">Vaši arhivirani sastanci...</Heading>
-            <Flex direction="row" gap="5%" width="100%" flexWrap="wrap">
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              width="100%"
+              gap="15px"
+              alignItems={{ base: "center", md: "flex-start" }}
+              flexWrap="wrap"
+            >
               {archivedMeetings?.length != 0 &&
                 data?.meetings.map((meeting, ind) => {
                   if (meeting.status == "Arhiviran")

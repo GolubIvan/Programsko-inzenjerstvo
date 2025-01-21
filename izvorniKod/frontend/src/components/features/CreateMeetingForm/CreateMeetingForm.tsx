@@ -308,7 +308,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
             justifyContent="space-between"
             wrap="wrap"
           >
-            <Flex gap="10px">
+            <Flex gap="10px" direction={{ base: "column", md: "row" }}>
               <Input
                 type="url"
                 ref={tockaUrl}
@@ -318,7 +318,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                   tempT.url = e.target.value;
                   setNewTocka(tempT);
                 }}
-                width="400px"
+                width={{ base: "200px", sm: "400px" }}
               />
               <Checkbox
                 variant="subtle"
