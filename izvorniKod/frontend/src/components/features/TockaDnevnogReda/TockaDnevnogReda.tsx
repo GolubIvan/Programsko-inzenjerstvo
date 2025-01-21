@@ -1,16 +1,17 @@
 import { ITocka } from "@/typings/meeting";
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, IconButton, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { HiPaperClip } from "react-icons/hi";
-import { LuPaperclip } from "react-icons/lu";
+import { LuPaperclip, LuTrash } from "react-icons/lu";
 
 interface ITockaProps {
   tocka: ITocka;
   rbr: number;
+  izbrisiTocka?: (rbr: number) => void;
 }
-export function TockaDnevnogReda({ tocka, rbr }: ITockaProps) {
+export function TockaDnevnogReda({ tocka, rbr, izbrisiTocka }: ITockaProps) {
   return (
-    <Flex flexDirection="row">
+    <Flex flexDirection="row" alignItems="center">
       <Text width="30px"> {rbr.toString() + "."} </Text>
       <Flex flexDir="column">
         <Flex flexDirection="row" gap="5px">
@@ -48,6 +49,17 @@ export function TockaDnevnogReda({ tocka, rbr }: ITockaProps) {
           </Text>
         )}
       </Flex>
+      {izbrisiTocka && (
+        <IconButton
+          bg="white"
+          color="black"
+          ml="auto"
+          mr="20px"
+          onClick={() => izbrisiTocka(rbr)}
+        >
+          <LuTrash />
+        </IconButton>
+      )}
     </Flex>
   );
 }

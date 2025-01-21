@@ -129,6 +129,15 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
       stanjeZakljucka: undefined,
     });
   };
+  const izbrisiTocku = (rbr: number) => {
+    let temp = newMeeting.tockeDnevnogReda;
+    temp.splice(rbr - 1, 1);
+    console.log(temp);
+    setNewMeeting((prev) => ({
+      ...prev,
+      tockeDnevnogReda: temp,
+    }));
+  };
   useEffect(() => {
     console.log(newMeeting); // This will log the updated state
     setValue("tockeDnevnogReda", newMeeting.tockeDnevnogReda);
@@ -137,7 +146,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     console.log("lol");
     if (data.tockeDnevnogReda.length == 0) {
       setError("root", {
-        message: "Potrebno je dodati barem jednu tocku dnevnoga reda",
+        message: "Potrebno je dodati barem jednu točku dnevnoga reda",
       });
       return;
     }
@@ -285,6 +294,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                 sastanakId: 0,
               }}
               rbr={index + 1}
+              izbrisiTocka={izbrisiTocku}
             />
           ))}
         </CardBody>
