@@ -18,7 +18,7 @@ namespace Backend.Controllers
         {
             _logger = logger;
         }
-        [HttpPost("/create")]
+        [HttpPost("create")]
         public IActionResult apiCreate([FromBody] MeetingRequestAPI meetingRequest)
         {
             string apiKeyGet = Request.Headers["apiKey"].ToString() ?? "";
@@ -60,7 +60,7 @@ namespace Backend.Controllers
                 return BadRequest(new { error = "Invalid data", message = "Failed to add the meeting." });
             }
         }
-        [HttpGet("/diskusije")]
+        [HttpGet("diskusije")]
         public async Task<IActionResult> dobiDiskusijeAsync(string zgrada,string keyword)
         {
             string url = "https://njihovLink.com/api/endpoint";
