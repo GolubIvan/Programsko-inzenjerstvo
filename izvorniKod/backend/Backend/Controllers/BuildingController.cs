@@ -48,7 +48,10 @@ namespace Backend.Controllers
                 return NotFound(new { error = "No meetings found", message = "No meetings found for the specified building." });
             }
             int userId = Racun.getID(email);
-            var modifiedMeetings = meetings.Select(meeting => new
+            var modifiedMeetings = meetings
+            .Where(meeting => !(meeting.status == "Planiran" && uloga != "Predstavnik"))
+            .Where(meeting => !(meeting.status == "Arhiviran"))
+            .Select(meeting => new
             {
                 meetingId = meeting.meetingId,
                 naslov = meeting.naslov,
@@ -58,11 +61,13 @@ namespace Backend.Controllers
                 zgradaId = meeting.zgradaId,
                 kreatorId = meeting.kreatorId,
                 sazetak = meeting.sazetak,
-                sudjelovanje = Meeting.checkSudjelovanje(buildingId,userId, meeting.meetingId), 
-                brojSudionika = Meeting.checkSudioniciCount(buildingId,meeting.meetingId),
+                sudjelovanje = Meeting.checkSudjelovanje(buildingId, userId, meeting.meetingId),
+                brojSudionika = Meeting.checkSudioniciCount(buildingId, meeting.meetingId),
                 tockeDnevnogReda = meeting.tockeDnevnogReda,
                 isCreator = meeting.kreatorId
-            }).ToList();
+            })
+            .ToList();
+
 
 
             return Ok(new { buildingId = buildingId, address = address, role = uloga, meetings = modifiedMeetings });
