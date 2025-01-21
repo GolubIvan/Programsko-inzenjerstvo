@@ -124,6 +124,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
 
   const [obavljenError, setObavljenError] = useState("");
   const [arhiviranError, setArhiviranError] = useState("");
+  const [objavljenError, setObjavljenError] = useState("");
 
   const { trigger: trigger_obavi = trigger } = useSWRMutation(
     swrKeys.obaviMeeting(`${meeting.meetingId}`),
@@ -131,9 +132,6 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
     {
       onSuccess: async (data) => {
         await mutate(swrKeys.building(`${meeting.zgradaId}`));
-      },
-      onError: async (err) => {
-        setObavljenError(err.message);
       },
     }
   );
@@ -194,7 +192,13 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
                       <MenuItem
                         value="Objavi"
                         onClick={async () => {
-                          await trigger_objavi();
+                          try {
+                            await trigger_objavi();
+                          } catch (err) {
+                            setObjavljenError(
+                              "Objavljivanje sastanka nije moguće nakon isteka vremena!"
+                            );
+                          }
                         }}
                       >
                         Objavi
@@ -328,6 +332,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
           )}
           {obavljenError != "" && <Text color="red">{obavljenError}</Text>}
           {arhiviranError != "" && <Text color="Red">{arhiviranError}</Text>}
+          {objavljenError != "" && <Text color="Red">{objavljenError}</Text>}
         </CardFooter>
       </Card.Root>
     </>
