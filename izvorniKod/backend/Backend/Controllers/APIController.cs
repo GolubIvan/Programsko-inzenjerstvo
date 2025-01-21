@@ -120,11 +120,11 @@ namespace Backend.Controllers
             }
             catch (HttpRequestException httpEx)
             {
-                return StatusCode(500, new { error = "Request Error", message = httpEx.Message });
+                return Ok(new { diskusije = new string[] { } });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Internal Server Error", message = ex.Message });
+                return Ok(new { diskusije = new string[] { } });
             }
         }
     }
