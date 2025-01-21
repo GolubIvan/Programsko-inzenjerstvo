@@ -36,7 +36,7 @@ namespace Backend.Controllers
             meetingRequestDobar.Opis = meetingRequest.Opis;
             meetingRequestDobar.Vrijeme = meetingRequest.Vrijeme;
             meetingRequestDobar.Status = meetingRequest.Status;
-            meetingRequestDobar.ZgradaId = 0;
+            meetingRequestDobar.ZgradaId = 4;
             meetingRequestDobar.Sazetak = meetingRequest.Sazetak;
             meetingRequestDobar.TockeDnevnogReda = new List<TockaDnevnogRedaRequest>();
             foreach (var tocka in meetingRequest.TockeDnevnogReda)
@@ -49,11 +49,10 @@ namespace Backend.Controllers
                 tockaDobar.url = tocka.url;
                 meetingRequestDobar.TockeDnevnogReda.Add(tockaDobar);
             }
-
             try
             {
-                MeetingRequest.AddMeeting(meetingRequestDobar, 0);
-                return Created();
+                MeetingRequest.AddMeeting(meetingRequestDobar, 1);
+                return Ok(new { message = "Meeting has been added." });
             }
             catch (Exception ex) {
                 Console.WriteLine(ex);
