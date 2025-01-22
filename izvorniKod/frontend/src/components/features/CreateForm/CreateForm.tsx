@@ -1,6 +1,9 @@
 "use client";
 
 import {
+  Box,
+  Collapsible,
+  createListCollection,
   FieldErrorText,
   FieldRoot,
   Fieldset,
@@ -8,7 +11,23 @@ import {
   Heading,
   HStack,
   Input,
+  List,
+  ListCollection,
+  ListItem,
+  ListRoot,
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -16,11 +35,14 @@ import { register } from "module";
 import { error } from "console";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, Radio } from "@/components/ui/radio";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
 import { createMutator } from "@/fetchers/mutators";
+import { authFetcher } from "@/fetchers/fetcher";
+import useSWR, { useSWRConfig } from "swr";
+import { Certificate } from "crypto";
 
 interface ICreateForm {
   email: string;
@@ -28,37 +50,69 @@ interface ICreateForm {
   repeated_password: string;
   username: string;
   zgrada: string;
-  role: "predstavnik" | "suvlasnik";
+  role: "Predstavnik" | "Suvlasnik" | "Administrator";
+}
+
+interface IZgrada {
+  address: string;
+  zgradaId: number;
 }
 
 export function CreateForm() {
+  const { data, isLoading, error } = useSWR<{ zgrade: Array<IZgrada> }>(
+    swrKeys.building(""),
+    authFetcher
+  );
+
   const {
     register,
     handleSubmit,
     watch,
     reset,
     setError,
+    setValue,
     formState: { isSubmitting, errors },
   } = useForm<ICreateForm>({
-    defaultValues: { role: "suvlasnik" },
+    defaultValues: { role: "Suvlasnik" },
     mode: "onChange",
   });
 
+  const { mutate } = useSWR(swrKeys.building(""));
+
   const onCreate = async (data: ICreateForm) => {
+    if (!data.zgrada) {
+      setError("zgrada", { message: "Odaberite adresu ili unesite novu" });
+      return;
+    }
     console.log(data);
     await trigger(data);
+    await mutate(null);
   };
 
   const { trigger } = useSWRMutation(swrKeys.createUser, createMutator, {
     onSuccess: async (data) => {
       console.log(data);
       reset();
+      setOther(false);
+      setSelectedAddress("");
+      setSomethingSelected(false);
     },
     onError: async (error: { message: string }) => {
       setError("zgrada", { message: error.message });
     },
   });
 
+  const [other, setOther] = useState(false);
+
+  const [somethingSelected, setSomethingSelected] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
+
+  if (error) {
+    if (error.status !== 401) return <Box>Something went wrong...</Box>;
+  }
+  if (isLoading || !data) {
+    return <Box>Loading...</Box>;
+  }
   const emailRequirements = {
     required: "Unesite email",
     pattern: {
@@ -91,6 +145,11 @@ export function CreateForm() {
     },
   };
 
+  const addressRequirements = {
+    required: "Odaberite adresu ili unesite novu",
+  };
+  console.log("zgrade", data);
+
   return (
     <Flex
       as="form"
@@ -101,7 +160,12 @@ export function CreateForm() {
       backgroundColor="gray.100"
       borderRadius="10px"
     >
-      <Heading textAlign="center" fontSize="x-large">
+      <Heading
+        textAlign="center"
+        fontSize="x-large"
+        color="black"
+        paddingBottom="10px"
+      >
         Kreiranje novih korisnika
       </Heading>
       <Field
@@ -109,6 +173,7 @@ export function CreateForm() {
         invalid={Boolean(errors.username)}
         errorText={errors.username?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <Input {...register("username", usernameRequirements)} type="text" />
       </Field>
@@ -117,6 +182,7 @@ export function CreateForm() {
         invalid={Boolean(errors?.email)}
         errorText={errors?.email?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <Input {...register("email", emailRequirements)} type="email" />
       </Field>
@@ -125,6 +191,7 @@ export function CreateForm() {
         invalid={Boolean(errors?.password)}
         errorText={errors?.password?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <PasswordInput
           {...register("password", passwordRequirements)}
@@ -136,6 +203,7 @@ export function CreateForm() {
         invalid={Boolean(errors?.repeated_password)}
         errorText={errors?.repeated_password?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <PasswordInput
           {...register("repeated_password", passwordConfirmationRequirements)}
@@ -146,23 +214,88 @@ export function CreateForm() {
         invalid={Boolean(errors?.zgrada)}
         errorText={errors?.zgrada?.message}
         disabled={isSubmitting}
+        color="black"
       >
-        <Input {...register("zgrada", passwordRequirements)} required />
+        <MenuRoot>
+          <MenuTrigger asChild>
+            <Button
+              width="100%"
+              border={"1px solid"}
+              borderColor={"gray.200"}
+              backgroundColor="gray.100"
+              color="black"
+              justifyContent="start"
+            >
+              Odaberite s popisa
+            </Button>
+          </MenuTrigger>
+          <MenuContent maxHeight="150px" overflow="scroll" width="100%">
+            <MenuItem
+              value={"other"}
+              onClick={() => {
+                setOther(true);
+                setValue("zgrada", "");
+                setSomethingSelected(true);
+              }}
+            >
+              {"... dodaj novu adresu"}
+            </MenuItem>
+            {data.zgrade.map((zgr, index) => {
+              return (
+                <MenuItem
+                  value={zgr.address}
+                  key={zgr.zgradaId}
+                  onClick={() => {
+                    setOther(false);
+                    setSelectedAddress(zgr.address);
+                    setValue("zgrada", zgr.address);
+                    setSomethingSelected(true);
+                  }}
+                >
+                  {" "}
+                  {zgr.address}
+                </MenuItem>
+              );
+            })}
+          </MenuContent>
+        </MenuRoot>
+        {other && (
+          <Input
+            type="text"
+            {...register("zgrada", addressRequirements)}
+            placeholder="Nova adresa"
+          />
+        )}
+        {!other && somethingSelected && (
+          <Input
+            type="text"
+            {...register("zgrada")}
+            placeholder={"Još niste unijeli adresu"}
+            readOnly
+            defaultValue={selectedAddress}
+            color="black"
+          />
+        )}
       </Field>
       <Field>
         <RadioGroup
           display="flex"
-          flexDirection="row"
+          flexDirection={{ base: "column", md: "row" }}
           width="100%"
           padding="7px"
           gap="10px"
           marginTop="10px"
           marginBottom="10px"
-          defaultValue="suvlasnik"
+          defaultValue="Suvlasnik"
           disabled={isSubmitting}
           {...register("role")}
+          color="black"
         >
-          <HStack>
+          <HStack
+            display="flex"
+            flexDirection={{ base: "column", sm: "row" }}
+            alignItems={{ base: "flex-start" }}
+          >
             <Radio value="Suvlasnik" {...register("role")}>
               Suvlasnik
             </Radio>
@@ -175,7 +308,7 @@ export function CreateForm() {
           </HStack>
         </RadioGroup>
       </Field>
-      <Button type="submit" loading={isSubmitting}>
+      <Button bg="black" color="white" type="submit" loading={isSubmitting}>
         Stvori{" "}
       </Button>
     </Flex>

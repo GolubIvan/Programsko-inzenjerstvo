@@ -9,10 +9,12 @@ import useSWR from "swr";
 
 export default function CreatePage() {
   const { data, isLoading, error } = useSWR(swrKeys.me, authFetcher);
+
   if (error) {
     if (error.status !== 401) return <Box>Something went wrong...</Box>;
+    else return <Box>Nemate pristup toj stranici.</Box>;
   }
-  if (isLoading) {
+  if (isLoading || !data) {
     return <Box>Loading...</Box>;
   }
   return (
@@ -20,7 +22,11 @@ export default function CreatePage() {
       <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />
       <AuthRedirect to="/home" condition="isLoggedIn" role="Predstavnik" />
       <AuthRedirect to="/home" condition="isLoggedIn" role="Suvlasnik" />
-      <Flex margin="auto" width="50%" marginTop="50px">
+      <Flex
+        margin="auto"
+        width={{ base: "80%", md: "60%", lg: "50%" }}
+        marginTop="50px"
+      >
         <CreateForm />
       </Flex>
     </>

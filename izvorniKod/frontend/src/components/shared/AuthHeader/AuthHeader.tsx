@@ -1,57 +1,93 @@
 "use client";
 
-import { Flex, Heading, Image, Box, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Image,
+  Box,
+  Text,
+  Icon,
+  IconButton,
+} from "@chakra-ui/react";
 import logoImage from "../../../../public/logo.png";
 import { swrKeys } from "@/typings/swrKeys";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
+import { LuLock, LuPen } from "react-icons/lu";
+import Link from "next/link";
 
 interface IAuthHeaderProps {
   canLogout: boolean;
+  title?: string;
 }
 
-export const AuthHeader = ({ canLogout }: IAuthHeaderProps) => {
+export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
   const { mutate } = useSWR(swrKeys.me);
   const router = useRouter();
-  const logOut = () => {
+  const logOut = async () => {
     localStorage.setItem("loginInfo", "");
-    mutate(null);
+    await mutate(null);
     router.push("/");
   };
 
   return (
-    <Box height="15%" width="100%">
+    <Flex
+      direction={{ base: "column", md: "row" }}
+      height="150px"
+      bg="orange.400"
+      alignItems="center"
+      justifyContent="space-between"
+      padding={{ base: "20px", md: "40px" }}
+      width="100%"
+    >
       <Flex
         direction="row"
-        bg="orange.400"
-        height="100%"
         alignItems="center"
-        justifyContent="space-between"
-        paddingX="40px"
+        gap={
+          canLogout ? { base: "20%", md: "40%" } : { base: "30%", md: "50%" }
+        }
+        width={{ base: "100%", md: "80%" }}
       >
-        <Flex
-          direction="row"
-          justifyContent="space-between"
-          height="100%"
-          alignItems="center"
-          width="30%"
-        >
-          <Image
-            src={logoImage.src}
-            alt="Naslovna slika showa"
-            objectFit="cover"
-            height={"80%"}
-          />
+        <Link href="/home">
+          <Image src={logoImage.src} alt="Naslovna slika showa" height="80px" />
+        </Link>
+
+        {title && (
+          <Heading color="white" fontSize="xx-large">
+            {title}
+          </Heading>
+        )}
+        {!title && (
           <Heading color="white" fontSize="xx-large">
             eZgrada
           </Heading>
-        </Flex>
-        {canLogout && (
-          <Text color="white" onClick={logOut} cursor="pointer">
-            Log out
-          </Text>
         )}
       </Flex>
-    </Box>
+      {canLogout && (
+        <Flex alignItems="center" gap="20px">
+          <IconButton
+            background="transparent"
+            color="white"
+            onClick={() => {
+              router.push("/account");
+            }}
+          >
+            <Flex gap="0">
+              <LuLock />
+              <LuPen />
+            </Flex>
+          </IconButton>
+
+          <Text
+            color="white"
+            onClick={logOut}
+            cursor="pointer"
+            fontSize="large"
+          >
+            Log out
+          </Text>
+        </Flex>
+      )}
+    </Flex>
   );
 };

@@ -38,14 +38,15 @@ export const LoginForm = () => {
   const { mutate } = useSWR(swrKeys.me);
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
     onSuccess: async (data) => {
+      console.log("Data ", data);
       const loginInfo = {
         token: data.token,
-        role: data.role,
+        role: data.podaci[0].uloga,
       };
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
       console.log("info: ", loginInfo);
 
-      await mutate(data);
+      await mutate(null);
       /* if (loginInfo.role == "Administrator") router.push("/create");
       else router.push("/home"); */
     },
@@ -66,8 +67,8 @@ export const LoginForm = () => {
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
         console.log("info: ", loginInfo);
         await mutate(data);
-        /* if (loginInfo.role == "Administrator") router.push("/create");
-        else router.push("/home"); */
+        if (loginInfo.role == "Administrator") router.push("/create");
+        else router.push("/home");
       },
       onError: (error: { message: string }) => {
         setError("password", { message: error.message });
@@ -91,11 +92,11 @@ export const LoginForm = () => {
         alignItems="center"
         as="form"
         height="100%"
-        width="50%"
+        width={{ base: "70%", md: "50%" }}
         gapY="10px"
         onSubmit={handleSubmit(onCreate)}
       >
-        <Heading marginBottom="20px" fontSize="2xl">
+        <Heading marginBottom="20px" fontSize="2xl" color="black">
           Login
         </Heading>
         <Field
@@ -103,6 +104,7 @@ export const LoginForm = () => {
           invalid={Boolean(errors?.email)}
           disabled={isSubmitting}
           errorText={errors?.email?.message}
+          color="black"
         >
           <Input {...register("email", { required: "Unesite svoj email" })} />
         </Field>
@@ -111,6 +113,7 @@ export const LoginForm = () => {
           invalid={Boolean(errors?.password)}
           disabled={isSubmitting}
           errorText={errors?.password?.message}
+          color="black"
         >
           <PasswordInput
             {...register("password", { required: "Unesite lozinku" })}
@@ -126,7 +129,7 @@ export const LoginForm = () => {
         >
           Log In
         </Button>
-        <Text> ili </Text>
+        <Text color="black"> ili </Text>
         <GoogleLogin
           text="signin_with"
           onSuccess={googleOnSuccess}

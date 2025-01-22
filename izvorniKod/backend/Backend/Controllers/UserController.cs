@@ -15,22 +15,69 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CheckUser([FromBody] Backend.Models.LoginRequest loginRequest)
+        public async Task<IActionResult> CheckUser()
         {
-            var token = Request.Headers["token"];
-            if (token == "undefined") {
-                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." }); 
+            string token = Request.Headers["token"].ToString() ?? "";
+            _logger.LogInformation("Checking user with token: {Token}", token);
+            if (token == "undefined" || token == "")        
+            {
+                return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
+
             //Console.WriteLine(token);
             _logger.LogInformation("Checking user with token: {Token}", token);
             
             string email = JWTGenerator.ParseGoogleJwtToken(token);
-            List<int> zgrade = Backend.Models.Racun.getUserData(email);
+            List<KeyValuePair<Backend.Models.Zgrada, string>> zgrade = Backend.Models.Racun.getUserData(email);
             
-            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." }); 
+            if(zgrade.Count == 0) return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
 
-            return Ok(new { email = email });
+            bool isAdmin = false;
 
+            for (int i = 0; i < zgrade.Count; i++)
+            {
+                if (zgrade[i].Value == "Administrator")
+                {
+                    isAdmin = true;
+                    break; 
+                }
+            }
+
+            return Ok(new { email = email, admin = isAdmin,podaci = zgrade });
+
+        }
+
+        [HttpPost("changePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] Backend.Models.ChangePasswordRequest request)
+        {
+            string token = Request.Headers["token"].ToString() ?? "";
+            if (token == "undefined" || token == "")        
+            {
+            return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
+            }
+
+            if (request.newPassword == "undefined" || request.newPassword == "")        
+            {
+            return Unauthorized(new { error = "Invalid password", message = "The user password is invalid or has expired." });
+            }
+
+            if (request.oldPassword == "undefined" || request.oldPassword == "")        
+            {
+            return Unauthorized(new { error = "Invalid password", message = "The user password is invalid or has expired." });
+            }
+
+            string email = JWTGenerator.ParseGoogleJwtToken(token);
+            _logger.LogInformation("Changing password for user with email: {Email}", email);
+
+            if(!Backend.Models.Racun.checkPassword(email, request.oldPassword)){
+            return Unauthorized(new { error = "Invalid password", message = "The user password is invalid." });
+            }
+
+            if(!Backend.Models.User.changePassword(email, request.newPassword)){
+            return Unauthorized(new { error = "Error during password change", message = "An error occurred. The user might not exist." });
+            }
+
+            return Ok(new { message = "Password changed successfully." });
         }
     }
 }
