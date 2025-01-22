@@ -9,10 +9,10 @@
 
 # Upute za korištenje aplikacije
 URL na aplikaciju:
-https://ezgrada-h2gu.onrender.com/<br>
+https://ezgrada-2.onrender.com/<br>
 Login:<br>
 * admin: ana@gmail.com, lozinka: lozinka123<br>
-* ostali korisnik: ivan@gmail.com, lozinka: ludalozinka<br>
+* ostali korisnik: branko@gmail.com, lozinka: glupalozinka<br>
 ## Kreiranje korisnika:<br>
 Moguće je prijaviti nove korisnike (pa i napraviti račun sa svojim Google Accountom), jedino je važno da ulica bude neka od sljedećih:<br>
 * Ulica Kralja Tomislava 10<br>
