@@ -62,12 +62,12 @@ namespace Backend.Controllers
         [HttpGet("diskusije")]
         public async Task<IActionResult> dobiDiskusijeAsync(string zgrada,string keyword)
         {
-            string url = "https://njihovLink.com/api/endpoint";
-            string apiKey = "njihov_api_key";
+            string url = "https://be30c39fc6db.ngrok.app/slanjeRazgovoraPrekoApi";
+            string ApiKey = "ApiKey key";
 
             string token = Request.Headers["token"].ToString() ?? "";
 
-            if (token == "undefined" || token == "")       
+            if (token == "undefined" || token == "")
             {
                 return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
@@ -82,9 +82,9 @@ namespace Backend.Controllers
             try
             {
                 using HttpClient client = new HttpClient();
-                client.DefaultRequestHeaders.Add("Authorization", apiKey);
+                client.DefaultRequestHeaders.Add("Authorization", ApiKey);
                 client.DefaultRequestHeaders.Add("Naslov-diskusije", keyword);
-                client.DefaultRequestHeaders.Add("Zgrada", zgrada);
+                client.DefaultRequestHeaders.Add("ID-zgrade", zgrada);
                 HttpResponseMessage response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
                 {
