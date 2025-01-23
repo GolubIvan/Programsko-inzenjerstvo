@@ -50,7 +50,6 @@ namespace Backend.Controllers
             int userId = Racun.getID(email);
             var modifiedMeetings = meetings
             .Where(meeting => !(meeting.status == "Planiran" && uloga != "Predstavnik"))
-            .Where(meeting => !(meeting.status == "Arhiviran"))
             .Select(meeting => new
             {
                 meetingId = meeting.meetingId,
