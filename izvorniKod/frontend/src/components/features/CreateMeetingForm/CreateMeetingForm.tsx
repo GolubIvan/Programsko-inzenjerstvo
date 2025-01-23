@@ -196,13 +196,17 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     }
     console.log("Keyword", keyword);
     console.log(swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`));
-    const data = await authFetcher<Array<Discussion>>(
-      swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`),
-      {
-        method: "GET",
-      }
-    );
-    setDiscussionList(Object.values(data));
+    try {
+      const data = await authFetcher<Array<Discussion>>(
+        swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`),
+        {
+          method: "GET",
+        }
+      );
+      setDiscussionList(Object.values(data));
+    } catch (err) {
+      setDiscussionList([]);
+    }
   };
   return (
     <>
