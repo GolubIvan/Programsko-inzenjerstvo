@@ -348,11 +348,15 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
             justifyContent="space-between"
             wrap="wrap"
           >
-            <Flex gap="20px" direction="row" alignItems="center">
+            <Flex
+              gap="20px"
+              direction={{ base: "column", md: "row" }}
+              alignItems="center"
+            >
               <MenuRoot>
                 <MenuTrigger asChild>
                   <Button
-                    width="25%"
+                    width={{ base: "100%", md: "25%" }}
                     border={"1px solid"}
                     borderColor={"gray.200"}
                     backgroundColor="gray.100"
@@ -386,18 +390,18 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                     })}
                 </MenuContent>
               </MenuRoot>
-              <Flex direction="row" width="100%">
+              <Flex direction={{ base: "column", md: "row" }} width="100%">
                 <Input
                   ref={tockaUrl}
                   readOnly={true}
                   type="url"
-                  width="60%"
+                  width={{ base: "100%", md: "60%" }}
                   mr="10px"
                   placeholder="link to the discussion..."
                 />
                 <Input
                   placeholder="Pretraži diskusije"
-                  w="30%"
+                  width={{ base: "100%", md: "30%" }}
                   ref={kljucnaRijecIme}
                 />
                 <IconButton
@@ -427,6 +431,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
               width="100px"
               color="white"
               bg="black"
+              m={{ base: "auto", md: "" }}
               onClick={() => dodajTocku(newTocka)}
             >
               {"Dodaj točku"}
