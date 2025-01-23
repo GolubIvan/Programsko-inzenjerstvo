@@ -160,7 +160,12 @@ export function CreateForm() {
       backgroundColor="gray.100"
       borderRadius="10px"
     >
-      <Heading textAlign="center" fontSize="x-large">
+      <Heading
+        textAlign="center"
+        fontSize="x-large"
+        color="black"
+        paddingBottom="10px"
+      >
         Kreiranje novih korisnika
       </Heading>
       <Field
@@ -168,6 +173,7 @@ export function CreateForm() {
         invalid={Boolean(errors.username)}
         errorText={errors.username?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <Input {...register("username", usernameRequirements)} type="text" />
       </Field>
@@ -176,6 +182,7 @@ export function CreateForm() {
         invalid={Boolean(errors?.email)}
         errorText={errors?.email?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <Input {...register("email", emailRequirements)} type="email" />
       </Field>
@@ -184,6 +191,7 @@ export function CreateForm() {
         invalid={Boolean(errors?.password)}
         errorText={errors?.password?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <PasswordInput
           {...register("password", passwordRequirements)}
@@ -195,6 +203,7 @@ export function CreateForm() {
         invalid={Boolean(errors?.repeated_password)}
         errorText={errors?.repeated_password?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <PasswordInput
           {...register("repeated_password", passwordConfirmationRequirements)}
@@ -205,6 +214,7 @@ export function CreateForm() {
         invalid={Boolean(errors?.zgrada)}
         errorText={errors?.zgrada?.message}
         disabled={isSubmitting}
+        color="black"
       >
         <MenuRoot>
           <MenuTrigger asChild>
@@ -270,7 +280,7 @@ export function CreateForm() {
       <Field>
         <RadioGroup
           display="flex"
-          flexDirection="row"
+          flexDirection={{ base: "column", md: "row" }}
           width="100%"
           padding="7px"
           gap="10px"
@@ -279,8 +289,13 @@ export function CreateForm() {
           defaultValue="Suvlasnik"
           disabled={isSubmitting}
           {...register("role")}
+          color="black"
         >
-          <HStack>
+          <HStack
+            display="flex"
+            flexDirection={{ base: "column", sm: "row" }}
+            alignItems={{ base: "flex-start" }}
+          >
             <Radio value="Suvlasnik" {...register("role")}>
               Suvlasnik
             </Radio>
@@ -293,7 +308,7 @@ export function CreateForm() {
           </HStack>
         </RadioGroup>
       </Field>
-      <Button type="submit" loading={isSubmitting}>
+      <Button bg="black" color="white" type="submit" loading={isSubmitting}>
         Stvori{" "}
       </Button>
     </Flex>
