@@ -95,7 +95,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     url: "",
     stanjeZakljucka: undefined,
   });
-  const [discussionList, setDiscussionList] = useState<Discussion[]>();
+  const [discussionList, setDiscussionList] = useState<Array<Discussion>>();
   const {
     register,
     handleSubmit,
@@ -196,23 +196,13 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     }
     console.log("Keyword", keyword);
     console.log(swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`));
-    const data = await authFetcher<Discussion[]>(
+    const data = await authFetcher<Array<Discussion>>(
       swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`),
       {
         method: "GET",
       }
     );
-    console.log(data);
-    const mockData = [
-      { naslov: "malena", link: "muha" },
-      { naslov: "malenecka", link: "chara" },
-      {
-        naslov: "saljivdija",
-        link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      },
-    ];
-    console.log("muhahua");
-    setDiscussionList(mockData);
+    setDiscussionList(Object.values(data));
   };
   return (
     <>
@@ -355,6 +345,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                     color="black"
                     justifyContent="start"
                     overflow="hidden"
+                    disabled={!discussionList || discussionList?.length == 0}
                   >
                     Odaberite diskusiju s popisa
                   </Button>
