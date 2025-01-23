@@ -365,7 +365,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                     overflow="hidden"
                     disabled={!discussionList || discussionList?.length == 0}
                   >
-                    Odaberite diskusiju s popisa
+                    Odaberite diskusiju
                   </Button>
                 </MenuTrigger>
                 <MenuContent maxHeight="150px" overflow="scroll" width="100%">
@@ -397,7 +397,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
                   type="url"
                   width={{ base: "100%", md: "60%" }}
                   mr="10px"
-                  placeholder="link to the discussion..."
+                  placeholder="poveznica na diskusiju..."
                 />
                 <Input
                   placeholder="Pretraži diskusije"
