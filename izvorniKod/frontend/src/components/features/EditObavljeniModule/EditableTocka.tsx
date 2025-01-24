@@ -79,6 +79,7 @@ export function EditableTocka({
                   setStanje("Izglasan");
                   updateStanjeZakljucka("Izglasan", tocka.id);
                 }}
+                _hover={{ cursor: "pointer" }}
               >
                 Izglasan
               </Text>
@@ -90,6 +91,7 @@ export function EditableTocka({
                   setStanje("Odbijen");
                   updateStanjeZakljucka("Odbijen", tocka.id);
                 }}
+                _hover={{ cursor: "pointer" }}
               >
                 Odbijen
               </Text>

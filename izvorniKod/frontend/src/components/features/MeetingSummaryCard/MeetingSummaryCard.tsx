@@ -157,106 +157,104 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
             justifyContent="space-between"
           >
             <Text>{meeting.naslov}</Text>
-            {role == "Predstavnik" &&
-              meeting.status !=
-                "Arhiviran"(
-                  <MenuRoot>
-                    <MenuTrigger asChild>
-                      <BiEdit size="25px" />
-                    </MenuTrigger>
-                    <MenuContent>
-                      {(meeting.status == "Planiran" ||
-                        meeting.status == "Obavljen") && (
-                        <MenuItem
-                          value="Uredi"
-                          onClick={() => {
-                            router.push(
-                              `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}/edit`
+            {role == "Predstavnik" && meeting.status != "Arhiviran" && (
+              <MenuRoot>
+                <MenuTrigger asChild>
+                  <BiEdit size="25px" />
+                </MenuTrigger>
+                <MenuContent>
+                  {(meeting.status == "Planiran" ||
+                    meeting.status == "Obavljen") && (
+                    <MenuItem
+                      value="Uredi"
+                      onClick={() => {
+                        router.push(
+                          `/building/${meeting.zgradaId}/meeting/${meeting.meetingId}/edit`
+                        );
+                      }}
+                    >
+                      Uredi
+                    </MenuItem>
+                  )}
+                  {meeting.status == "Planiran" && (
+                    <>
+                      <MenuItem
+                        value="Izbrisi"
+                        onClick={async () => {
+                          await trigger();
+                        }}
+                      >
+                        Izbriši
+                      </MenuItem>
+                      <MenuItem
+                        value="Objavi"
+                        onClick={async () => {
+                          try {
+                            await trigger_objavi();
+                          } catch (err) {
+                            setObjavljenError(
+                              "Objavljivanje sastanka nije moguće nakon isteka vremena!"
                             );
-                          }}
-                        >
-                          Uredi
-                        </MenuItem>
-                      )}
-                      {meeting.status == "Planiran" && (
-                        <>
-                          <MenuItem
-                            value="Izbrisi"
-                            onClick={async () => {
-                              await trigger();
-                            }}
-                          >
-                            Izbriši
-                          </MenuItem>
-                          <MenuItem
-                            value="Objavi"
-                            onClick={async () => {
-                              try {
-                                await trigger_objavi();
-                              } catch (err) {
-                                setObjavljenError(
-                                  "Objavljivanje sastanka nije moguće nakon isteka vremena!"
-                                );
-                              }
-                            }}
-                          >
-                            Objavi
-                          </MenuItem>
-                        </>
-                      )}
-                      {meeting.status == "Objavljen" && (
-                        <MenuItem
-                          value="Obavi"
-                          onClick={async () => {
-                            const now = new Date();
-                            if (now < date) {
-                              setObavljenError(
-                                "Nije moguće prebaciti sastanak u stanje 'Obavljen' prije isteka vremena."
-                              );
-                              return;
-                            }
-                            await trigger_obavi();
-                          }}
-                        >
-                          {'Označi kao "Obavljen"'}
-                        </MenuItem>
-                      )}
-                      {meeting.status == "Obavljen" && (
-                        <MenuItem
-                          value="Arhiviraj"
-                          onClick={async () => {
-                            for (
-                              let i = 0;
-                              i < meeting.tockeDnevnogReda.length;
-                              i++
-                            ) {
-                              if (
-                                meeting.tockeDnevnogReda[i].imaPravniUcinak &&
-                                !meeting.tockeDnevnogReda[i].sazetak
-                              ) {
-                                setArhiviranError(
-                                  "Sve točke dnevnog reda s pravnim učinkom moraju imati zaključak"
-                                );
-                                return;
-                              } else if (
-                                meeting.tockeDnevnogReda[i].imaPravniUcinak &&
-                                !meeting.tockeDnevnogReda[i].stanjeZakljucka
-                              ) {
-                                setArhiviranError(
-                                  "Sve točke dnevnog reda s pravnim učinkom moraju imati status zaključka kao Izglasan ili Odbijen"
-                                );
-                                return;
-                              }
-                            }
-                            await trigger_arhiviraj();
-                          }}
-                        >
-                          Arhiviraj
-                        </MenuItem>
-                      )}
-                    </MenuContent>
-                  </MenuRoot>
-                )}
+                          }
+                        }}
+                      >
+                        Objavi
+                      </MenuItem>
+                    </>
+                  )}
+                  {meeting.status == "Objavljen" && (
+                    <MenuItem
+                      value="Obavi"
+                      onClick={async () => {
+                        const now = new Date();
+                        if (now < date) {
+                          setObavljenError(
+                            "Nije moguće prebaciti sastanak u stanje 'Obavljen' prije isteka vremena."
+                          );
+                          return;
+                        }
+                        await trigger_obavi();
+                      }}
+                    >
+                      {'Označi kao "Obavljen"'}
+                    </MenuItem>
+                  )}
+                  {meeting.status == "Obavljen" && (
+                    <MenuItem
+                      value="Arhiviraj"
+                      onClick={async () => {
+                        for (
+                          let i = 0;
+                          i < meeting.tockeDnevnogReda.length;
+                          i++
+                        ) {
+                          if (
+                            meeting.tockeDnevnogReda[i].imaPravniUcinak &&
+                            !meeting.tockeDnevnogReda[i].sazetak
+                          ) {
+                            setArhiviranError(
+                              "Sve točke dnevnog reda s pravnim učinkom moraju imati zaključak"
+                            );
+                            return;
+                          } else if (
+                            meeting.tockeDnevnogReda[i].imaPravniUcinak &&
+                            !meeting.tockeDnevnogReda[i].stanjeZakljucka
+                          ) {
+                            setArhiviranError(
+                              "Sve točke dnevnog reda s pravnim učinkom moraju imati status zaključka kao Izglasan ili Odbijen"
+                            );
+                            return;
+                          }
+                        }
+                        await trigger_arhiviraj();
+                      }}
+                    >
+                      Arhiviraj
+                    </MenuItem>
+                  )}
+                </MenuContent>
+              </MenuRoot>
+            )}
           </CardTitle>
           <Box
             onClick={() =>
