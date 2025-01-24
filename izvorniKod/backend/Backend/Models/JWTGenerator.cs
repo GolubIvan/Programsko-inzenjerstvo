@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-public class JWTGenerator
+public class JWTGenerator 
 {
     private const string SecretKey = "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";
 
@@ -17,23 +17,26 @@ public class JWTGenerator
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, email),
-            new Claim(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iss, "your-app"),
-            new Claim(JwtRegisteredClaimNames.Aud, "your-app-users"),
-            new Claim("email", email)
-        };
+        new Claim(JwtRegisteredClaimNames.Sub, email),
+        new Claim(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds().ToString()), // Increased expiration time to 1 hour
+        new Claim(JwtRegisteredClaimNames.Iss, "your-app"),
+        new Claim(JwtRegisteredClaimNames.Aud, "your-app-users"),
+        new Claim("email", email)
+    };
 
         var jwtToken = new JwtSecurityToken(
             issuer: "your-app",
             audience: "your-app-users",
             claims: claims,
-            expires: DateTime.UtcNow.AddSeconds(1),
+            expires: DateTime.UtcNow.AddHours(1),  
             signingCredentials: credentials);
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        Console.WriteLine(tokenHandler.WriteToken(jwtToken));
-        return tokenHandler.WriteToken(jwtToken);
+        string token = tokenHandler.WriteToken(jwtToken);
+
+        //Console.WriteLine(token);
+
+        return token;
     }
 
     public static string DecodeJwt(string token)

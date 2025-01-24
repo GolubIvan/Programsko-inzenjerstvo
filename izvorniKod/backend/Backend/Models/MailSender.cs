@@ -22,7 +22,7 @@ namespace Backend.Models
                 EnableSsl = true, // Omogući SSL (sigurna veza)
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("ezgradafer@gmail.com", "stge hdzp owwb kqmf ") // Koristi tvoju lozinku
+                Credentials = new NetworkCredential("ezgradafer@gmail.com", "stge hdzp owwb kqmf ") 
             };
 
             // Slanje emaila
