@@ -88,7 +88,7 @@ namespace Backend.Controllers
                 HttpResponseMessage response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
                 {
-                    return StatusCode((int)response.StatusCode, new { error = "API Error", message = "Failed to fetch data from external API." });
+                    return Ok(new { diskusije = new string[] { } });
                 }
 
                 string responseData = await response.Content.ReadAsStringAsync();
