@@ -2,37 +2,17 @@
 
 import {
   Box,
-  Collapsible,
-  createListCollection,
-  FieldErrorText,
-  FieldRoot,
-  Fieldset,
   Flex,
   Heading,
   HStack,
   Input,
-  List,
-  ListCollection,
-  ListItem,
-  ListRoot,
   MenuContent,
   MenuItem,
   MenuRoot,
   MenuTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectLabel,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-  Stack,
-  Text,
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
-import { register } from "module";
-import { error } from "console";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, Radio } from "@/components/ui/radio";
 import { useEffect, useMemo, useState } from "react";
@@ -42,7 +22,6 @@ import { swrKeys } from "@/typings/swrKeys";
 import { createMutator } from "@/fetchers/mutators";
 import { authFetcher } from "@/fetchers/fetcher";
 import useSWR, { useSWRConfig } from "swr";
-import { Certificate } from "crypto";
 
 interface ICreateForm {
   email: string;
@@ -84,14 +63,12 @@ export function CreateForm() {
       setError("zgrada", { message: "Odaberite adresu ili unesite novu" });
       return;
     }
-    console.log(data);
     await trigger(data);
     await mutate(null);
   };
 
   const { trigger } = useSWRMutation(swrKeys.createUser, createMutator, {
     onSuccess: async (data) => {
-      console.log(data);
       reset();
       setOther(false);
       setSelectedAddress("");
@@ -127,10 +104,6 @@ export function CreateForm() {
 
   const passwordRequirements = {
     required: "Unesite lozinku",
-    /* minLength: {
-      value: 8,
-      message: "Lozinka se mora sastojati od barem 8 znakova",
-    }, */
   };
 
   const passwordConfirmationRequirements = {
@@ -148,7 +121,6 @@ export function CreateForm() {
   const addressRequirements = {
     required: "Odaberite adresu ili unesite novu",
   };
-  console.log("zgrade", data);
 
   return (
     <Flex

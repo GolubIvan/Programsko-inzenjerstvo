@@ -20,13 +20,11 @@ export default function EditMeetingPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.meetingId as string;
-  console.log(id);
   const { data, isLoading, error } = useSWR(
     swrKeys.meeting(`${id}`),
     authFetcher<IMeetingProps>
   );
   if (error) {
-    console.log(error.message);
     if (error.status !== 401)
       return <Box>No meetings found for the specified building.</Box>;
     else return <Box>Nemate pristup toj stranici.</Box>;
@@ -34,7 +32,6 @@ export default function EditMeetingPage() {
   if (isLoading || !data) {
     return <Box>Loading...</Box>;
   }
-  console.log("DATA", data);
   return (
     <>
       <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />

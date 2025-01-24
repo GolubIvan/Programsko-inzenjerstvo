@@ -1,7 +1,6 @@
 import { ITocka } from "@/typings/meeting";
 import { Flex, IconButton, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { HiPaperClip } from "react-icons/hi";
 import { LuPaperclip, LuTrash } from "react-icons/lu";
 
 interface ITockaProps {
@@ -43,9 +42,9 @@ export function TockaDnevnogReda({ tocka, rbr, izbrisiTocka }: ITockaProps) {
             alignItems="center"
           >
             <LuPaperclip />
-            <Link href={"https://" + tocka.url}>
+            <Link href={tocka.url}>
               točka dnevnog reda motivirana ovom diskusijom{" "}
-            </Link>{" "}
+            </Link>
           </Text>
         )}
       </Flex>
