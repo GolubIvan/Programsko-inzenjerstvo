@@ -84,14 +84,12 @@ export function CreateForm() {
       setError("zgrada", { message: "Odaberite adresu ili unesite novu" });
       return;
     }
-    console.log(data);
     await trigger(data);
     await mutate(null);
   };
 
   const { trigger } = useSWRMutation(swrKeys.createUser, createMutator, {
     onSuccess: async (data) => {
-      console.log(data);
       reset();
       setOther(false);
       setSelectedAddress("");
@@ -148,7 +146,6 @@ export function CreateForm() {
   const addressRequirements = {
     required: "Odaberite adresu ili unesite novu",
   };
-  console.log("zgrade", data);
 
   return (
     <Flex

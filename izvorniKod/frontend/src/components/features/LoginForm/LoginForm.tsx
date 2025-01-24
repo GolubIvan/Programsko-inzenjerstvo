@@ -29,7 +29,6 @@ export const LoginForm = () => {
     formState: { isSubmitting, errors },
   } = useForm<ILoginForm>();
   async function googleOnSuccess(credentialResponse: CredentialResponse) {
-    console.log("google credentials: ", credentialResponse);
     try {
       await trigger2({ token: credentialResponse.credential });
     } catch (err) {}
@@ -38,17 +37,13 @@ export const LoginForm = () => {
   const { mutate } = useSWR(swrKeys.me);
   const { trigger } = useSWRMutation(swrKeys.login, loginMutator, {
     onSuccess: async (data) => {
-      console.log("Data ", data);
       const loginInfo = {
         token: data.token,
         role: data.podaci[0].uloga,
       };
       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-      console.log("info: ", loginInfo);
 
       await mutate(null);
-      /* if (loginInfo.role == "Administrator") router.push("/create");
-      else router.push("/home"); */
     },
     onError: async (error: { message: string }) => {
       setError("password", { message: error.message });
@@ -65,7 +60,6 @@ export const LoginForm = () => {
           role: data.role,
         };
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-        console.log("info: ", loginInfo);
         await mutate(data);
         if (loginInfo.role == "Administrator") router.push("/create");
         else router.push("/home");
@@ -134,7 +128,6 @@ export const LoginForm = () => {
           text="signin_with"
           onSuccess={googleOnSuccess}
           onError={() => {
-            console.log("lol");
             setError("password", {
               message: "Dogodio se problem s Google OAuthom",
             });

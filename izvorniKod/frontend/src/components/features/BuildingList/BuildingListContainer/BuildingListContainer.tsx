@@ -13,9 +13,6 @@ interface IBuildingListContainerProps {
 export default function BuildingListContainer({
   podaci: podaci,
 }: IBuildingListContainerProps) {
-  podaci.map((podatak: Podaci) => {
-    console.log(podatak);
-  });
   return (
     <Flex direction="column" h="80%">
       <Text

@@ -45,7 +45,6 @@ export function ChangePasswordForm() {
   });
 
   const onCreate = async (data: IChangeForm) => {
-    console.log(data);
     try {
       await trigger({
         newPassword: data.password,
@@ -56,7 +55,6 @@ export function ChangePasswordForm() {
 
   const { trigger } = useSWRMutation(swrKeys.changePassword, createMutator, {
     onSuccess: async (data) => {
-      console.log(data);
       router.push("/home");
     },
     onError: async (error: { message: string }) => {

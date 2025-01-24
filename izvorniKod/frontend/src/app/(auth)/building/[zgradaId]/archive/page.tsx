@@ -27,7 +27,6 @@ export default function ZgradaPage() {
     authFetcher<IMeetingFetch>
   );
   if (error) {
-    console.log(error.message);
     if (error.status !== 401)
       return <Box>No meetings found for the specified building.</Box>;
     else return <Box>Nemate pristup toj stranici.</Box>;
@@ -35,8 +34,6 @@ export default function ZgradaPage() {
   if (isLoading || !data) {
     return <Box>Loading...</Box>;
   }
-  console.log(data?.meetings.length);
-  console.log("DATA", data);
 
   const returnFunction = function () {
     router.push("./");

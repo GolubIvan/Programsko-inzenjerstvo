@@ -15,18 +15,12 @@ export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   }
 
   const responseData = await response.json();
-  //console.log(responseData);
   return {
     ...responseData,
-    /* token: response.headers.get("token"),
-    role: response.headers.get("role") */
   };
 }
 
 export async function createMutator<T>(url: string, { arg }: { arg: T }) {
-  console.log(arg);
-  console.log(url);
-  console.log(JSON.stringify(arg));
   const value = localStorage.getItem("loginInfo");
   const authInfo = value ? JSON.parse(value) : {};
   const response = await fetch(url, {

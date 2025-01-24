@@ -8,14 +8,6 @@ import { Card, Flex, Box } from "@chakra-ui/react";
 import { Text, Button, Input } from "@chakra-ui/react";
 import useSWR from "swr";
 export default function LoginPage() {
-  //const { data, isLoading, error } = useSWR(swrKeys.me, authFetcher);
-  /* if (error) {
-    if (error.status !== 401) return <Box>Something went wrong...</Box>;
-  }
-  if (isLoading) {
-    return <Box>Loading...</Box>;
-  } */
-  //console.log("Ovi podaci", data);
   return (
     <>
       <AuthRedirect to={"/home"} condition={"isLoggedIn"} />

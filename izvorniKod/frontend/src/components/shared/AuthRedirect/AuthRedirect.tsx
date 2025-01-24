@@ -22,10 +22,7 @@ export default function AuthRedirect({ to, condition, role }: IAuthRedirect) {
 
   useEffect(() => {
     if (isLoading) return;
-    console.log(data);
-    console.log(condition);
     if (!data && condition == "isLoggedOut") {
-      console.log("moram");
       route.push(to);
     }
     if (data && condition == "isLoggedIn") {

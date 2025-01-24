@@ -52,9 +52,6 @@ export function EditObavljeniModule({ meeting }: IEditObavljeniProps) {
   ) => {
     const tmpArr = stanjaTocaka;
     const tocka = stanjaTocaka.filter((t) => t.id == rbr)[0];
-    console.log(stanje);
-    console.log(tocka);
-    console.log(tmpArr.at(rbr));
     tocka!.stanjeZakljucka = stanje;
     tmpArr.map((value) => {
       if (value.id == tocka.id) {
@@ -67,9 +64,6 @@ export function EditObavljeniModule({ meeting }: IEditObavljeniProps) {
   const updateTekstZakljucka = (tekst: string, rbr: number) => {
     const tmpArr = stanjaTocaka;
     const tocka = stanjaTocaka.filter((t) => t.id == rbr)[0];
-    console.log(tekst);
-    console.log(tocka);
-    console.log(tmpArr.at(rbr));
     tocka!.sazetak = tekst;
     tmpArr.map((value) => {
       if (value.id == tocka.id) {
@@ -92,7 +86,6 @@ export function EditObavljeniModule({ meeting }: IEditObavljeniProps) {
   const spremiPromjene = async () => {
     const tmpMeeting = meeting;
     tmpMeeting.tockeDnevnogReda = stanjaTocaka;
-    console.log({ meetingRequest: tmpMeeting });
     await trigger({ meetingRequest: tmpMeeting });
   };
   return (
