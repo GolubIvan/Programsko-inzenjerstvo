@@ -71,7 +71,7 @@ namespace Backend.Controllers
             {
                 return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
-            if (keyword == null)                         
+            if (keyword == null)
             {
                 return BadRequest(new { error = "Invalid data", message = "Keyword required." });
             }
@@ -92,13 +92,17 @@ namespace Backend.Controllers
                 }
 
                 string responseData = await response.Content.ReadAsStringAsync();
-
+                //return Ok( new { response = responseData });
                 var jsonResponse = JsonConvert.DeserializeObject<JObject>(responseData);
+                //return Ok(new { response = jsonResponse});
                 if (jsonResponse == null)
                 {
                     return Ok(new { diskusije = new string[] { } });
                 }
-                var foundNaslovi = jsonResponse["foundNaslovi"] as JArray;
+                var foundNaslovi = jsonResponse["foundNaslovi"]?.Type == JTokenType.Array
+                    ? jsonResponse["foundNaslovi"].ToObject<List<string>>()
+                    : new List<string> { jsonResponse["foundNaslovi"]?.ToString() };
+                //return Ok(new { response = foundNaslovi });
                 var siteLink = jsonResponse["siteLink"]?.ToString();
 
                 if (foundNaslovi == null || !foundNaslovi.Any())
