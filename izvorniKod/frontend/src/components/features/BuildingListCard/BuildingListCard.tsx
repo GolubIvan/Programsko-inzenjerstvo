@@ -1,13 +1,5 @@
 import { Podaci } from "@/typings/user";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  IconButton,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Card, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 interface IBuildingListCardProps {

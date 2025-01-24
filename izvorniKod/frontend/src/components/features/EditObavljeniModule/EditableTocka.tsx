@@ -1,5 +1,5 @@
 import { ITocka } from "@/typings/meeting";
-import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import { Flex, Input, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LuPaperclip } from "react-icons/lu";
@@ -79,6 +79,7 @@ export function EditableTocka({
                   setStanje("Izglasan");
                   updateStanjeZakljucka("Izglasan", tocka.id);
                 }}
+                _hover={{ cursor: "pointer" }}
               >
                 Izglasan
               </Text>
@@ -90,6 +91,7 @@ export function EditableTocka({
                   setStanje("Odbijen");
                   updateStanjeZakljucka("Odbijen", tocka.id);
                 }}
+                _hover={{ cursor: "pointer" }}
               >
                 Odbijen
               </Text>

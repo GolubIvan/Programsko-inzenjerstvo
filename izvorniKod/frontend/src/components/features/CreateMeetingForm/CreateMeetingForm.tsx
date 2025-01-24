@@ -1,15 +1,10 @@
 import { IMeeting, ITocka } from "@/typings/meeting";
 import {
-  Card,
   CardBody,
   CardDescription,
-  CardFooter,
   CardTitle,
-  Circle,
   Flex,
   Text,
-  Icon,
-  Box,
   CardRoot,
   Heading,
   Input,
@@ -26,20 +21,15 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CgPin, CgCalendarDates } from "react-icons/cg";
-import { BiChevronLeft, BiEdit } from "react-icons/bi";
 import { TockaDnevnogReda } from "../TockaDnevnogReda/TockaDnevnogReda";
 import { useForm } from "react-hook-form";
-import { Radio, RadioGroup } from "@/components/ui/radio";
 import { Checkbox } from "@/components/ui/checkbox";
 import { swrKeys } from "@/typings/swrKeys";
 import { createMutator, putMutator } from "@/fetchers/mutators";
 import useSWRMutation from "swr/mutation";
-import { BackToMeetingListButton } from "../BackToMeetingListButton/BackToMeetingListButton";
 import { LuSearch } from "react-icons/lu";
 import { authFetcher } from "@/fetchers/fetcher";
 import { Discussion } from "@/typings/discussion";
-import { mockComponent } from "react-dom/test-utils";
-import { DiSublime } from "react-icons/di";
 
 interface IMeetingForm {
   naslov: string;
@@ -139,18 +129,15 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
   const izbrisiTocku = (rbr: number) => {
     let temp = newMeeting.tockeDnevnogReda;
     temp.splice(rbr - 1, 1);
-    console.log(temp);
     setNewMeeting((prev) => ({
       ...prev,
       tockeDnevnogReda: temp,
     }));
   };
   useEffect(() => {
-    console.log(newMeeting); // This will log the updated state
     setValue("tockeDnevnogReda", newMeeting.tockeDnevnogReda);
   }, [newMeeting, discussionList]);
   const createForm = async (data: IMeetingForm) => {
-    console.log("lol");
     if (data.tockeDnevnogReda.length == 0) {
       setError("root", {
         message: "Potrebno je dodati barem jednu točku dnevnoga reda",
@@ -178,7 +165,6 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
 
   const { trigger } = useSWRMutation(swrKeys.createMeeting, createMutator, {
     onSuccess: async (data) => {
-      console.log(data);
       reset();
       router.push(`/building/${params.zgradaId}`);
     },
@@ -188,7 +174,6 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     putMutator,
     {
       onSuccess: async (data) => {
-        console.log(data);
         reset();
         router.push(`/building/${params.zgradaId}`);
       },
@@ -203,8 +188,6 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
       if (kljucnaRijecIme.current)
         kljucnaRijecIme.current.style.borderColor = "";
     }
-    console.log("Keyword", keyword);
-    console.log(swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`));
     try {
       const data = await authFetcher<Array<Discussion>>(
         swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`),
