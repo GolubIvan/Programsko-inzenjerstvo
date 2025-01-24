@@ -62,16 +62,16 @@ namespace Backend.Controllers
         [HttpGet("diskusije")]
         public async Task<IActionResult> dobiDiskusijeAsync(string zgrada,string keyword)
         {
-            string url = "https://njihovLink.com/api/endpoint";
-            string apiKey = "njihov_api_key";
+            string url = "https://be30c39fc6db.ngrok.app/slanjeRazgovoraPrekoApi";
+            string ApiKey = "ApiKey key";
 
             string token = Request.Headers["token"].ToString() ?? "";
 
-            if (token == "undefined" || token == "")       
+            if (token == "undefined" || token == "")
             {
                 return Unauthorized(new { error = "Invalid token", message = "The user token is invalid or has expired." });
             }
-            if (keyword == null)                         
+            if (keyword == null)
             {
                 return BadRequest(new { error = "Invalid data", message = "Keyword required." });
             }
@@ -82,23 +82,27 @@ namespace Backend.Controllers
             try
             {
                 using HttpClient client = new HttpClient();
-                client.DefaultRequestHeaders.Add("Authorization", apiKey);
+                client.DefaultRequestHeaders.Add("Authorization", ApiKey);
                 client.DefaultRequestHeaders.Add("Naslov-diskusije", keyword);
-                client.DefaultRequestHeaders.Add("Zgrada", zgrada);
+                client.DefaultRequestHeaders.Add("ID-zgrade", zgrada);
                 HttpResponseMessage response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
                 {
-                    return StatusCode((int)response.StatusCode, new { error = "API Error", message = "Failed to fetch data from external API." });
+                    return Ok(new { diskusije = new string[] { } });
                 }
 
                 string responseData = await response.Content.ReadAsStringAsync();
-
+                //return Ok( new { response = responseData });
                 var jsonResponse = JsonConvert.DeserializeObject<JObject>(responseData);
+                //return Ok(new { response = jsonResponse});
                 if (jsonResponse == null)
                 {
                     return Ok(new { diskusije = new string[] { } });
                 }
-                var foundNaslovi = jsonResponse["foundNaslovi"] as JArray;
+                var foundNaslovi = jsonResponse["foundNaslovi"]?.Type == JTokenType.Array
+                    ? jsonResponse["foundNaslovi"].ToObject<List<string>>()
+                    : new List<string> { jsonResponse["foundNaslovi"]?.ToString() };
+                //return Ok(new { response = foundNaslovi });
                 var siteLink = jsonResponse["siteLink"]?.ToString();
 
                 if (foundNaslovi == null || !foundNaslovi.Any())

@@ -1,13 +1,9 @@
 import { IMeeting } from "@/typings/meeting";
 import {
-  Card,
   CardBody,
   CardDescription,
-  CardFooter,
-  CardHeader,
   CardRoot,
   CardTitle,
-  Circle,
   Flex,
   Heading,
   Text,

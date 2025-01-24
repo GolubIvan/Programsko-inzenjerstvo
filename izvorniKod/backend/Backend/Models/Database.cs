@@ -20,4 +20,18 @@ public static class Database
             connection.Open();
         return connection;
     }
+    public static async Task<NpgsqlConnection> GetConnectionAsync()
+    {
+        try
+        {
+            var connection = new NpgsqlConnection(connString);
+            await connection.OpenAsync(); // Asynchronous connection
+            return connection;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Database connection error: {ex.Message}");
+            throw;
+        }
+    }
 }
