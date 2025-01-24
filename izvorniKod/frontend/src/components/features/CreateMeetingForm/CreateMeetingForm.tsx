@@ -130,7 +130,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     });
   };
   const izbrisiTocku = (rbr: number) => {
-    let temp = newMeeting.tockeDnevnogReda;
+    const temp = newMeeting.tockeDnevnogReda;
     temp.splice(rbr - 1, 1);
     console.log(temp);
     setNewMeeting((prev) => ({
