@@ -35,6 +35,11 @@ import { swrKeys } from "@/typings/swrKeys";
 import { createMutator, putMutator } from "@/fetchers/mutators";
 import useSWRMutation from "swr/mutation";
 import { BackToMeetingListButton } from "../BackToMeetingListButton/BackToMeetingListButton";
+import { LuSearch } from "react-icons/lu";
+import { authFetcher } from "@/fetchers/fetcher";
+import { Discussion } from "@/typings/discussion";
+import { mockComponent } from "react-dom/test-utils";
+import { DiSublime } from "react-icons/di";
 
 interface IMeetingForm {
   naslov: string;
@@ -62,6 +67,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
   const tockaUrl = useRef<HTMLInputElement>(null);
   const tockaIme = useRef<HTMLInputElement>(null);
   const tockaBool = useRef<HTMLInputElement>(null);
+  const kljucnaRijecIme = useRef<HTMLInputElement>(null);
   const params = useParams();
   const router = useRouter();
 
@@ -89,6 +95,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
     url: "",
     stanjeZakljucka: undefined,
   });
+  const [discussionList, setDiscussionList] = useState<Array<Discussion>>();
   const {
     register,
     handleSubmit,
@@ -141,7 +148,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
   useEffect(() => {
     console.log(newMeeting); // This will log the updated state
     setValue("tockeDnevnogReda", newMeeting.tockeDnevnogReda);
-  }, [newMeeting]);
+  }, [newMeeting, discussionList]);
   const createForm = async (data: IMeetingForm) => {
     console.log("lol");
     if (data.tockeDnevnogReda.length == 0) {
@@ -187,6 +194,29 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
       },
     }
   );
+  const onSelectKeyword = async (keyword?: string) => {
+    if (!keyword || keyword == "") {
+      if (kljucnaRijecIme.current)
+        kljucnaRijecIme.current.style.borderColor = "red";
+      return;
+    } else {
+      if (kljucnaRijecIme.current)
+        kljucnaRijecIme.current.style.borderColor = "";
+    }
+    console.log("Keyword", keyword);
+    console.log(swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`));
+    try {
+      const data = await authFetcher<Array<Discussion>>(
+        swrKeys.getDiscussion(`${params.zgradaId}`, `${keyword}`),
+        {
+          method: "GET",
+        }
+      );
+      setDiscussionList(Object.values(data));
+    } catch (err) {
+      setDiscussionList([]);
+    }
+  };
   return (
     <>
       <CardRoot
@@ -312,24 +342,77 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
           />
           <Flex
             direction="row"
-            gap="30px"
+            gap="10px"
             alignItems="center"
             width="100%"
             justifyContent="space-between"
             wrap="wrap"
           >
-            <Flex gap="10px" direction={{ base: "column", md: "row" }}>
-              <Input
-                type="url"
-                ref={tockaUrl}
-                placeholder="Poveznica na diskusiju (opcionalno)"
-                onChange={(e) => {
-                  const tempT = newTocka;
-                  tempT.url = e.target.value;
-                  setNewTocka(tempT);
-                }}
-                width={{ base: "200px", sm: "400px" }}
-              />
+            <Flex
+              gap="20px"
+              direction={{ base: "column", md: "row" }}
+              alignItems="center"
+            >
+              <MenuRoot>
+                <MenuTrigger asChild>
+                  <Button
+                    width={{ base: "100%", md: "25%" }}
+                    border={"1px solid"}
+                    borderColor={"gray.200"}
+                    backgroundColor="gray.100"
+                    color="black"
+                    justifyContent="start"
+                    overflow="hidden"
+                    disabled={!discussionList || discussionList?.length == 0}
+                  >
+                    Odaberite diskusiju
+                  </Button>
+                </MenuTrigger>
+                <MenuContent maxHeight="150px" overflow="scroll" width="100%">
+                  {discussionList &&
+                    discussionList.map((discussion, index) => {
+                      return (
+                        <MenuItem
+                          value={discussion.naslov}
+                          key={index}
+                          onClick={() => {
+                            if (tockaUrl.current) {
+                              tockaUrl.current.value = discussion.link;
+                              const tempT = newTocka;
+                              tempT.url = discussion.link;
+                              setNewTocka(tempT);
+                            }
+                          }}
+                        >
+                          {discussion.naslov}
+                        </MenuItem>
+                      );
+                    })}
+                </MenuContent>
+              </MenuRoot>
+              <Flex direction={{ base: "column", md: "row" }} width="100%">
+                <Input
+                  ref={tockaUrl}
+                  readOnly={true}
+                  type="url"
+                  width={{ base: "100%", md: "60%" }}
+                  mr="10px"
+                  placeholder="poveznica na diskusiju..."
+                />
+                <Input
+                  placeholder="Pretraži diskusije"
+                  width={{ base: "100%", md: "30%" }}
+                  ref={kljucnaRijecIme}
+                />
+                <IconButton
+                  bg="gray.300"
+                  onClick={async () =>
+                    onSelectKeyword(kljucnaRijecIme?.current?.value)
+                  }
+                >
+                  <LuSearch color="black" />
+                </IconButton>
+              </Flex>
               <Checkbox
                 variant="subtle"
                 ref={tockaBool}
@@ -348,6 +431,7 @@ export function CreateMeetingForm({ meeting }: ICreateMeetingFormProps) {
               width="100px"
               color="white"
               bg="black"
+              m={{ base: "auto", md: "" }}
               onClick={() => dodajTocku(newTocka)}
             >
               {"Dodaj točku"}
