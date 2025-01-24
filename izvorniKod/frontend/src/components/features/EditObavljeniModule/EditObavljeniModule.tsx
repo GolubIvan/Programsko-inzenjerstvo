@@ -10,13 +10,12 @@ import {
   CardFooter,
 } from "@chakra-ui/react";
 import { CgCalendarDates, CgPin } from "react-icons/cg";
-import { TockaDnevnogReda } from "../TockaDnevnogReda/TockaDnevnogReda";
 import { EditableTocka } from "./EditableTocka";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
-import { postMutator, putMutator } from "@/fetchers/mutators";
+import { putMutator } from "@/fetchers/mutators";
 import { useParams, useRouter } from "next/navigation";
 
 interface IEditObavljeniProps {

@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Flex,
-  Heading,
-  Image,
-  Box,
-  Text,
-  Icon,
-  IconButton,
-} from "@chakra-ui/react";
+import { Flex, Heading, Image, Text, IconButton } from "@chakra-ui/react";
 import logoImage from "../../../../public/logo.png";
 import { swrKeys } from "@/typings/swrKeys";
 import useSWR from "swr";

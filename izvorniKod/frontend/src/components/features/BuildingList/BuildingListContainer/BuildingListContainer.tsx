@@ -1,9 +1,6 @@
 "use client";
-import { authFetcher } from "@/fetchers/fetcher";
-import { swrKeys } from "@/typings/swrKeys";
-import { Podaci, Zgrada } from "@/typings/user";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import useSWR from "swr";
+import { Podaci } from "@/typings/user";
+import { Flex, Text } from "@chakra-ui/react";
 import { BuildingListCard } from "../../BuildingListCard/BuildingListCard";
 
 interface IBuildingListContainerProps {

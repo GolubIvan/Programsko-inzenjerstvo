@@ -2,37 +2,17 @@
 
 import {
   Box,
-  Collapsible,
-  createListCollection,
-  FieldErrorText,
-  FieldRoot,
-  Fieldset,
   Flex,
   Heading,
   HStack,
   Input,
-  List,
-  ListCollection,
-  ListItem,
-  ListRoot,
   MenuContent,
   MenuItem,
   MenuRoot,
   MenuTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectLabel,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-  Stack,
-  Text,
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
-import { register } from "module";
-import { error } from "console";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, Radio } from "@/components/ui/radio";
 import { useEffect, useMemo, useState } from "react";
@@ -42,7 +22,6 @@ import { swrKeys } from "@/typings/swrKeys";
 import { createMutator } from "@/fetchers/mutators";
 import { authFetcher } from "@/fetchers/fetcher";
 import useSWR, { useSWRConfig } from "swr";
-import { Certificate } from "crypto";
 
 interface ICreateForm {
   email: string;
@@ -125,10 +104,6 @@ export function CreateForm() {
 
   const passwordRequirements = {
     required: "Unesite lozinku",
-    /* minLength: {
-      value: 8,
-      message: "Lozinka se mora sastojati od barem 8 znakova",
-    }, */
   };
 
   const passwordConfirmationRequirements = {

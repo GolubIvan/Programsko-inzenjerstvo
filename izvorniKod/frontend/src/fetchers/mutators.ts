@@ -1,4 +1,3 @@
-import { User } from "@/typings/user";
 import { authFetcher } from "./fetcher";
 export async function loginMutator<T>(url: string, { arg }: { arg: T }) {
   const response = await fetch(url, {
@@ -55,13 +54,6 @@ export async function deleteMutator<T>(url: string, { arg }: { arg: T }) {
 export async function putMutator<T>(url: string, { arg }: { arg: T }) {
   return await authFetcher(url, {
     method: "PUT",
-    body: JSON.stringify(arg),
-  });
-}
-
-export async function patchMutator<T>(url: string, { arg }: { arg: T }) {
-  return await authFetcher(url, {
-    method: "PATCH",
     body: JSON.stringify(arg),
   });
 }

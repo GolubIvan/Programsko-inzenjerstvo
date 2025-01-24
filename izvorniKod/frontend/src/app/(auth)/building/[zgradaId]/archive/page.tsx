@@ -8,7 +8,6 @@ import { IMeeting } from "@/typings/meeting";
 import { swrKeys } from "@/typings/swrKeys";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
-import { Router } from "next/router";
 import useSWR from "swr";
 
 interface IMeetingFetch {

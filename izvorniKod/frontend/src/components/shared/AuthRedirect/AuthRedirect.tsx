@@ -11,11 +11,6 @@ interface IAuthRedirect {
   role?: "Administrator" | "Predstavnik" | "Suvlasnik";
 }
 
-interface IMe {
-  email: string;
-  role: string;
-}
-
 export default function AuthRedirect({ to, condition, role }: IAuthRedirect) {
   const route = useRouter();
   const { data, isLoading } = useSWR(swrKeys.me, authFetcher<User>);

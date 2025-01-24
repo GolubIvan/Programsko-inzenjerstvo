@@ -4,14 +4,11 @@ import { MeetingSummaryCard } from "@/components/features/MeetingSummaryCard/Mee
 import { AuthHeader } from "@/components/shared/AuthHeader/AuthHeader";
 import AuthRedirect from "@/components/shared/AuthRedirect/AuthRedirect";
 import { authFetcher } from "@/fetchers/fetcher";
-import { deleteMutator } from "@/fetchers/mutators";
 import { IMeeting } from "@/typings/meeting";
 import { swrKeys } from "@/typings/swrKeys";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
-import { Router } from "next/router";
 import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 
 export interface IMeetingFetch {
   buildingId: number;
@@ -40,7 +37,6 @@ export default function ZgradaPage() {
   const activeMeetings = data?.meetings.filter(
     (meeting: IMeeting) => meeting.status != "Arhiviran"
   );
-  const deleteMeeting = (id: string) => {};
   return (
     <>
       <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />

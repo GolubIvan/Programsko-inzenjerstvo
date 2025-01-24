@@ -1,7 +1,6 @@
 import { ITocka } from "@/typings/meeting";
 import { Flex, IconButton, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { HiPaperClip } from "react-icons/hi";
 import { LuPaperclip, LuTrash } from "react-icons/lu";
 
 interface ITockaProps {

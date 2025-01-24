@@ -1,6 +1,5 @@
 "use client";
 import { Field } from "@/components/ui/field";
-import { InputGroup } from "@/components/ui/input-group";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Flex, Text, Input, Heading } from "@chakra-ui/react";
@@ -17,9 +16,6 @@ interface ILoginForm {
   password: string;
 }
 
-interface IGoogleLoginForm {
-  token: string;
-}
 export const LoginForm = () => {
   const router = useRouter();
   const {

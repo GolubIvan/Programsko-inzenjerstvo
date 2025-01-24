@@ -1,15 +1,10 @@
 import { IMeeting, ITocka } from "@/typings/meeting";
 import {
-  Card,
   CardBody,
   CardDescription,
-  CardFooter,
   CardTitle,
-  Circle,
   Flex,
   Text,
-  Icon,
-  Box,
   CardRoot,
   Heading,
   Input,
@@ -26,20 +21,15 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CgPin, CgCalendarDates } from "react-icons/cg";
-import { BiChevronLeft, BiEdit } from "react-icons/bi";
 import { TockaDnevnogReda } from "../TockaDnevnogReda/TockaDnevnogReda";
 import { useForm } from "react-hook-form";
-import { Radio, RadioGroup } from "@/components/ui/radio";
 import { Checkbox } from "@/components/ui/checkbox";
 import { swrKeys } from "@/typings/swrKeys";
 import { createMutator, putMutator } from "@/fetchers/mutators";
 import useSWRMutation from "swr/mutation";
-import { BackToMeetingListButton } from "../BackToMeetingListButton/BackToMeetingListButton";
 import { LuSearch } from "react-icons/lu";
 import { authFetcher } from "@/fetchers/fetcher";
 import { Discussion } from "@/typings/discussion";
-import { mockComponent } from "react-dom/test-utils";
-import { DiSublime } from "react-icons/di";
 
 interface IMeetingForm {
   naslov: string;
