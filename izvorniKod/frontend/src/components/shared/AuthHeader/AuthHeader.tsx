@@ -3,22 +3,30 @@
 import { Flex, Heading, Image, Text, IconButton } from "@chakra-ui/react";
 import logoImage from "../../../../public/logo.png";
 import { swrKeys } from "@/typings/swrKeys";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { useRouter } from "next/navigation";
 import { LuLock, LuPen } from "react-icons/lu";
 import Link from "next/link";
+import { authFetcher } from "@/fetchers/fetcher";
+import { User } from "@/typings/user";
 
 interface IAuthHeaderProps {
   canLogout: boolean;
   title?: string;
+  username?: string;
 }
 
-export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
-  const { mutate } = useSWR(swrKeys.me);
+export const AuthHeader = ({
+  canLogout,
+  title,
+  username,
+}: IAuthHeaderProps) => {
+  const { data } = useSWR(swrKeys.me, authFetcher<User>);
+  const { mutate } = useSWRConfig();
   const router = useRouter();
   const logOut = async () => {
     localStorage.setItem("loginInfo", "");
-    await mutate(null);
+    await mutate(swrKeys.me, null);
     router.push("/");
   };
 
@@ -57,6 +65,9 @@ export const AuthHeader = ({ canLogout, title }: IAuthHeaderProps) => {
       </Flex>
       {canLogout && (
         <Flex alignItems="center" gap="20px">
+          {data && data.email && (
+            <Text color="white">{`Pozdrav, ${data?.email}`}</Text>
+          )}
           <IconButton
             background="transparent"
             color="white"
