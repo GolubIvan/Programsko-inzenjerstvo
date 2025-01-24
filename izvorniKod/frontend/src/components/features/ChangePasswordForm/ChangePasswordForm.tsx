@@ -12,17 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
-import { register } from "module";
-import { error } from "console";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, Radio } from "@/components/ui/radio";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
-import { createMutator, postMutator } from "@/fetchers/mutators";
+import { createMutator } from "@/fetchers/mutators";
 import { useRouter } from "next/navigation";
-import { BackToMeetingListButton } from "../BackToMeetingListButton/BackToMeetingListButton";
 import { BackToHomeButton } from "../BackToHomeButton/BackToHomeButton";
 
 interface IChangeForm {
@@ -45,7 +40,6 @@ export function ChangePasswordForm() {
   });
 
   const onCreate = async (data: IChangeForm) => {
-    console.log(data);
     try {
       await trigger({
         newPassword: data.password,
@@ -55,8 +49,7 @@ export function ChangePasswordForm() {
   };
 
   const { trigger } = useSWRMutation(swrKeys.changePassword, createMutator, {
-    onSuccess: async (data) => {
-      console.log(data);
+    onSuccess: async () => {
       router.push("/home");
     },
     onError: async (error: { message: string }) => {

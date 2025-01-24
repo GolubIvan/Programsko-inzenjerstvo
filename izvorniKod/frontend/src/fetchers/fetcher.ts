@@ -6,10 +6,7 @@ export async function authFetcher<T>(
   try {
     const value = localStorage.getItem("loginInfo");
     authInfo = value ? JSON.parse(value) : {};
-    console.log("auth info", authInfo);
     const bdy = { token: authInfo.token };
-    console.log(bdy);
-    console.log(input);
     const response = await fetch(input, {
       ...init,
       headers: {
@@ -29,6 +26,5 @@ export async function authFetcher<T>(
   } catch (error) {
     throw error;
   }
-  console.log("returned", data);
   return { ...data };
 }

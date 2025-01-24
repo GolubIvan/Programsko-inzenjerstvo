@@ -4,14 +4,12 @@ import AuthRedirect from "@/components/shared/AuthRedirect/AuthRedirect";
 import { authFetcher } from "@/fetchers/fetcher";
 import { swrKeys } from "@/typings/swrKeys";
 import { User } from "@/typings/user";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
 export default function BuildingsListPage() {
-  const router = useRouter();
   const { data, isLoading, error } = useSWR<User>(swrKeys.me, authFetcher);
-  console.log(data);
   if (error) {
     if (error.status !== 401) return <Box>Something went wrong...</Box>;
     else return <Box>Nemate pristup toj stranici.</Box>;
@@ -19,8 +17,6 @@ export default function BuildingsListPage() {
   if (isLoading || !data) {
     return <Box>Loading...</Box>;
   } else {
-    console.log(data);
-
     return (
       <>
         <AuthRedirect to="/" condition="isLoggedOut" role="Administrator" />

@@ -8,7 +8,6 @@ import {
   Circle,
   Flex,
   Text,
-  Icon,
   Box,
 } from "@chakra-ui/react";
 import { Button } from "@/components/ui/button";
@@ -26,9 +25,7 @@ import { BiEdit } from "react-icons/bi";
 import useSWRMutation from "swr/mutation";
 import { swrKeys } from "@/typings/swrKeys";
 import { deleteMutator, postMutator } from "@/fetchers/mutators";
-import useSWR, { useSWRConfig } from "swr";
-import { IMeetingFetch } from "@/app/(auth)/building/[zgradaId]/page";
-import MeetingPage from "@/app/(auth)/building/[zgradaId]/create/page";
+import { useSWRConfig } from "swr";
 interface IMeetingSummaryCard {
   role: "Administrator" | "Predstavnik" | "Suvlasnik";
   meeting: IMeeting;
@@ -160,7 +157,7 @@ export function MeetingSummaryCard({ role, meeting }: IMeetingSummaryCard) {
             justifyContent="space-between"
           >
             <Text>{meeting.naslov}</Text>
-            {role == "Predstavnik" && (
+            {role == "Predstavnik" && meeting.status != "Arhiviran" && (
               <MenuRoot>
                 <MenuTrigger asChild>
                   <BiEdit size="25px" />
